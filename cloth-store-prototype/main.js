@@ -58,30 +58,94 @@ window.addEventListener('resize', () => {
 });
 
 if (!reducedMotion) {
-  gsap.from('.hero h1', {
-    opacity: 0, y: 40, duration: 1, ease: 'power3.out',
-    scrollTrigger: { trigger: '.hero', start: 'top 80%', scroller: scrollContainer }
-  });
-  gsap.from('.hero p, .hero .cta-button', {
-    opacity: 0, y: 24, duration: 0.8, stagger: 0.12, ease: 'power2.out',
-    scrollTrigger: { trigger: '.hero', start: 'top 80%', scroller: scrollContainer }
-  });
-  gsap.utils.toArray('.collection-panel').forEach((panel, index) => {
-    gsap.from(panel, {
-      opacity: 0, y: 28, duration: 0.6, delay: index * 0.05,
-      scrollTrigger: { trigger: panel, start: 'top 90%', scroller: scrollContainer }
+  // A short editorial entrance: label, wordmark, supporting copy, then the CTA.
+  const heroIntro = gsap.timeline({ delay: 0.08, defaults: { ease: 'power3.out' } });
+  heroIntro
+    .from('.hero .eyebrow', { opacity: 0, y: 12, duration: 0.45 })
+    .from('.hero h1', { opacity: 0, y: 34, duration: 0.8 }, '-=0.12')
+    .from('.hero-content > p:not(.eyebrow)', { opacity: 0, y: 18, duration: 0.55 }, '-=0.28')
+    .from('.hero .cta-button', { opacity: 0, y: 12, duration: 0.45 }, '-=0.18');
+
+  // Stagger the collection content rather than the card shell so hover transforms remain independent.
+  gsap.utils.toArray('.collection-panel .panel-content').forEach((content, index) => {
+    gsap.from(content, {
+      opacity: 0,
+      y: 22,
+      duration: 0.55,
+      delay: index * 0.045,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: content.closest('.collection-panel'),
+        start: 'top 88%',
+        once: true,
+        scroller: scrollContainer
+      }
     });
   });
-  gsap.from('.featured-card', {
-    opacity: 0, y: 24, duration: 0.6, stagger: 0.1,
-    scrollTrigger: { trigger: '.featured-section', start: 'top 80%', scroller: scrollContainer }
+
+  // Reveal product photography with a restrained scale/fade; keep the cards themselves stable.
+  gsap.from('.featured-card .product-image', {
+    opacity: 0,
+    scale: 1.035,
+    duration: 0.7,
+    stagger: 0.1,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: '.featured-section',
+      start: 'top 82%',
+      once: true,
+      scroller: scrollContainer
+    }
   });
+
+  gsap.from('.reveal-sketch', {
+    opacity: 0,
+    x: -24,
+    duration: 0.7,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: '.reveal-section',
+      start: 'top 78%',
+      once: true,
+      scroller: scrollContainer
+    }
+  });
+  gsap.from('.reveal-product', {
+    opacity: 0,
+    x: 24,
+    duration: 0.7,
+    delay: 0.1,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: '.reveal-section',
+      start: 'top 78%',
+      once: true,
+      scroller: scrollContainer
+    }
+  });
+
   gsap.from('.story-content p', {
-    opacity: 0, y: 20, duration: 0.6, stagger: 0.12,
-    scrollTrigger: { trigger: '.story-section', start: 'top 80%', scroller: scrollContainer }
+    opacity: 0,
+    y: 18,
+    duration: 0.55,
+    stagger: 0.12,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: '.story-section',
+      start: 'top 82%',
+      once: true,
+      scroller: scrollContainer
+    }
   });
+
+  // Ambient movement is deliberately subtle and runs only when motion is permitted.
   gsap.to('.hero-bg', {
-    opacity: 0.2, duration: 2, repeat: -1, yoyo: true, ease: 'sine.inOut'
+    scale: 1.04,
+    opacity: 0.22,
+    duration: 4,
+    repeat: -1,
+    yoyo: true,
+    ease: 'sine.inOut'
   });
 }
 
@@ -118,26 +182,62 @@ const productCards = [...document.querySelectorAll('.featured-card')];
 const featuredHeading = document.querySelector('#featured h2');
 const originalFeaturedHeading = featuredHeading?.textContent ?? 'Featured Pieces';
 
+let filterSequence = 0;
+let filterTween;
+
+function applyCollectionFilter(category, label = '') {
+  const shouldShow = card => category === 'all' || card.dataset.category === category;
+  const leaving = productCards.filter(card => !card.hidden && !shouldShow(card));
+  const entering = productCards.filter(card => card.hidden && shouldShow(card));
+  const sequence = ++filterSequence;
+
+  if (filterTween) filterTween.kill();
+  if (reducedMotion || (leaving.length === 0 && entering.length === 0)) {
+    productCards.forEach(card => { card.hidden = !shouldShow(card); });
+  } else {
+    const revealMatches = () => {
+      if (sequence !== filterSequence) return;
+      productCards.forEach(card => { card.hidden = !shouldShow(card); });
+      if (entering.length) {
+        gsap.fromTo(entering,
+          { opacity: 0, y: 14 },
+          { opacity: 1, y: 0, duration: 0.32, stagger: 0.045, ease: 'power2.out', clearProps: 'transform' }
+        );
+      }
+    };
+
+    if (leaving.length) {
+      filterTween = gsap.to(leaving, {
+        opacity: 0,
+        y: 10,
+        duration: 0.16,
+        stagger: 0.025,
+        ease: 'power1.in',
+        onComplete: revealMatches
+      });
+    } else {
+      revealMatches();
+    }
+  }
+
+  if (featuredHeading) {
+    featuredHeading.textContent = category === 'all'
+      ? originalFeaturedHeading
+      : `Featured Pieces — ${label}`;
+  }
+}
+
 document.querySelectorAll('.collection-link').forEach(link => {
   link.addEventListener('click', event => {
     event.preventDefault();
-    const category = link.dataset.collection;
-    productCards.forEach(card => {
-      card.hidden = category !== 'all' && card.dataset.category !== category;
-    });
-    if (featuredHeading) {
-      featuredHeading.textContent = category === 'all'
-        ? originalFeaturedHeading
-        : `Featured Pieces — ${link.dataset.label}`;
-    }
+    applyCollectionFilter(link.dataset.collection, link.dataset.label);
     scrollToTarget(document.querySelector('#featured'));
   });
 });
 
 document.querySelector('.show-all-products')?.addEventListener('click', event => {
   event.preventDefault();
-  productCards.forEach(card => { card.hidden = false; });
-  if (featuredHeading) featuredHeading.textContent = originalFeaturedHeading;
+  applyCollectionFilter('all');
   scrollToTarget(document.querySelector('#featured'));
 });
 
@@ -153,22 +253,55 @@ const productDetails = [
   { title: 'Leather Jacket', price: '$298.00', description: 'A classic outerwear layer with a clean, structured finish.', image: 'product-4' }
 ];
 
+let lastModalTrigger = null;
+
 function closeModal() {
-  if (!modal) return;
-  modal.hidden = true;
-  document.body.classList.remove('modal-open');
+  if (!modal || modal.hidden || modal.dataset.closing === 'true') return;
+  modal.dataset.closing = 'true';
+
+  const finishClose = () => {
+    modal.hidden = true;
+    delete modal.dataset.closing;
+    document.body.classList.remove('modal-open');
+    lastModalTrigger?.focus();
+    lastModalTrigger = null;
+  };
+
+  if (reducedMotion) {
+    finishClose();
+    return;
+  }
+
+  const dialog = modal.querySelector('.modal-dialog');
+  const backdrop = modal.querySelector('.modal-backdrop');
+  gsap.to(dialog, { opacity: 0, y: 10, scale: 0.99, duration: 0.16, ease: 'power1.in' });
+  gsap.to(backdrop, { opacity: 0, duration: 0.16, ease: 'power1.in', onComplete: finishClose });
 }
 
 document.querySelectorAll('.quick-view').forEach(button => {
   button.addEventListener('click', () => {
     const product = productDetails[Number(button.dataset.productIndex)];
     if (!product || !modal) return;
+    lastModalTrigger = button;
+    delete modal.dataset.closing;
     modalTitle.textContent = product.title;
     modalDescription.textContent = product.description;
     modalPrice.textContent = product.price;
     modalImage.className = `modal-product-image ${product.image}`;
     modal.hidden = false;
     document.body.classList.add('modal-open');
+
+    const dialog = modal.querySelector('.modal-dialog');
+    const backdrop = modal.querySelector('.modal-backdrop');
+    if (reducedMotion) {
+      gsap.set([dialog, backdrop], { clearProps: 'opacity,transform' });
+    } else {
+      gsap.fromTo(backdrop, { opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'power1.out' });
+      gsap.fromTo(dialog,
+        { opacity: 0, y: 16, scale: 0.985 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.28, ease: 'power2.out', clearProps: 'transform' }
+      );
+    }
     modal.querySelector('.modal-close')?.focus();
   });
 });
