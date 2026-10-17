@@ -854,3 +854,33 @@ body.modal-open { overflow: hidden; }
 
 /* The dialog uses section semantics but must not inherit full-page section sizing. */
 .modal-dialog { min-height: 0; padding: 0; }
+
+
+/* Editorial motion polish inspired by the HTML anime reference: quiet, layered, and short. */
+.hero-bg { transform-origin: center; }
+.collection-panel { position: relative; isolation: isolate; }
+.collection-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #8b6b45, transparent);
+  opacity: 0;
+  transform: scaleX(.55);
+  transform-origin: center;
+  transition: opacity .35s ease, transform .45s ease;
+  pointer-events: none;
+}
+.collection-panel:hover::after,
+.collection-panel:focus-within::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+.featured-card .product-image { transform-origin: center; }
+.modal-dialog { transform-origin: center; }
+@media (prefers-reduced-motion: reduce) {
+  .collection-panel::after {
+    transition: none;
+    transform: none;
+  }
+}
