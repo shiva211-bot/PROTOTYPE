@@ -192,6 +192,8 @@ function applyCollectionFilter(category, label = '') {
   const sequence = ++filterSequence;
 
   if (filterTween) filterTween.kill();
+  gsap.killTweensOf(productCards);
+  gsap.set(productCards, { clearProps: 'opacity,transform' });
   if (reducedMotion || (leaving.length === 0 && entering.length === 0)) {
     productCards.forEach(card => { card.hidden = !shouldShow(card); });
   } else {
