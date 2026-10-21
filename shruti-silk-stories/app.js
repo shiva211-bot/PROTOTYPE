@@ -191,8 +191,45 @@ function changeLatest(index) {
   $('#latest-index').textContent = String(latestIndex+1).padStart(2,'0')+' — 03';
   $('.latest-image-caption span:last-child').textContent = String(latestIndex+1).padStart(2,'0')+' / 03';
 }
+function initSpotlightRails() {
+  $$('.spotlight-rail').forEach(rail => {
+    const cards = Array.from(rail.children);
+    if (!cards.length) return;
+    const initial = rail.classList.contains('spotlight-moods') ? Math.min(2, cards.length - 1) : Math.min(1, cards.length - 1);
+    cards.forEach((card, index) => {
+      card.classList.toggle('is-spotlight', index === initial);
+      card.setAttribute('aria-current', index === initial ? 'true' : 'false');
+    });
+    rail.addEventListener('click', event => {
+      const card = event.target.closest('.mood-card, .product-card');
+      if (!card || !rail.contains(card)) return;
+      cards.forEach(item => {
+        const active = item === card;
+        item.classList.toggle('is-spotlight', active);
+        item.setAttribute('aria-current', active ? 'true' : 'false');
+      });
+    });
+    rail.addEventListener('keydown', event => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      const card = event.target.closest('.mood-card, .product-card');
+      if (!card) return;
+      event.preventDefault();
+      const current = cards.indexOf(card);
+      const next = Math.max(0, Math.min(cards.length - 1, current + (event.key === 'ArrowRight' ? 1 : -1)));
+      cards.forEach((item, index) => {
+        const active = index === next;
+        item.classList.toggle('is-spotlight', active);
+        item.setAttribute('aria-current', active ? 'true' : 'false');
+      });
+      cards[next].focus({preventScroll:true});
+      cards[next].scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest',inline:'nearest'});
+    });
+  });
+}
+
 function init() {
   renderProducts();
+  initSpotlightRails();
   renderCart();
   changeHero(0);
   startHeroTimer();
