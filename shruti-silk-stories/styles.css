@@ -108,4 +108,4 @@
 .journey-track.is-video-ready>.journey-scene{opacity:0;}
 .journey-track>.journey-scene{transition:opacity .12s linear;}
 .journey-track>.journey-vignette{z-index:1;}
-@media(prefers-reduced-motion:reduce){.journey-track>.journey-video{display:none}.journey-track>.journey-scene{opacity:1!important}}
+@media(prefers-reduced-motion:reduce){.journey-track>.journey-video{display:block;inset:0;width:100%;height:55svh;opacity:0}.journey-track.is-video-ready>.journey-video{opacity:1}.journey-track.is-video-ready>.journey-scene{opacity:0!important}.journey-track>.journey-scene{opacity:1}}

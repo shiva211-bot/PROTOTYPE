@@ -368,10 +368,10 @@ function initShopJourney() {
       requestAnimationFrame(update);
     }
   };
+  // Manual scroll remains the source of motion, including when OS reduced-motion is enabled.
   if (reduced) {
-    panels.forEach(panel => { panel.style.opacity = '1'; });
+    panels.forEach(panel => { panel.style.transition = 'none'; });
     if (video) video.pause();
-    return;
   }
   window.addEventListener('scroll', requestUpdate, {passive:true});
   window.addEventListener('resize', requestUpdate, {passive:true});
