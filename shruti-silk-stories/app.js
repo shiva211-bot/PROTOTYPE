@@ -301,8 +301,40 @@ function initWovenRing() {
   layout();
 }
 
+function initShopJourney() {
+  const section = $('#shop-journey');
+  const track = section && section.querySelector('.journey-track');
+  if (!section || !track) return;
+  const panels = Array.from(track.querySelectorAll('.journey-panel'));
+  const progress = section.querySelector('.journey-progress span');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) return;
+  let queued = false;
+  const update = () => {
+    queued = false;
+    const rect = section.getBoundingClientRect();
+    const travel = Math.max(1, section.offsetHeight - window.innerHeight);
+    const amount = Math.max(0, Math.min(1, -rect.top / travel));
+    const maxX = Math.max(0, track.scrollWidth - window.innerWidth);
+    track.style.transform = 'translate3d(' + (-maxX * amount) + 'px,0,0)';
+    panels.forEach((panel, index) => {
+      const image = panel.querySelector('img');
+      if (image) {
+        const local = Math.max(-1, Math.min(1, index - amount * (panels.length - 1)));
+        image.style.transform = 'scale(1.12) translate3d(' + (-local * 2.8) + '%,0,0)';
+      }
+    });
+    if (progress) progress.style.transform = 'scaleX(' + amount + ')';
+  };
+  const requestUpdate = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
+  window.addEventListener('scroll', requestUpdate, {passive:true});
+  window.addEventListener('resize', requestUpdate, {passive:true});
+  update();
+}
+
 function init() {
   renderProducts();
+  initShopJourney();
   initWovenRing();
   initSpotlightRails();
   renderCart();
