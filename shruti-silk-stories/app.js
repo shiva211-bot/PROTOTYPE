@@ -315,14 +315,23 @@ function initShopJourney() {
     const rect = section.getBoundingClientRect();
     const travel = Math.max(1, section.offsetHeight - window.innerHeight);
     const amount = Math.max(0, Math.min(1, -rect.top / travel));
-    const maxX = Math.max(0, track.scrollWidth - window.innerWidth);
-    track.style.transform = 'translate3d(' + (-maxX * amount) + 'px,0,0)';
+    const journey = amount * (panels.length - 1);
     panels.forEach((panel, index) => {
       const image = panel.querySelector('img');
+      // Each scene is a depth plane: approach it, pass through it, then reveal the next scene ahead.
+      const local = Math.max(0, Math.min(1, journey - index));
+      const entering = Math.max(0, Math.min(1, (journey - (index - 1)) * 3));
+      const leaving = Math.max(0, Math.min(1, (index + 1.08 - journey) * 3));
+      const opacity = index === 0 && journey < .01 ? 1 : Math.min(entering, leaving);
+      panel.style.opacity = String(opacity);
+      panel.style.zIndex = String(index);
       if (image) {
-        const local = Math.max(-1, Math.min(1, index - amount * (panels.length - 1)));
-        image.style.transform = 'scale(1.12) translate3d(' + (-local * 2.8) + '%,0,0)';
+        const scale = 1.02 + local * 0.62;
+        const lift = local * 5.5;
+        image.style.transform = 'scale(' + scale + ') translate3d(0,' + lift + '%,0)';
+        image.style.filter = 'saturate(' + (0.82 + local * 0.12) + ') brightness(' + (1 - local * 0.12) + ')';
       }
+      panel.style.setProperty('--journey-depth', String(local));
     });
     if (progress) progress.style.transform = 'scaleX(' + amount + ')';
   };

@@ -53,22 +53,24 @@
 @media(max-width:760px){.woven-stage{height:380px;margin:0 -5%;}.woven-ring .woven-card{width:220px;height:320px}.woven-ring .woven-card>img{height:58%}.woven-ring .woven-card>div{padding:10px 12px}.woven-ring .woven-card h3{font-size:17px}.woven-ring .woven-card .text-link{font-size:7px}}
 @media(prefers-reduced-motion:reduce){.woven-ring .woven-card{will-change:auto}}
 
-/* Scroll-driven showroom walkthrough: vertical scroll becomes lateral camera travel. */
-.shop-journey{height:360vh;position:relative;background:#1b080d;color:#fff;}
-.journey-sticky{position:sticky;top:0;height:100svh;min-height:540px;overflow:hidden;isolation:isolate;}
-.journey-track{display:flex;width:400%;height:100%;will-change:transform;transform:translate3d(0,0,0);}
-.journey-panel{position:relative;flex:0 0 25%;height:100%;overflow:hidden;background:#21080e;isolation:isolate;}
-.journey-panel>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.12);will-change:transform;filter:saturate(.82);}
+/* Scroll-driven showroom walkthrough: forward camera travel through overlapping depth scenes. */
+.shop-journey{height:420vh;position:relative;background:#16070b;color:#fff;}
+.journey-sticky{position:sticky;top:0;height:100svh;min-height:540px;overflow:hidden;isolation:isolate;background:#16070b;perspective:1100px;}
+.journey-track{position:absolute;inset:0;width:100%;height:100%;transform:none!important;}
+.journey-panel{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;background:#21080e;isolation:isolate;opacity:0;will-change:opacity;}
+.journey-panel>img{position:absolute;inset:-2%;width:104%;height:104%;object-fit:cover;transform:scale(1.02);transform-origin:50% 55%;will-change:transform,filter;filter:saturate(.82);}
 .journey-panel:nth-child(2)>img{object-position:center 35%;}.journey-panel:nth-child(3)>img{object-position:center 45%;}
-.journey-vignette{position:absolute;inset:0;background:linear-gradient(90deg,#16060bd9 0%,#16060b70 44%,#16060b12 100%),linear-gradient(0deg,#17060b6b,transparent 55%);}
+.journey-vignette{position:absolute;inset:0;background:linear-gradient(90deg,#16060bd9 0%,#16060b70 44%,#16060b12 100%),linear-gradient(0deg,#17060b9c 0%,#17060b1c 42%,#16060b24 100%);}
+/* Perspective floor lines expand from a vanishing point to reinforce forward motion. */
+.journey-panel:after{content:"";position:absolute;inset:48% -20% -25%;pointer-events:none;opacity:.22;background:repeating-linear-gradient(90deg,transparent 0 8.1%,#e4c17c 8.2% 8.3%,transparent 8.4% 16.2%);transform:perspective(260px) rotateX(48deg);transform-origin:top center;mask-image:linear-gradient(to bottom,transparent,#000 30%,transparent 95%);}
 .journey-copy{position:absolute;left:max(9%,calc((100vw - 1200px)/2));top:50%;width:min(540px,75%);transform:translate3d(0,-48%,0);}
 .journey-copy>span:first-child{display:block;font-size:9px;letter-spacing:.25em;color:#e0c17c;margin-bottom:22px;}
 .journey-copy h1,.journey-copy h2{font:400 clamp(3.6rem,8vw,7.6rem)/.92 var(--serif);letter-spacing:-.055em;margin:0 0 22px;text-wrap:balance;}
 .journey-copy h1 em,.journey-copy h2 em{font-weight:400;color:#e5c887;}
 .journey-copy p{max-width:340px;font-size:12px;line-height:1.9;color:#f1e5db;}
 .journey-scroll-cue{display:block!important;margin-top:55px!important;font-size:8px!important;letter-spacing:.22em!important;animation:journey-pulse 1.8s ease-in-out infinite;}
-.journey-progress{position:absolute;bottom:30px;left:5%;right:5%;height:1px;background:#ffffff45;z-index:3;}.journey-progress span{display:block;width:25%;height:2px;background:#e5c887;transform-origin:left;}
-.journey-counter{position:absolute;right:5%;bottom:43px;font-size:7px;letter-spacing:.2em;color:#fff9;z-index:3;}
+.journey-progress{position:absolute;bottom:30px;left:5%;right:5%;height:1px;background:#ffffff45;z-index:5;}.journey-progress span{display:block;width:25%;height:2px;background:#e5c887;transform-origin:left;}
+.journey-counter{position:absolute;right:5%;bottom:43px;font-size:7px;letter-spacing:.2em;color:#fff9;z-index:5;}
 @keyframes journey-pulse{50%{opacity:.48;transform:translateY(4px)}}
 /* The red intro opens as two sliding doors, rather than fading away as a flat layer. */
 .intro{background:transparent;animation:intro-clear .35s 2.2s forwards;}
@@ -80,4 +82,4 @@
 @keyframes curtain-right{to{transform:translateX(102%);}}
 @keyframes intro-clear{to{visibility:hidden;pointer-events:none;}}
 @media(max-width:760px){.shop-journey{height:320vh}.journey-sticky{min-height:500px}.journey-copy{left:8%;width:84%;}.journey-copy h1,.journey-copy h2{font-size:clamp(3.3rem,14vw,5.2rem)}.journey-copy p{max-width:290px;font-size:11px}.journey-scroll-cue{margin-top:36px!important}.journey-counter{font-size:6px;bottom:42px}.journey-progress{bottom:28px}}
-@media(prefers-reduced-motion:reduce){.intro:before,.intro:after{animation:none;transform:translateX(-110%)}.intro:after{transform:translateX(110%)}.shop-journey{height:auto}.journey-sticky{position:relative;height:auto;min-height:0;overflow:visible}.journey-track{display:grid;width:100%;height:auto;transform:none!important}.journey-panel{min-height:70svh;width:100%;}.journey-progress,.journey-counter{display:none}.journey-panel>img{transform:none}}
+@media(prefers-reduced-motion:reduce){.intro:before,.intro:after{animation:none;transform:translateX(-110%)}.intro:after{transform:translateX(110%)}.shop-journey{height:auto}.journey-sticky{position:relative;height:auto;min-height:0;overflow:visible}.journey-track{position:relative;display:block;width:100%;height:auto}.journey-panel{position:relative;inset:auto;display:block;opacity:1!important;height:70svh;min-height:500px;width:100%;}.journey-progress,.journey-counter{display:none}.journey-panel>img{transform:none!important}}
