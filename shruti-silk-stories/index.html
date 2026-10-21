@@ -1,722 +1,130 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DRIFT | Draped in Stories — Handwoven Silk Heirloom Sarees</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#4b0714">
+  <meta name="description" content="DRIFT — heirloom silk sarees, considered collections, and stories woven by hand.">
+  <title>DRIFT — Draped in Stories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-[#faf7f2] text-[#262122] antialiased selection:bg-[#d4af37] selection:text-[#4d0b17]">
-
-  <!-- ============================================================== -->
-  <!-- 0:00-0:02  INTRO ANIMATION OVERLAY -->
-  <!-- ============================================================== -->
-  <div id="intro-overlay" class="fixed inset-0 z-[100] flex items-center justify-center" style="background: radial-gradient(ellipse at center, #6b0f1a 0%, #4d0b17 40%, #1a0409 100%);">
-    <!-- Gold pattern overlay -->
-    <div class="absolute inset-0 opacity-20" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22><rect fill=%22none%22 width=%2260%22 height=%2260%22/><path d=%22M30 0L60 30L30 60L0 30Z%22 fill=%22none%22 stroke=%22%23d4af37%22 stroke-width=%220.5%22/></svg>'); background-size: 60px 60px;"></div>
-    <div class="relative z-10 text-center px-6">
-      <div class="font-serif-luxury text-3xl sm:text-5xl font-bold text-white tracking-[0.15em] mb-4" id="intro-brand">DRIFT</div>
-      <div class="text-[10px] sm:text-xs tracking-[0.4em] text-[#d4af37] uppercase font-semibold mb-8">DRAPED IN STORIES</div>
-      <h1 id="intro-headline" class="font-editorial italic text-xl sm:text-3xl text-white/90 font-light transition-all duration-700">
-        Your brand deserves a web
-      </h1>
-    </div>
+<body>
+  <div class="intro" id="intro" aria-label="DRIFT introduction">
+    <div class="intro-pattern"></div>
+    <div class="intro-content"><span class="intro-kicker">HANDWOVEN · TIMELESS · YOURS</span><p class="intro-wordmark">DRIFT</p><p class="intro-tagline">DRAPED IN STORIES</p><span class="intro-line"></span></div>
   </div>
 
-  <!-- TOAST CONTAINER -->
-  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-none"></div>
-
-  <!-- TOP ANNOUNCEMENT BAR -->
-  <header class="bg-[#4d0b17] text-[#f4efe6] text-xs font-medium py-2 px-4 border-b border-[#d4af37]/30 relative z-40">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-      <div class="flex items-center gap-2">
-        <span class="w-1.5 h-1.5 rounded-full bg-[#d4af37] animate-ping"></span>
-        <span class="font-semibold tracking-wider text-[11px]">• NEW DROP</span>
-        <span class="bg-[#d4af37] text-[#4d0b17] font-bold px-2 py-0.5 rounded text-[10px] tracking-wider uppercase ml-1">UP TO 40% OFF</span>
-        <span class="hidden md:inline ml-2 text-gray-300">FREE SHIPPING ALL OVER INDIA •</span>
-      </div>
-      <div class="flex items-center gap-5">
-        <span class="text-[#d4af37]/40">|</span>
-        <span class="cursor-pointer hover:text-[#d4af37] transition font-semibold text-[11px]">INR (₹)</span>
-      </div>
+  <div class="announcement"><span class="announcement-dot"></span><span>THE FESTIVE EDIT HAS ARRIVED</span><i>•</i><span>COMPLIMENTARY SHIPPING ACROSS INDIA</span><span class="announcement-right">INR&nbsp; ₹</span></div>
+  <header class="site-header" id="site-header">
+    <a class="brand" href="#top" aria-label="DRIFT home"><span>DRIFT</span><small>DRAPED IN STORIES</small></a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#six-moods">Collections</a><a href="#bridal-collection">Bridal</a><a href="#occasion-edits">Occasions</a><a href="#stories">Our stories</a>
+    </nav>
+    <div class="header-actions">
+      <button class="search-trigger" id="search-open" aria-label="Search sarees">⌕ <span>Search the collection</span></button>
+      <button class="icon-button" id="wishlist-open" aria-label="View wishlist">♡<b id="wishlist-count">0</b></button>
+      <button class="icon-button bag-button" id="cart-open" aria-label="Open shopping bag">♧<b id="cart-count">0</b></button>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Open menu">☰</button>
     </div>
   </header>
 
-  <!-- ============================================================== -->
-  <!-- STICKY NAVIGATION -->
-  <!-- ============================================================== -->
-  <nav class="sticky top-0 z-30 glass-nav border-b border-[#d4af37]/20 transition-all duration-300 shadow-sm" id="main-nav">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-      <a href="#" class="flex flex-col">
-        <span class="font-serif-luxury text-2xl sm:text-3xl font-extrabold tracking-[0.22em] text-[#4d0b17]">DRIFT</span>
-        <span class="text-[8.5px] tracking-[0.38em] text-[#a87e14] uppercase -mt-1 font-semibold">DRAPED IN STORIES</span>
-      </a>
-      <div class="hidden lg:flex items-center gap-8 text-xs font-semibold uppercase tracking-[0.16em] text-[#4d0b17]">
-        <a href="#hero" class="hover:text-[#a87e14] transition py-1">Home</a>
-        <a href="#six-moods" class="hover:text-[#a87e14] transition py-1">Sarees</a>
-        <a href="#woven-carousel" class="hover:text-[#a87e14] transition py-1">Collections</a>
-        <a href="#bridal-collection" class="hover:text-[#a87e14] transition py-1">Occasion</a>
-        <a href="#first-light" class="hover:text-[#a87e14] transition py-1">About</a>
+  <main id="top">
+    <section class="hero" id="hero" aria-label="Featured collections">
+      <div class="hero-slides">
+        <article class="hero-slide is-active" data-slide="0">
+          <img src="assets/hd_showroom.jpg" alt="A warm, richly stocked silk saree showroom">
+          <div class="hero-shade"></div><div class="hero-copy"><p class="eyebrow light">TRADITION MEETS TOMORROW</p><h1>More than<br><em>a saree.</em></h1><p>Timeless weaves. Modern expressions.<br>For every you, in every moment.</p><a class="button button-gold" href="#six-moods">Explore the collections <span>↗</span></a></div>
+          <span class="hero-index">01 <i>—</i> 03</span>
+        </article>
+        <article class="hero-slide" data-slide="1">
+          <img src="assets/hd_loom_weaving.jpg" alt="A weaver at work on a traditional silk loom">
+          <div class="hero-shade"></div><div class="hero-copy"><p class="eyebrow light">MADE SLOWLY. KEPT FOREVER.</p><h2>Six weavers.<br><em>One thread.</em></h2><p>Patient hands, heirloom silk, and craft that carries on.</p><a class="button button-gold" href="#woven">Meet the signatures <span>↗</span></a></div>
+          <span class="hero-index">02 <i>—</i> 03</span>
+        </article>
+        <article class="hero-slide" data-slide="2">
+          <img src="assets/hd_bride_seated.jpg" alt="Bridal silk in rich ceremonial colours">
+          <div class="hero-shade"></div><div class="hero-copy"><p class="eyebrow light">FOR THE MOMENTS THAT STAY</p><h2>Draped in<br><em>stories.</em></h2><p>Pure zari and beautiful details, made to be passed on.</p><a class="button button-gold" href="#bridal-collection">Enter the bridal suite <span>↗</span></a></div>
+          <span class="hero-index">03 <i>—</i> 03</span>
+        </article>
       </div>
-      <div class="flex items-center gap-4">
-        <div onclick="toggleSearch(true)" class="hidden md:flex items-center gap-2 bg-[#f4efe6] border border-[#d4af37]/30 px-3.5 py-1.5 rounded-full text-xs text-gray-500 cursor-pointer hover:border-[#d4af37] transition w-52">
-          <i data-lucide="search" class="w-3.5 h-3.5 text-[#a87e14]"></i>
-          <span class="truncate">Search for sarees, fabrics, stories...</span>
-        </div>
-        <button onclick="toggleSearch(true)" class="md:hidden p-2 text-[#4d0b17]"><i data-lucide="search" class="w-5 h-5"></i></button>
-        <button onclick="showToast('Wishlist', `${wishlist.length} drapes saved.`)" class="p-2 text-[#4d0b17] hover:text-[#a87e14] transition relative">
-          <i data-lucide="heart" class="w-5 h-5"></i>
-          <span class="wishlist-count-badge hidden absolute top-0.5 right-0.5 w-4 h-4 bg-[#a87e14] text-white text-[9px] font-bold rounded-full flex items-center justify-center">0</span>
-        </button>
-        <button onclick="toggleCart()" class="p-2 text-[#4d0b17] hover:text-[#a87e14] transition relative">
-          <i data-lucide="shopping-bag" class="w-5 h-5"></i>
-          <span class="cart-count-badge hidden absolute top-0.5 right-0.5 w-4 h-4 bg-[#671223] text-white text-[9px] font-bold rounded-full flex items-center justify-center">0</span>
-        </button>
-      </div>
-    </div>
-  </nav>
+      <button class="hero-arrow hero-prev" aria-label="Previous slide">←</button><button class="hero-arrow hero-next" aria-label="Next slide">→</button>
+      <div class="hero-controls" aria-label="Choose hero slide"><button class="hero-dot is-active" aria-label="Slide one"></button><button class="hero-dot" aria-label="Slide two"></button><button class="hero-dot" aria-label="Slide three"></button></div>
+      <div class="hero-caption"><span>AN HEIRLOOM, REIMAGINED</span><span>SCROLL TO DISCOVER ↓</span></div>
+    </section>
 
-  <!-- ============================================================== -->
-  <!-- 0:02-0:06  HERO AUTO-SLIDING CAROUSEL -->
-  <!-- ============================================================== -->
-  <section id="hero" class="relative h-[85vh] overflow-hidden bg-[#1a0409]">
-    <!-- Slides -->
-    <div id="hero-slides" class="absolute inset-0">
-      <div class="hero-slide absolute inset-0 opacity-100 transition-opacity duration-1000">
-        <img src="assets/hd_showroom.jpg" alt="Showroom" class="w-full h-full object-cover brightness-[0.65]">
-        <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent"></div>
-        <div class="absolute inset-0 flex items-center">
-          <div class="max-w-7xl mx-auto px-4 sm:px-8 w-full">
-            <div class="max-w-xl">
-              <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-[#d4af37]/40 mb-5">
-                <span class="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#f7e6a4]">TRADITION MEETS TOMORROW</span>
-              </div>
-              <h1 class="font-serif-luxury text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] text-white">More <br><span class="font-normal text-gold-gradient">Than a Saree</span></h1>
-              <p class="text-sm text-gray-200 mt-4 leading-relaxed font-light max-w-lg">Timeless weaves. Modern expressions.<br>For every you, in every moment.</p>
-              <div class="flex flex-wrap items-center gap-4 mt-8">
-                <a href="#six-moods" class="bg-gold-gradient text-[#4d0b17] font-bold text-xs uppercase tracking-[0.18em] px-8 py-4 rounded-full shadow-xl hover:scale-105 transition">Explore Collections →</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="hero-slide absolute inset-0 opacity-0 transition-opacity duration-1000">
-        <img src="assets/hd_mood_orange.jpg" alt="Silk Saree" class="w-full h-full object-cover brightness-[0.6]">
-        <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent"></div>
-        <div class="absolute inset-0 flex items-center">
-          <div class="max-w-7xl mx-auto px-4 sm:px-8 w-full">
-            <div class="max-w-xl">
-              <h1 class="font-serif-luxury text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] text-white">Six Weavers,<br><span class="font-editorial italic font-normal text-[#f7e6a4]">One Thread</span></h1>
-              <p class="text-sm text-gray-200 mt-4 leading-relaxed font-light max-w-lg">Months of patient hands crafting heirloom silk on antique wooden pit looms.</p>
-              <div class="flex flex-wrap items-center gap-4 mt-8">
-                <a href="#woven-carousel" class="bg-gold-gradient text-[#4d0b17] font-bold text-xs uppercase tracking-[0.18em] px-8 py-4 rounded-full shadow-xl hover:scale-105 transition">View Signatures →</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="hero-slide absolute inset-0 opacity-0 transition-opacity duration-1000">
-        <img src="assets/hd_bride_seated.jpg" alt="Bride" class="w-full h-full object-cover brightness-[0.6]">
-        <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
-        <div class="absolute inset-0 flex items-center">
-          <div class="max-w-7xl mx-auto px-4 sm:px-8 w-full">
-            <div class="max-w-xl">
-              <h1 class="font-serif-luxury text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] text-white">Draped in<br><span class="font-script text-6xl lg:text-7xl text-[#d4af37] font-normal">Stories</span></h1>
-              <p class="text-sm text-gray-200 mt-4 leading-relaxed font-light max-w-lg">Pure gold zari beaten to be worn today and passed to daughters tomorrow.</p>
-              <div class="flex flex-wrap items-center gap-4 mt-8">
-                <a href="#bridal-collection" class="bg-gold-gradient text-[#4d0b17] font-bold text-xs uppercase tracking-[0.18em] px-8 py-4 rounded-full shadow-xl hover:scale-105 transition">Bridal Suite →</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Slide dots -->
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex gap-3">
-      <button class="hero-dot w-8 h-2 rounded-full bg-[#d4af37] transition-all" onclick="goToHeroSlide(0)"></button>
-      <button class="hero-dot w-2 h-2 rounded-full bg-white/50 transition-all" onclick="goToHeroSlide(1)"></button>
-      <button class="hero-dot w-2 h-2 rounded-full bg-white/50 transition-all" onclick="goToHeroSlide(2)"></button>
-    </div>
-  </section>
+    <div class="ticker" aria-label="DRIFT promises"><div class="ticker-track"><span>Pure silk, thoughtfully chosen</span><i>✳</i><span>Crafted by hand</span><i>✳</i><span>Made to become an heirloom</span><i>✳</i><span>Complimentary shipping across India</span><i>✳</i><span>Pure silk, thoughtfully chosen</span><i>✳</i><span>Crafted by hand</span><i>✳</i><span>Made to become an heirloom</span><i>✳</i></div></div>
 
-  <!-- MARQUEE TICKER -->
-  <div class="bg-[#4d0b17] text-[#f4efe6] py-3.5 overflow-hidden border-y border-[#d4af37]/40 relative z-10">
-    <div class="animate-marquee whitespace-nowrap text-xs font-medium tracking-[0.2em] flex items-center gap-10">
-      <span>Pure zari, tested and certified</span><span class="text-[#d4af37]">•</span>
-      <span>New festive edit</span><span class="text-[#d4af37]">•</span>
-      <span>Made-to-drape blouse stitching</span><span class="text-[#d4af37]">•</span>
-      <span>Easy 7-day returns</span><span class="text-[#d4af37]">•</span>
-      <span>Handwoven silk</span><span class="text-[#d4af37]">•</span>
-      <span>Free shipping across India</span><span class="text-[#d4af37]">•</span>
-      <span>Pure zari, tested and certified</span><span class="text-[#d4af37]">•</span>
-      <span>New festive edit</span><span class="text-[#d4af37]">•</span>
-      <span>Made-to-drape blouse stitching</span>
-    </div>
-  </div>
+    <section class="section section-cream" id="six-moods">
+      <div class="section-heading heading-row"><div><p class="eyebrow">THE DRIFT ARCHIVE</p><h2>Six moods<span class="period">.</span></h2></div><p class="heading-note">Different colours. Different rituals.<br>One enduring love for the weave.</p></div>
+      <div class="mood-rail horizontal-rail">
+        <a class="mood-card" href="#new-arrivals"><img src="assets/hd_mood_teal.jpg" alt="Peacock teal silk"><span class="mood-number">01</span><span class="mood-label">The interpretive weave</span><span class="mood-arrow">↗</span></a>
+        <a class="mood-card" href="#best-sellers"><img src="assets/hd_mood_mustard.jpg" alt="Mustard and gold silk"><span class="mood-number">02</span><span class="mood-label">Kanchipuram icons</span><span class="mood-arrow">↗</span></a>
+        <a class="mood-card" href="#trend-today"><img src="assets/hd_mood_orange.jpg" alt="Burnished orange silk"><span class="mood-number">03</span><span class="mood-label">Banarasi all hours</span><span class="mood-arrow">↗</span></a>
+        <a class="mood-card" href="#bridal-collection"><img src="assets/hd_mood_pink.jpg" alt="Pink festive silk"><span class="mood-number">04</span><span class="mood-label">Festive radiance</span><span class="mood-arrow">↗</span></a>
+        <a class="mood-card" href="#seasonal-special"><img src="assets/hd_mood_wine.jpg" alt="Imperial wine silk"><span class="mood-number">05</span><span class="mood-label">The wine edit</span><span class="mood-arrow">↗</span></a>
+        <a class="mood-card" href="#product-detail"><img src="assets/hd_mood_emerald.jpg" alt="Emerald silk"><span class="mood-number">06</span><span class="mood-label">Midnight charm</span><span class="mood-arrow">↗</span></a>
+      </div>
+    </section>
 
-  <!-- ============================================================== -->
-  <!-- 0:06-0:09  SIX MOODS — horizontal scrolling collection cards -->
-  <!-- ============================================================== -->
-  <section id="six-moods" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto fade-up-section">
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 border-b border-[#d4af37]/30 pb-6">
-      <div>
-        <div class="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#a87e14]">THE DRIFT ARCHIVE</div>
-        <h2 class="font-grotesk text-4xl sm:text-5xl font-bold text-[#4d0b17] tracking-tight mt-1">SIX MOODS.</h2>
+    <section class="section woven-section" id="woven">
+      <div class="section-heading heading-row"><div><p class="eyebrow">THE DRIFT SIGNATURES</p><h2>Woven to be <em>remembered.</em></h2></div><a class="text-link" href="#new-arrivals">Explore the suite ↗</a></div>
+      <div class="woven-stage">
+        <div class="woven-rail horizontal-rail" id="woven-rail">
+          <article class="woven-card"><img src="assets/hd_mood_teal.jpg" alt="Leela Courtyard Silk"><div><span>01 / KANCHIPURAM</span><h3>Leela Courtyard Silk</h3><p>Temple zari · Peacock teal</p><button class="text-link" data-product="drift-01">Discover the weave ↗</button></div></article>
+          <article class="woven-card"><img src="assets/hd_mood_mustard.jpg" alt="Saanjh Banarasi silk"><div><span>02 / VARANASI</span><h3>Saanjh Banarasi</h3><p>Kadwa weave · Sunlit gold</p><button class="text-link" data-product="drift-02">Discover the weave ↗</button></div></article>
+          <article class="woven-card"><img src="assets/hd_mood_pink.jpg" alt="Tara Paithani silk"><div><span>03 / YEOLA</span><h3>Tara Peacock Paithani</h3><p>Tapestry silk · Rani pink</p><button class="text-link" data-product="drift-03">Discover the weave ↗</button></div></article>
+          <article class="woven-card"><img src="assets/hd_mood_wine.jpg" alt="Prem Geet festive silk"><div><span>04 / THE EVENING EDIT</span><h3>Prem Geet Festive Silk</h3><p>Zardozi · Imperial wine</p><button class="text-link" data-product="drift-05">Discover the weave ↗</button></div></article>
+        </div>
       </div>
-      <p class="text-xs text-gray-500 max-w-xs mt-3 md:mt-0 font-light">Discover sarees curated for every mood... timeless elegance for every occasion.</p>
-    </div>
-    <div class="horizontal-track flex gap-5 overflow-x-auto pb-4 scroll-smooth" style="scrollbar-width:none;">
-      <!-- 6 arch cards -->
-      <div onclick="openQuickView('drift-01')" class="arch-card min-w-[200px] bg-white border border-[#d4af37]/30 group cursor-pointer flex flex-col flex-shrink-0">
-        <div class="relative h-64 overflow-hidden"><img src="assets/hd_mood_teal.jpg" alt="Teal" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div></div>
-        <div class="p-3 text-center bg-[#faf7f2]"><span class="text-[10px] font-bold text-gray-800 uppercase tracking-wider block">INTERPRETIVE WEAVE</span><span class="text-[11px] text-[#a87e14] font-semibold">₹24,500</span></div>
-      </div>
-      <div onclick="openQuickView('drift-02')" class="arch-card min-w-[200px] bg-white border border-[#d4af37]/30 group cursor-pointer flex flex-col flex-shrink-0">
-        <div class="relative h-64 overflow-hidden"><img src="assets/hd_mood_mustard.jpg" alt="Mustard" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div></div>
-        <div class="p-3 text-center bg-[#faf7f2]"><span class="text-[10px] font-bold text-gray-800 uppercase tracking-wider block">KANCHIPURAM ICON</span><span class="text-[11px] text-[#a87e14] font-semibold">₹32,000</span></div>
-      </div>
-      <div onclick="openQuickView('drift-03')" class="arch-card min-w-[200px] bg-white border border-[#d4af37]/30 group cursor-pointer flex flex-col flex-shrink-0">
-        <div class="relative h-64 overflow-hidden"><img src="assets/hd_mood_orange.jpg" alt="Orange" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div></div>
-        <div class="p-3 text-center bg-[#faf7f2]"><span class="text-[10px] font-bold text-gray-800 uppercase tracking-wider block">BANARASI DELIGHT</span><span class="text-[11px] text-[#a87e14] font-semibold">₹36,500</span></div>
-      </div>
-      <div onclick="openQuickView('drift-04')" class="arch-card min-w-[200px] bg-white border border-[#d4af37]/30 group cursor-pointer flex flex-col flex-shrink-0">
-        <div class="relative h-64 overflow-hidden"><img src="assets/hd_mood_pink.jpg" alt="Pink" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div></div>
-        <div class="p-3 text-center bg-[#faf7f2]"><span class="text-[10px] font-bold text-gray-800 uppercase tracking-wider block">FESTIVE RADIANCE</span><span class="text-[11px] text-[#a87e14] font-semibold">₹42,900</span></div>
-      </div>
-      <div onclick="openQuickView('drift-05')" class="arch-card min-w-[200px] bg-white border border-[#d4af37]/30 group cursor-pointer flex flex-col flex-shrink-0">
-        <div class="relative h-64 overflow-hidden"><img src="assets/hd_mood_wine.jpg" alt="Wine" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div></div>
-        <div class="p-3 text-center bg-[#faf7f2]"><span class="text-[10px] font-bold text-gray-800 uppercase tracking-wider block">ROYAL MAJESTY</span><span class="text-[11px] text-[#a87e14] font-semibold">₹48,000</span></div>
-      </div>
-      <div onclick="openQuickView('drift-01')" class="arch-card min-w-[200px] bg-white border border-[#d4af37]/30 group cursor-pointer flex flex-col flex-shrink-0">
-        <div class="relative h-64 overflow-hidden"><img src="assets/hd_mood_emerald.jpg" alt="Emerald" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div></div>
-        <div class="p-3 text-center bg-[#faf7f2]"><span class="text-[10px] font-bold text-gray-800 uppercase tracking-wider block">MIDNIGHT CHARM</span><span class="text-[11px] text-[#a87e14] font-semibold">₹28,500</span></div>
-      </div>
-    </div>
-  </section>
+      <div class="rail-footer"><span>HANDWOVEN, NEVER RUSHED</span><div><button class="round-arrow" data-rail="woven-rail" data-dir="-1" aria-label="Scroll signature gallery left">←</button><button class="round-arrow" data-rail="woven-rail" data-dir="1" aria-label="Scroll signature gallery right">→</button></div></div>
+    </section>
 
-  <!-- ============================================================== -->
-  <!-- 0:09-0:12  WOVEN TO BE REMEMBERED — horizontal product slider -->
-  <!-- ============================================================== -->
-  <section id="woven-carousel" class="py-20 bg-[#f4efe6] border-y border-[#d4af37]/30 fade-up-section">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row md:items-end justify-between mb-8">
-      <div>
-        <div class="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#a87e14]">THE DRIFT SIGNATURES</div>
-        <h2 class="font-serif-luxury text-4xl sm:text-5xl font-bold text-[#4d0b17] mt-1">Woven to Be <span class="font-script text-5xl sm:text-6xl text-[#d4af37] font-normal lowercase">Remembered</span></h2>
-      </div>
-      <a href="#six-moods" class="text-xs uppercase tracking-[0.2em] font-semibold text-[#a87e14] hover:underline mt-4 md:mt-0">EXPLORE THE SUITE →</a>
-    </div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="horizontal-track flex gap-6 overflow-x-auto pb-4 scroll-smooth" style="scrollbar-width:none;">
-        <div onclick="openQuickView('drift-01')" class="min-w-[260px] bg-white border border-[#d4af37]/40 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer shadow-md hover:shadow-xl transition">
-          <div class="h-[280px] overflow-hidden"><img src="assets/hd_mood_teal.jpg" alt="Leela Silk" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"></div>
-          <div class="p-4"><h4 class="font-serif-luxury font-bold text-sm text-[#4d0b17]">Leela Courtyard Silk</h4><p class="text-[11px] text-gray-500">Kanchipuram Korvai Temple Zari</p>
-            <div class="flex items-center justify-between mt-3 pt-3 border-t border-gray-100"><span class="font-bold text-sm text-[#671223]">₹24,500</span><button onclick="event.stopPropagation(); addToCart('drift-01');" class="bg-[#671223] hover:bg-[#4d0b17] text-white text-[11px] font-semibold px-3.5 py-1.5 rounded-full transition">Add to Bag</button></div></div>
-        </div>
-        <div onclick="openQuickView('drift-02')" class="min-w-[260px] bg-white border border-[#d4af37]/40 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer shadow-md hover:shadow-xl transition">
-          <div class="h-[280px] overflow-hidden"><img src="assets/hd_mood_mustard.jpg" alt="Saanjh Banarasi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"></div>
-          <div class="p-4"><h4 class="font-serif-luxury font-bold text-sm text-[#4d0b17]">Saanjh Maroon Banarasi</h4><p class="text-[11px] text-gray-500">Varanasi Kadwa Weave</p>
-            <div class="flex items-center justify-between mt-3 pt-3 border-t border-gray-100"><span class="font-bold text-sm text-[#671223]">₹32,000</span><button onclick="event.stopPropagation(); addToCart('drift-02');" class="bg-[#671223] hover:bg-[#4d0b17] text-white text-[11px] font-semibold px-3.5 py-1.5 rounded-full transition">Add to Bag</button></div></div>
-        </div>
-        <div onclick="openQuickView('drift-03')" class="min-w-[260px] bg-white border border-[#d4af37]/40 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer shadow-md hover:shadow-xl transition">
-          <div class="h-[280px] overflow-hidden"><img src="assets/hd_mood_pink.jpg" alt="Tara Paithani" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"></div>
-          <div class="p-4"><h4 class="font-serif-luxury font-bold text-sm text-[#4d0b17]">Tara Peacock Paithani</h4><p class="text-[11px] text-gray-500">Yeola Tapestry Silk</p>
-            <div class="flex items-center justify-between mt-3 pt-3 border-t border-gray-100"><span class="font-bold text-sm text-[#671223]">₹36,500</span><button onclick="event.stopPropagation(); addToCart('drift-03');" class="bg-[#671223] hover:bg-[#4d0b17] text-white text-[11px] font-semibold px-3.5 py-1.5 rounded-full transition">Add to Bag</button></div></div>
-        </div>
-        <div onclick="openQuickView('drift-04')" class="min-w-[260px] bg-white border border-[#d4af37]/40 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer shadow-md hover:shadow-xl transition">
-          <div class="h-[280px] overflow-hidden"><img src="assets/hd_mood_emerald.jpg" alt="Amara Emerald" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"></div>
-          <div class="p-4"><h4 class="font-serif-luxury font-bold text-sm text-[#4d0b17]">Amara Emerald Kanjivaram</h4><p class="text-[11px] text-gray-500">Forest Emerald & Rust Zari</p>
-            <div class="flex items-center justify-between mt-3 pt-3 border-t border-gray-100"><span class="font-bold text-sm text-[#671223]">₹42,900</span><button onclick="event.stopPropagation(); addToCart('drift-04');" class="bg-[#671223] hover:bg-[#4d0b17] text-white text-[11px] font-semibold px-3.5 py-1.5 rounded-full transition">Add to Bag</button></div></div>
-        </div>
-        <div onclick="openQuickView('drift-05')" class="min-w-[260px] bg-white border border-[#d4af37]/40 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer shadow-md hover:shadow-xl transition">
-          <div class="h-[280px] overflow-hidden"><img src="assets/hd_mood_wine.jpg" alt="Prem Geet" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"></div>
-          <div class="p-4"><h4 class="font-serif-luxury font-bold text-sm text-[#4d0b17]">Prem Geet Festive Silk</h4><p class="text-[11px] text-gray-500">Imperial Wine Zardozi</p>
-            <div class="flex items-center justify-between mt-3 pt-3 border-t border-gray-100"><span class="font-bold text-sm text-[#671223]">₹48,000</span><button onclick="event.stopPropagation(); addToCart('drift-05');" class="bg-[#671223] hover:bg-[#4d0b17] text-white text-[11px] font-semibold px-3.5 py-1.5 rounded-full transition">Add to Bag</button></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <section class="section section-cream product-section" id="new-arrivals">
+      <div class="section-heading heading-row"><div><p class="eyebrow">FRESH FROM THE LOOM</p><h2>New arrivals</h2></div><a class="text-link" href="#product-detail">View all new arrivals ↗</a></div>
+      <div class="product-rail horizontal-rail" id="new-arrivals-rail"></div>
+    </section>
 
-  <!-- ============================================================== -->
-  <!-- 0:12-0:14  NEW ARRIVALS — horizontal product carousel -->
-  <!-- ============================================================== -->
-  <section id="new-arrivals" class="py-20 fade-up-section">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-end justify-between mb-8">
-        <h2 class="font-serif-luxury text-3xl sm:text-4xl font-bold text-[#4d0b17]">New Arrivals</h2>
-        <a href="#" class="text-xs uppercase tracking-[0.2em] font-semibold text-[#a87e14] hover:underline">View All →</a>
-      </div>
-      <div class="horizontal-track flex gap-5 overflow-x-auto pb-4 scroll-smooth" style="scrollbar-width:none;">
-        <div onclick="openQuickView('drift-06')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden relative"><img src="assets/hd_ivory_organza.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><span class="absolute top-3 left-3 bg-emerald-600 text-white text-[9px] font-bold px-2 py-0.5 rounded">NEW</span></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Ivory Organza Bloom</h4><p class="text-[10px] text-gray-500">Watercolour Hand-Painted</p><div class="flex items-center gap-2 mt-2"><span class="font-bold text-sm text-[#671223]">₹16,400</span><span class="text-[10px] text-gray-400 line-through">₹20,500</span></div></div>
-        </div>
-        <div onclick="openQuickView('drift-01')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden relative"><img src="assets/hd_mood_emerald.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><span class="absolute top-3 left-3 bg-emerald-600 text-white text-[9px] font-bold px-2 py-0.5 rounded">NEW</span></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Midnight Emerald Silk</h4><p class="text-[10px] text-gray-500">Kanjivaram Double Warp</p><div class="flex items-center gap-2 mt-2"><span class="font-bold text-sm text-[#671223]">₹28,500</span></div></div>
-        </div>
-        <div onclick="openQuickView('drift-03')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden relative"><img src="assets/hd_mood_orange.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><span class="absolute top-3 left-3 bg-emerald-600 text-white text-[9px] font-bold px-2 py-0.5 rounded">NEW</span></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Banarasi Rust Brocade</h4><p class="text-[10px] text-gray-500">Varanasi Kadwa Weave</p><div class="flex items-center gap-2 mt-2"><span class="font-bold text-sm text-[#671223]">₹36,500</span></div></div>
-        </div>
-        <div onclick="openQuickView('drift-04')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden relative"><img src="assets/hd_rose_organza.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><span class="absolute top-3 left-3 bg-emerald-600 text-white text-[9px] font-bold px-2 py-0.5 rounded">NEW</span></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Rose Net Embroidered</h4><p class="text-[10px] text-gray-500">Organza Silk Blend</p><div class="flex items-center gap-2 mt-2"><span class="font-bold text-sm text-[#671223]">₹18,900</span><span class="text-[10px] text-gray-400 line-through">₹22,500</span></div></div>
-        </div>
-        <div onclick="openQuickView('drift-02')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden relative"><img src="assets/hd_mood_mustard.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><span class="absolute top-3 left-3 bg-emerald-600 text-white text-[9px] font-bold px-2 py-0.5 rounded">NEW</span></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Sunlit Haldi Weave</h4><p class="text-[10px] text-gray-500">Katan Silk Brocade</p><div class="flex items-center gap-2 mt-2"><span class="font-bold text-sm text-[#671223]">₹32,000</span></div></div>
-        </div>
-        <div onclick="openQuickView('drift-05')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden relative"><img src="assets/hd_mood_wine.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><span class="absolute top-3 left-3 bg-emerald-600 text-white text-[9px] font-bold px-2 py-0.5 rounded">NEW</span></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Imperial Wine Velvet</h4><p class="text-[10px] text-gray-500">Zardozi Hand Embroidery</p><div class="flex items-center gap-2 mt-2"><span class="font-bold text-sm text-[#671223]">₹48,000</span></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <section class="section section-soft product-section" id="best-sellers">
+      <div class="section-heading heading-row"><div><p class="eyebrow">LOVED AGAIN AND AGAIN</p><h2>Best sellers</h2></div><a class="text-link" href="#product-detail">Shop the favourites ↗</a></div>
+      <div class="product-rail horizontal-rail" id="best-sellers-rail"></div>
+    </section>
 
-  <!-- ============================================================== -->
-  <!-- 0:14-0:17  BEST SELLERS — horizontal product carousel -->
-  <!-- ============================================================== -->
-  <section id="best-sellers" class="py-20 bg-[#f4efe6] fade-up-section">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-end justify-between mb-8">
-        <h2 class="font-serif-luxury text-3xl sm:text-4xl font-bold text-[#4d0b17]">Best Sellers</h2>
-        <a href="#" class="text-xs uppercase tracking-[0.2em] font-semibold text-[#a87e14] hover:underline">View All →</a>
-      </div>
-      <div class="horizontal-track flex gap-5 overflow-x-auto pb-4 scroll-smooth" style="scrollbar-width:none;">
-        <div onclick="openQuickView('drift-05')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden relative"><img src="assets/hd_mood_wine.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><span class="absolute top-3 left-3 bg-[#d4af37] text-[#4d0b17] text-[9px] font-bold px-2 py-0.5 rounded">★ BESTSELLER</span></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Prem Geet Festive Silk</h4><p class="text-[10px] text-gray-500">Wine Zardozi</p><div class="flex items-center gap-2 mt-2"><span class="font-bold text-sm text-[#671223]">₹48,000</span></div></div>
-        </div>
-        <div onclick="openQuickView('drift-01')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden relative"><img src="assets/hd_mood_teal.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><span class="absolute top-3 left-3 bg-[#d4af37] text-[#4d0b17] text-[9px] font-bold px-2 py-0.5 rounded">★ BESTSELLER</span></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Leela Courtyard Silk</h4><p class="text-[10px] text-gray-500">Kanchipuram Korvai</p><div class="flex items-center gap-2 mt-2"><span class="font-bold text-sm text-[#671223]">₹24,500</span></div></div>
-        </div>
-        <div onclick="openQuickView('drift-03')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden relative"><img src="assets/hd_mood_pink.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><span class="absolute top-3 left-3 bg-[#d4af37] text-[#4d0b17] text-[9px] font-bold px-2 py-0.5 rounded">★ BESTSELLER</span></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Tara Peacock Paithani</h4><p class="text-[10px] text-gray-500">Yeola Tapestry</p><div class="flex items-center gap-2 mt-2"><span class="font-bold text-sm text-[#671223]">₹36,500</span></div></div>
-        </div>
-        <div onclick="openQuickView('drift-04')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden relative"><img src="assets/hd_mood_emerald.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><span class="absolute top-3 left-3 bg-[#d4af37] text-[#4d0b17] text-[9px] font-bold px-2 py-0.5 rounded">★ BESTSELLER</span></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Amara Emerald Kanjivaram</h4><p class="text-[10px] text-gray-500">Double Warp Zari</p><div class="flex items-center gap-2 mt-2"><span class="font-bold text-sm text-[#671223]">₹42,900</span></div></div>
-        </div>
-        <div onclick="openQuickView('drift-02')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden relative"><img src="assets/hd_mood_mustard.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><span class="absolute top-3 left-3 bg-[#d4af37] text-[#4d0b17] text-[9px] font-bold px-2 py-0.5 rounded">★ BESTSELLER</span></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Saanjh Maroon Banarasi</h4><p class="text-[10px] text-gray-500">Kadwa Brocade</p><div class="flex items-center gap-2 mt-2"><span class="font-bold text-sm text-[#671223]">₹32,000</span></div></div>
-        </div>
-        <div onclick="openQuickView('drift-06')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden relative"><img src="assets/hd_ivory_organza.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><span class="absolute top-3 left-3 bg-[#d4af37] text-[#4d0b17] text-[9px] font-bold px-2 py-0.5 rounded">★ BESTSELLER</span></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Ivory Organza Bloom</h4><p class="text-[10px] text-gray-500">Hand-Painted Organza</p><div class="flex items-center gap-2 mt-2"><span class="font-bold text-sm text-[#671223]">₹16,400</span></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <section class="bridal-section" id="bridal-collection">
+      <div class="bridal-wave bridal-wave-top"></div>
+      <div class="bridal-inner"><div class="bridal-feature"><img src="assets/hd_bridal_feature.jpg" alt="The bridal collection campaign"><div class="bridal-feature-copy"><p class="eyebrow light">FOR THE DAY THAT BECOMES A STORY</p><h2>The Bridal<br>Collection</h2><a class="button button-gold" href="#bridal-products">View the collection ↗</a></div></div><div class="bridal-products-wrap"><div class="bridal-heading"><p class="eyebrow light">THE WEDDING EDIT</p><p>For every beginning.</p></div><div class="product-rail bridal-rail horizontal-rail" id="bridal-products"></div></div></div>
+      <div class="bridal-wave bridal-wave-bottom"></div>
+    </section>
 
-  <!-- ============================================================== -->
-  <!-- 0:17-0:20  BRIDAL COLLECTION — feature image + horizontal row -->
-  <!-- ============================================================== -->
-  <section id="bridal-collection" class="relative py-28 bg-[#0b090b] text-white overflow-hidden fade-up-section">
-    <div class="wave-top text-[#f4efe6]"><svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="relative block w-full h-12"><path d="M0,0 C150,90 350,-40 500,60 C650,160 900,10 1200,40 L1200,0 L0,0 Z" fill="currentColor"></path></svg></div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div class="text-center mb-10">
-        <div class="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#d4af37]">CEREMONIAL HEIRLOOMS</div>
-        <h2 class="font-serif-luxury text-4xl sm:text-5xl font-bold mt-1">The Bridal Collection</h2>
-      </div>
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        <!-- Left: Feature image stays fixed in its area -->
-        <div class="lg:col-span-4 relative rounded-2xl overflow-hidden border border-[#d4af37]/40 bg-gradient-to-b from-[#6b0f1a] to-[#200408] p-6 shadow-2xl group">
-          <div class="relative h-[440px] rounded-xl overflow-hidden mb-4">
-            <img src="assets/hd_bridal_feature.jpg" alt="Bridal Feature" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-            <div class="absolute bottom-6 left-6 right-6">
-              <h3 class="font-serif-luxury text-3xl font-bold">The Bridal Suite</h3>
-              <p class="text-xs text-gray-300 mt-2 font-light">Pure gold zari and ceremonial sindoor vermillion.</p>
-              <button onclick="openQuickView('drift-05')" class="mt-4 w-full bg-gold-gradient text-[#4d0b17] font-bold text-xs uppercase tracking-[0.15em] py-3 rounded-full shadow-lg hover:scale-[1.02] transition">View Collection →</button>
-            </div>
-          </div>
-        </div>
-        <!-- Right: Horizontal carousel of bridal products -->
-        <div class="lg:col-span-8">
-          <div class="horizontal-track flex gap-4 overflow-x-auto pb-4 scroll-smooth" style="scrollbar-width:none;">
-            <div onclick="openQuickView('drift-01')" class="min-w-[200px] bg-[#161216] border border-[#d4af37]/30 rounded-xl overflow-hidden group cursor-pointer hover:border-[#d4af37] transition flex-shrink-0">
-              <div class="h-52 overflow-hidden"><img src="assets/hd_bridal_1.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
-              <div class="p-3"><h5 class="font-serif-luxury text-xs font-semibold text-white truncate">Kalyani Vermillion Drape</h5><p class="text-[10px] text-gray-400 mt-0.5">₹48,000</p><button onclick="event.stopPropagation(); addToCart('drift-01');" class="mt-3 w-full bg-[#d4af37] hover:bg-[#b8860b] text-[#4d0b17] text-[10px] font-bold py-1.5 rounded-md uppercase tracking-wider transition">ADD TO BAG</button></div>
-            </div>
-            <div onclick="openQuickView('drift-02')" class="min-w-[200px] bg-[#161216] border border-[#d4af37]/30 rounded-xl overflow-hidden group cursor-pointer hover:border-[#d4af37] transition flex-shrink-0">
-              <div class="h-52 overflow-hidden"><img src="assets/hd_bridal_2.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
-              <div class="p-3"><h5 class="font-serif-luxury text-xs font-semibold text-white truncate">Maharani Kadwa Brocade</h5><p class="text-[10px] text-gray-400 mt-0.5">₹54,000</p><button onclick="event.stopPropagation(); addToCart('drift-02');" class="mt-3 w-full bg-[#d4af37] hover:bg-[#b8860b] text-[#4d0b17] text-[10px] font-bold py-1.5 rounded-md uppercase tracking-wider transition">ADD TO BAG</button></div>
-            </div>
-            <div onclick="openQuickView('drift-03')" class="min-w-[200px] bg-[#161216] border border-[#d4af37]/30 rounded-xl overflow-hidden group cursor-pointer hover:border-[#d4af37] transition flex-shrink-0">
-              <div class="h-52 overflow-hidden"><img src="assets/hd_bridal_3.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
-              <div class="p-3"><h5 class="font-serif-luxury text-xs font-semibold text-white truncate">Scarlet Paithani Tapestry</h5><p class="text-[10px] text-gray-400 mt-0.5">₹39,500</p><button onclick="event.stopPropagation(); addToCart('drift-03');" class="mt-3 w-full bg-[#d4af37] hover:bg-[#b8860b] text-[#4d0b17] text-[10px] font-bold py-1.5 rounded-md uppercase tracking-wider transition">ADD TO BAG</button></div>
-            </div>
-            <div onclick="openQuickView('drift-04')" class="min-w-[200px] bg-[#161216] border border-[#d4af37]/30 rounded-xl overflow-hidden group cursor-pointer hover:border-[#d4af37] transition flex-shrink-0">
-              <div class="h-52 overflow-hidden"><img src="assets/hd_bridal_4.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
-              <div class="p-3"><h5 class="font-serif-luxury text-xs font-semibold text-white truncate">Champagne Tissue Zari</h5><p class="text-[10px] text-gray-400 mt-0.5">₹46,000</p><button onclick="event.stopPropagation(); addToCart('drift-04');" class="mt-3 w-full bg-[#d4af37] hover:bg-[#b8860b] text-[#4d0b17] text-[10px] font-bold py-1.5 rounded-md uppercase tracking-wider transition">ADD TO BAG</button></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="wave-bottom text-[#faf7f2]"><svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="relative block w-full h-12"><path d="M0,0 C150,90 350,-40 500,60 C650,160 900,10 1200,40 L1200,120 L0,120 Z" fill="currentColor"></path></svg></div>
-  </section>
+    <section class="section section-cream compact-products" id="trend-today">
+      <div class="section-heading heading-row"><div><p class="eyebrow">A MOMENT IN COLOUR</p><h2>Trend of the day</h2></div><span class="section-aside">THE PIECES ON OUR MIND</span></div><div class="mini-product-rail horizontal-rail" id="trend-rail"></div>
+    </section>
 
-  <!-- ============================================================== -->
-  <!-- 0:20-0:22  TREND OF THE DAY — horizontal product row -->
-  <!-- ============================================================== -->
-  <section id="trend-today" class="py-20 fade-up-section">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-end justify-between mb-8">
-        <div>
-          <div class="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#a87e14]">CURATED DAILY</div>
-          <h2 class="font-serif-luxury text-3xl sm:text-4xl font-bold text-[#4d0b17] mt-1">Trend of the Day</h2>
-        </div>
-        <a href="#" class="text-xs uppercase tracking-[0.2em] font-semibold text-[#a87e14] hover:underline">See All →</a>
-      </div>
-      <div class="horizontal-track flex gap-5 overflow-x-auto pb-4 scroll-smooth" style="scrollbar-width:none;">
-        <div onclick="openQuickView('drift-03')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden"><img src="assets/hd_mood_pink.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Rani Magenta Paithani</h4><span class="font-bold text-sm text-[#671223]">₹36,500</span></div>
-        </div>
-        <div onclick="openQuickView('drift-01')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden"><img src="assets/hd_mood_teal.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Peacock Temple Silk</h4><span class="font-bold text-sm text-[#671223]">₹24,500</span></div>
-        </div>
-        <div onclick="openQuickView('drift-06')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden"><img src="assets/hd_rose_organza.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Rose Net Embroidered</h4><span class="font-bold text-sm text-[#671223]">₹18,900</span></div>
-        </div>
-        <div onclick="openQuickView('drift-04')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden"><img src="assets/hd_mood_emerald.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Emerald Kanjivaram</h4><span class="font-bold text-sm text-[#671223]">₹42,900</span></div>
-        </div>
-        <div onclick="openQuickView('drift-02')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden"><img src="assets/hd_mood_mustard.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Sunlit Banarasi</h4><span class="font-bold text-sm text-[#671223]">₹32,000</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <section class="section section-soft compact-products" id="seasonal-special">
+      <div class="section-heading heading-row"><div><p class="eyebrow">A SEASON TO REMEMBER</p><h2>Seasonal special</h2></div><span class="section-aside">AUTUMN — WINTER 2026</span></div><div class="mini-product-rail horizontal-rail" id="seasonal-rail"></div>
+    </section>
 
-  <!-- ============================================================== -->
-  <!-- 0:22-0:23  SEASONAL SPECIAL — horizontal product row -->
-  <!-- ============================================================== -->
-  <section id="seasonal-special" class="py-20 bg-[#f4efe6] fade-up-section">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-end justify-between mb-8">
-        <div>
-          <div class="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#a87e14]">AUTUMN — WINTER 2026</div>
-          <h2 class="font-serif-luxury text-3xl sm:text-4xl font-bold text-[#4d0b17] mt-1">Seasonal Special</h2>
-        </div>
-        <a href="#" class="text-xs uppercase tracking-[0.2em] font-semibold text-[#a87e14] hover:underline">Shop Now →</a>
-      </div>
-      <div class="horizontal-track flex gap-5 overflow-x-auto pb-4 scroll-smooth" style="scrollbar-width:none;">
-        <div onclick="openQuickView('drift-06')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden relative"><img src="assets/hd_ivory_organza.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><span class="absolute top-3 left-3 bg-[#4d0b17] text-[#d4af37] text-[9px] font-bold px-2 py-0.5 rounded">AW'26</span></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Ivory Organza Bloom</h4><span class="font-bold text-sm text-[#671223]">₹16,400</span></div>
-        </div>
-        <div onclick="openQuickView('drift-05')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden relative"><img src="assets/hd_mood_wine.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><span class="absolute top-3 left-3 bg-[#4d0b17] text-[#d4af37] text-[9px] font-bold px-2 py-0.5 rounded">AW'26</span></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Imperial Wine Velvet</h4><span class="font-bold text-sm text-[#671223]">₹48,000</span></div>
-        </div>
-        <div onclick="openQuickView('drift-04')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden relative"><img src="assets/hd_aw_1.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><span class="absolute top-3 left-3 bg-[#4d0b17] text-[#d4af37] text-[9px] font-bold px-2 py-0.5 rounded">AW'26</span></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Deep Forest Silk</h4><span class="font-bold text-sm text-[#671223]">₹42,900</span></div>
-        </div>
-        <div onclick="openQuickView('drift-02')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden relative"><img src="assets/hd_aw_2.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><span class="absolute top-3 left-3 bg-[#4d0b17] text-[#d4af37] text-[9px] font-bold px-2 py-0.5 rounded">AW'26</span></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Autumn Brocade</h4><span class="font-bold text-sm text-[#671223]">₹32,000</span></div>
-        </div>
-        <div onclick="openQuickView('drift-03')" class="min-w-[220px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[260px] overflow-hidden relative"><img src="assets/hd_aw_3.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><span class="absolute top-3 left-3 bg-[#4d0b17] text-[#d4af37] text-[9px] font-bold px-2 py-0.5 rounded">AW'26</span></div>
-          <div class="p-3"><h4 class="font-serif-luxury font-bold text-xs text-[#4d0b17]">Rustic Paithani</h4><span class="font-bold text-sm text-[#671223]">₹36,500</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <section class="product-detail-section" id="product-detail">
+      <div class="detail-gallery"><div class="detail-thumbnails" id="detail-thumbnails"><button class="detail-thumb is-active" data-image="assets/hd_ivory_organza.jpg"><img src="assets/hd_ivory_organza.jpg" alt="Ivory look"></button><button class="detail-thumb" data-image="assets/hd_rose_organza.jpg"><img src="assets/hd_rose_organza.jpg" alt="Rose look"></button><button class="detail-thumb" data-image="assets/hd_mood_wine.jpg"><img src="assets/hd_mood_wine.jpg" alt="Wine look"></button></div><div class="detail-main-image"><img id="detail-main-image" src="assets/hd_ivory_organza.jpg" alt="Ivory Organza Bloom saree"><span class="detail-edition">NEW DROP · 2026</span><button class="detail-image-next" id="detail-next" aria-label="Next product image">→</button></div></div>
+      <div class="detail-copy"><p class="eyebrow">THE NEW DROP / NO. 06</p><div class="detail-rating">★★★★★ <span>4.8 (126 reviews)</span></div><h2 id="detail-name">Ivory Organza Bloom</h2><p class="detail-price" id="detail-price">₹16,400 <del>₹20,500</del></p><p class="detail-description" id="detail-description">Airy organza silk with hand-painted florals, a delicate zari border, and the kind of lightness you remember.</p><div class="detail-promises"><span>✧ Pure silk</span><span>✧ Hand-finished</span><span>✧ Heirloom quality</span></div><div class="option-group"><div class="option-label">Select blouse size <button class="text-link" id="size-guide">Size guide ↗</button></div><div class="size-options" id="size-options"><button>S</button><button class="selected">M</button><button>L</button><button>XL</button><button>2XL</button></div></div><div class="option-group"><div class="option-label">Select colour <span id="selected-colour-name">Ivory</span></div><div class="colour-options"><button class="colour-swatch selected" data-colour="Ivory" data-image="assets/hd_ivory_organza.jpg" aria-label="Ivory" style="--swatch:#d9cba5"></button><button class="colour-swatch" data-colour="Rose" data-image="assets/hd_rose_organza.jpg" aria-label="Rose" style="--swatch:#ce849b"></button><button class="colour-swatch" data-colour="Wine" data-image="assets/hd_mood_wine.jpg" aria-label="Wine" style="--swatch:#671223"></button></div></div><div class="detail-buy-row"><div class="quantity"><button id="quantity-minus" aria-label="Decrease quantity">−</button><span id="quantity-value">1</span><button id="quantity-plus" aria-label="Increase quantity">+</button></div><button class="add-to-cart" id="detail-add">Add to bag <span>↗</span></button></div><p class="detail-note">Complimentary shipping · Secure checkout preview</p><button class="text-link wishlist-detail" id="detail-wishlist">♡ Save to your wishlist</button></div>
+    </section>
 
-  <!-- ============================================================== -->
-  <!-- 0:23-0:30  PRODUCT DETAIL — Ivory Organza with swatches -->
-  <!-- ============================================================== -->
-  <section id="product-detail" class="py-20 fade-up-section">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="bg-white rounded-3xl border border-[#d4af37]/40 shadow-xl overflow-hidden p-6 sm:p-10">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <!-- Product image with "Change look" -->
-          <div class="lg:col-span-6 bg-[#f7f4ed] rounded-2xl p-6 relative border border-gray-100">
-            <div class="w-full flex items-center justify-between text-xs text-gray-500 mb-4">
-              <span class="font-script text-2xl text-[#a87e14]">Change look</span>
-              <span class="bg-[#4d0b17] text-[#d4af37] px-3 py-0.5 rounded-full text-[10px] font-bold">New Drop 2026</span>
-            </div>
-            <div class="h-[460px] flex items-center justify-center overflow-hidden rounded-xl">
-              <img id="organza-model-view" src="assets/hd_ivory_organza.jpg" alt="Organza" class="max-h-full w-full object-cover rounded-xl shadow-sm transition-opacity duration-300">
-            </div>
-          </div>
-          <!-- Product info, swatches, sizes, add to cart -->
-          <div class="lg:col-span-6 flex flex-col justify-center">
-            <div class="text-[11px] uppercase tracking-[0.25em] text-[#a87e14] font-semibold">THE ORGANZA EDIT</div>
-            <h3 class="font-serif-luxury text-3xl sm:text-4xl font-bold text-[#4d0b17] mt-1">IVORY ORGANZA BLOOM</h3>
-            <div class="flex items-baseline gap-3 mt-2">
-              <span class="text-3xl font-extrabold text-[#671223]">₹16,400</span>
-              <span class="text-sm text-gray-400 line-through">₹20,500</span>
-              <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full">20% Festive Off</span>
-            </div>
-            <p class="text-xs text-gray-600 mt-3 font-light leading-relaxed">Pure sheer organza with hand-painted watercolour florals and scalloped zari borders.</p>
-            <!-- Color swatches -->
-            <div class="mt-6">
-              <span class="text-xs font-semibold text-gray-700">COLOR: <strong id="organza-selected-color" class="text-[#671223]">Warm Ivory Gold</strong></span>
-              <div class="flex items-center gap-3 mt-2">
-                <button data-color="ivory" class="organza-color-btn w-8 h-8 rounded-full bg-[#f4ebd0] border-2 border-white ring-4 ring-[#d4af37] scale-110 shadow-sm transition" title="Ivory"></button>
-                <button data-color="rose" class="organza-color-btn w-8 h-8 rounded-full bg-[#d99fa3] border-2 border-white hover:ring-2 hover:ring-[#d4af37] shadow-sm transition" title="Rose"></button>
-                <button data-color="wine" class="organza-color-btn w-8 h-8 rounded-full bg-[#671223] border-2 border-white hover:ring-2 hover:ring-[#d4af37] shadow-sm transition" title="Wine"></button>
-              </div>
-            </div>
-            <!-- Sizes -->
-            <div class="mt-6">
-              <span class="text-xs font-semibold text-gray-700">BLOUSE CUSTOMIZATION:</span>
-              <div class="flex flex-wrap items-center gap-2 mt-2">
-                <button class="size-btn-pill px-4 py-2 rounded-lg border border-[#671223] bg-[#671223] text-white text-xs font-semibold transition">Unstitched</button>
-                <button class="size-btn-pill px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-700 hover:border-[#671223] text-xs font-semibold transition">Size S (34)</button>
-                <button class="size-btn-pill px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-700 hover:border-[#671223] text-xs font-semibold transition">Size M (36)</button>
-                <button class="size-btn-pill px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-700 hover:border-[#671223] text-xs font-semibold transition">Size L (38)</button>
-              </div>
-            </div>
-            <!-- Add to Cart -->
-            <div class="mt-8 pt-4 flex items-center gap-4">
-              <button onclick="addToCart('drift-06', { color: document.getElementById('organza-selected-color').textContent })" class="flex-1 bg-[#671223] hover:bg-[#4d0b17] text-white font-bold text-xs uppercase tracking-[0.2em] py-4 px-8 rounded-full shadow-xl hover:scale-[1.02] transition flex items-center justify-between">
-                <span>ADD TO CART</span><span class="text-[#d4af37] font-bold text-base">→</span>
-              </button>
-              <button onclick="toggleWishlist('drift-06')" class="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:text-red-500 transition">♥</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <section class="section section-cream occasion-section" id="occasion-edits"><div class="section-heading heading-row"><div><p class="eyebrow">CURATED BY THE STUDIO</p><h2>Edits for <em>every occasion.</em></h2></div><a class="text-link" href="#six-moods">See all categories ↗</a></div><div class="occasion-grid"><a class="occasion-card" href="#bridal-collection"><img src="assets/hd_bridal_1.jpg" alt="Wedding edit"><span class="occasion-meta">SILKS FOR CELEBRATING</span><h3>The Wedding Edit</h3><span class="occasion-cta">Explore now ↗</span></a><a class="occasion-card" href="#woven"><img src="assets/hd_mood_wine.jpg" alt="Heritage weaves"><span class="occasion-meta">CRAFT WITH A PAST</span><h3>Heritage Weaves</h3><span class="occasion-cta">Explore now ↗</span></a><a class="occasion-card" href="#stories"><img src="assets/hd_trends_models.jpg" alt="The new drape"><span class="occasion-meta">A FRESH POINT OF VIEW</span><h3>The New Drape</h3><span class="occasion-cta">Explore now ↗</span></a><a class="occasion-card" href="#latest-trends"><img src="assets/hd_aw_2.jpg" alt="Private atelier"><span class="occasion-meta">MADE PERSONAL</span><h3>Private Atelier</h3><span class="occasion-cta">Explore now ↗</span></a></div></section>
 
-  <!-- ============================================================== -->
-  <!-- 0:30-0:34  EDITS FOR EVERY OCCASION + WORTH YOUR ATTENTION -->
-  <!-- ============================================================== -->
-  <section id="occasion-edits" class="py-20 bg-[#f4efe6] fade-up-section">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="font-serif-luxury text-3xl sm:text-4xl font-bold text-[#4d0b17] mb-10">Edits for Every Occasion</h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="relative h-56 rounded-xl overflow-hidden group cursor-pointer">
-          <img src="assets/hd_bridal_feature.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-          <span class="absolute bottom-4 left-4 text-white font-serif-luxury font-bold text-sm">Bridal</span>
-        </div>
-        <div class="relative h-56 rounded-xl overflow-hidden group cursor-pointer">
-          <img src="assets/hd_mood_pink.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-          <span class="absolute bottom-4 left-4 text-white font-serif-luxury font-bold text-sm">Festive</span>
-        </div>
-        <div class="relative h-56 rounded-xl overflow-hidden group cursor-pointer">
-          <img src="assets/hd_ivory_organza.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-          <span class="absolute bottom-4 left-4 text-white font-serif-luxury font-bold text-sm">Cocktail</span>
-        </div>
-        <div class="relative h-56 rounded-xl overflow-hidden group cursor-pointer">
-          <img src="assets/hd_mood_teal.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-          <span class="absolute bottom-4 left-4 text-white font-serif-luxury font-bold text-sm">Heirloom</span>
-        </div>
-      </div>
-    </div>
-  </section>
+    <section class="section attention-section" id="worth-attention"><div class="section-heading heading-row"><div><p class="eyebrow">CURRENT OFFERINGS</p><h2>Worth your attention</h2></div><a class="text-link" href="#new-arrivals">More to discover ↗</a></div><div class="attention-rail horizontal-rail" id="attention-rail"><a class="attention-card attention-feature" href="#bridal-collection"><img src="assets/hd_bridal_feature.jpg" alt="The bridal story"><span>01 / THE BRIDAL STORY</span><strong>A moment, made eternal.</strong></a><a class="attention-card" href="#woven"><img src="assets/hd_loom_weaving.jpg" alt="Inside the loom"><span>02 / CRAFT</span><strong>Inside the weave</strong></a><a class="attention-card" href="#latest-trends"><img src="assets/hd_trends_models.jpg" alt="The new season"><span>03 / THE NEW SEASON</span><strong>A different point of view</strong></a><a class="attention-card attention-muted" href="#seasonal-special"><img src="assets/hd_mood_teal.jpg" alt="The courtyard edit"><span>04 / THE COURTYARD</span><strong>Colour, considered</strong></a><a class="attention-card attention-muted" href="#seasonal-special"><img src="assets/hd_mood_wine.jpg" alt="Evening edit"><span>05 / AFTER HOURS</span><strong>For the long evening</strong></a></div></section>
 
-  <section id="worth-attention" class="py-20 fade-up-section">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="font-serif-luxury text-3xl sm:text-4xl font-bold text-[#4d0b17] mb-10">Worth Your Attention</h2>
-      <div class="horizontal-track flex gap-5 overflow-x-auto pb-4 scroll-smooth" style="scrollbar-width:none;">
-        <div onclick="openQuickView('drift-04')" class="min-w-[280px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[300px] overflow-hidden"><img src="assets/hd_mood_emerald.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"></div>
-          <div class="p-4"><h4 class="font-serif-luxury font-bold text-sm text-[#4d0b17]">Amara Emerald Kanjivaram</h4><span class="font-bold text-sm text-[#671223]">₹42,900</span></div>
-        </div>
-        <div onclick="openQuickView('drift-02')" class="min-w-[280px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[300px] overflow-hidden"><img src="assets/hd_mood_mustard.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"></div>
-          <div class="p-4"><h4 class="font-serif-luxury font-bold text-sm text-[#4d0b17]">Saanjh Maroon Banarasi</h4><span class="font-bold text-sm text-[#671223]">₹32,000</span></div>
-        </div>
-        <div onclick="openQuickView('drift-06')" class="min-w-[280px] bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer hover:shadow-lg transition">
-          <div class="h-[300px] overflow-hidden"><img src="assets/hd_rose_organza.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"></div>
-          <div class="p-4"><h4 class="font-serif-luxury font-bold text-sm text-[#4d0b17]">Rose Net Embroidered</h4><span class="font-bold text-sm text-[#671223]">₹18,900</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <section class="stories-section" id="stories"><div class="stories-topline"><span>DRIFT / FIELD NOTES</span><span>SCROLL, SWIPE, STAY A LITTLE</span></div><div class="stories-layout"><div class="stories-title"><p class="eyebrow light">CHAPTERS IN COLOUR</p><h2 id="story-title">Courtyard<br>Air</h2><p id="story-description">A softer kind of statement. Sunlit silks, garden greens, and the quiet joy of dressing up.</p><button class="button button-outline" id="story-shop">Shop this story ↗</button><div class="story-switcher"><button class="story-tab is-active" data-story="0">01 <span>Courtyard Air</span></button><button class="story-tab" data-story="1">02 <span>Wedding Circle</span></button><button class="story-tab" data-story="2">03 <span>Temple Steps</span></button></div></div><div class="story-gallery"><div class="story-hero-image"><img id="story-main-image" src="assets/hd_trends_models.jpg" alt="Courtyard Air campaign"></div><div class="story-thumbnails" id="story-thumbnails"><button class="story-thumb is-active" data-image="assets/hd_trends_models.jpg"><img src="assets/hd_trends_models.jpg" alt="Courtyard colours"></button><button class="story-thumb" data-image="assets/hd_mood_teal.jpg"><img src="assets/hd_mood_teal.jpg" alt="Garden teal silk"></button><button class="story-thumb" data-image="assets/hd_mood_pink.jpg"><img src="assets/hd_mood_pink.jpg" alt="Pink silk"></button><button class="story-thumb" data-image="assets/hd_mood_orange.jpg"><img src="assets/hd_mood_orange.jpg" alt="Orange silk"></button></div><div class="story-counter"><span id="story-count">01</span><span> / 03</span><span class="story-progress"><i id="story-progress"></i></span></div></div></div></section>
 
-  <!-- ============================================================== -->
-  <!-- 0:34-0:38  CAMPAIGN SECTIONS with horizontal sliders -->
-  <!-- ============================================================== -->
-  <!-- Woven silks, in motion / First Light -->
-  <section id="first-light" class="py-24 bg-[#120408] text-white relative overflow-hidden fade-up-section">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8">
-        <div>
-          <div class="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#d4af37]">WOVEN SILKS, IN MOTION</div>
-          <h2 class="font-serif-luxury text-4xl sm:text-5xl font-bold mt-1">First Light</h2>
-        </div>
-        <p class="text-xs text-gray-300 max-w-sm mt-3 md:mt-0 font-light">An intimate cinematic exploration into generational pit looms.</p>
-      </div>
-      <div class="relative rounded-3xl overflow-hidden border border-[#d4af37]/40 shadow-2xl bg-black mb-10">
-        <img src="assets/hd_loom_weaving.jpg" alt="First Light" class="w-full h-[460px] object-cover brightness-[0.8] contrast-[1.1]">
-        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30"></div>
-        <div class="absolute bottom-6 left-6 right-6 flex items-center justify-between">
-          <span class="text-xs font-semibold text-white">Chapter I: The Loom Awakening</span>
-          <button class="bg-gold-gradient text-[#4d0b17] font-bold text-xs uppercase px-5 py-2.5 rounded-full shadow-lg">Play Episode</button>
-        </div>
-      </div>
-      <div class="horizontal-track flex gap-5 overflow-x-auto pb-4 scroll-smooth" style="scrollbar-width:none;">
-        <div class="min-w-[200px] bg-[#1a0a0e] border border-[#d4af37]/30 rounded-xl overflow-hidden flex-shrink-0">
-          <div class="h-48 overflow-hidden"><img src="assets/hd_mood_teal.jpg" class="w-full h-full object-cover"></div>
-          <div class="p-3"><span class="text-xs font-semibold text-white">Courtyard Air</span></div>
-        </div>
-        <div class="min-w-[200px] bg-[#1a0a0e] border border-[#d4af37]/30 rounded-xl overflow-hidden flex-shrink-0">
-          <div class="h-48 overflow-hidden"><img src="assets/hd_bridal_feature.jpg" class="w-full h-full object-cover"></div>
-          <div class="p-3"><span class="text-xs font-semibold text-white">Wedding Circle</span></div>
-        </div>
-        <div class="min-w-[200px] bg-[#1a0a0e] border border-[#d4af37]/30 rounded-xl overflow-hidden flex-shrink-0">
-          <div class="h-48 overflow-hidden"><img src="assets/hd_mood_orange.jpg" class="w-full h-full object-cover"></div>
-          <div class="p-3"><span class="text-xs font-semibold text-white">Temple Steps</span></div>
-        </div>
-        <div class="min-w-[200px] bg-[#1a0a0e] border border-[#d4af37]/30 rounded-xl overflow-hidden flex-shrink-0">
-          <div class="h-48 overflow-hidden"><img src="assets/hd_mood_wine.jpg" class="w-full h-full object-cover"></div>
-          <div class="p-3"><span class="text-xs font-semibold text-white">Heritage Evenings</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <section class="latest-section" id="latest-trends"><div class="latest-intro"><p class="eyebrow">A POINT OF VIEW</p><h2>LATEST<br>TRENDS</h2><a class="button button-wine" href="#new-arrivals">Discover now ↗</a><div class="latest-story"><h3>Stories behind the drape</h3><p>Every saree carries a story — shaped by the loom, the hands, and the person who wears it next.</p></div></div><div class="latest-feature"><div class="latest-image-wrap"><img id="latest-image" src="assets/hd_trends_models.jpg" alt="Latest saree styling"><div class="latest-image-caption"><span id="latest-caption">The new range</span><span>01 / 03</span></div></div><div class="latest-controls"><button id="latest-prev" aria-label="Previous trend">←</button><span id="latest-index">01 — 03</span><button id="latest-next" aria-label="Next trend">→</button></div></div><div class="latest-links"><p class="eyebrow">EXPLORE BY MOOD</p><a href="#six-moods">The colour story <span>↗</span></a><a href="#bridal-collection">The wedding edit <span>↗</span></a><a href="#seasonal-special">The seasonal edit <span>↗</span></a><a href="#woven">Craft &amp; origin <span>↗</span></a></div></section>
+  </main>
 
-  <!-- ============================================================== -->
-  <!-- 0:38-0:41  LATEST TRENDS — horizontal content slider -->
-  <!-- ============================================================== -->
-  <section id="latest-trends" class="py-20 fade-up-section">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-        <div class="lg:col-span-5">
-          <h2 class="font-grotesk text-5xl sm:text-6xl lg:text-7xl font-black text-[#4d0b17] leading-[0.95] tracking-tight">LATEST<br>TRENDS</h2>
-          <div class="mt-6"><button onclick="openQuickView('drift-02')" class="bg-[#671223] hover:bg-[#4d0b17] text-white text-xs font-bold uppercase tracking-[0.2em] px-8 py-3.5 rounded-full shadow-lg transition">Discover Now</button></div>
-          <div class="mt-8 pt-6 border-t border-gray-200">
-            <h4 class="font-serif-luxury text-base font-bold text-[#4d0b17]">Stories Behind The Drape</h4>
-            <p class="text-xs text-gray-500 mt-1 font-light leading-relaxed">Curated styling guides and modern interpretations of classical handloom sarees.</p>
-          </div>
-        </div>
-        <div class="lg:col-span-7">
-          <div class="horizontal-track flex gap-5 overflow-x-auto pb-4 scroll-smooth" style="scrollbar-width:none;">
-            <div class="min-w-[260px] rounded-2xl overflow-hidden border border-[#d4af37]/30 shadow-lg flex-shrink-0"><img src="assets/hd_trends_models.jpg" class="w-full h-[380px] object-cover"></div>
-            <div class="min-w-[260px] rounded-2xl overflow-hidden border border-[#d4af37]/30 shadow-lg flex-shrink-0"><img src="assets/hd_bride_seated.jpg" class="w-full h-[380px] object-cover"></div>
-            <div class="min-w-[260px] rounded-2xl overflow-hidden border border-[#d4af37]/30 shadow-lg flex-shrink-0"><img src="assets/hd_showroom.jpg" class="w-full h-[380px] object-cover"></div>
-            <div class="min-w-[260px] rounded-2xl overflow-hidden border border-[#d4af37]/30 shadow-lg flex-shrink-0"><img src="assets/hd_loom_weaving.jpg" class="w-full h-[380px] object-cover"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <footer class="site-footer"><div class="footer-top"><a class="brand brand-footer" href="#top"><span>DRIFT</span><small>DRAPED IN STORIES</small></a><p>Woven with intention.<br>Worn with meaning.</p><a class="back-top" href="#top">Back to the beginning ↑</a></div><div class="footer-bottom"><span>© 2026 DRIFT — DRAPED IN STORIES</span><span>AN EXPERIMENT IN HEIRLOOM LIVING</span><span>MADE FOR THE MOMENTS THAT STAY</span></div></footer>
 
-  <!-- ============================================================== -->
-  <!-- FOOTER -->
-  <!-- ============================================================== -->
-  <footer class="bg-[#350711] text-[#f4efe6] pt-16 pb-12 border-t border-[#d4af37]/30 text-xs">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-white/10">
-        <div class="lg:col-span-2">
-          <span class="font-serif-luxury text-3xl font-bold tracking-[0.22em] text-[#f7e6a4]">DRIFT</span>
-          <p class="text-[9px] tracking-[0.35em] text-[#d4af37] uppercase font-semibold mt-0.5">DRAPED IN STORIES</p>
-          <p class="text-gray-300 mt-4 leading-relaxed max-w-sm font-light">Crafting certified handloom silk sarees in collaboration with over 1,200 master weaver families across Varanasi, Kanchipuram, and Patan.</p>
-        </div>
-        <div>
-          <h4 class="font-semibold uppercase tracking-wider text-[#d4af37] text-[11px] mb-4">Sarees</h4>
-          <ul class="space-y-2 text-gray-300">
-            <li><a href="#six-moods" class="hover:text-[#d4af37] transition">Kanjivaram Silk</a></li>
-            <li><a href="#six-moods" class="hover:text-[#d4af37] transition">Banarasi Kadwa</a></li>
-            <li><a href="#six-moods" class="hover:text-[#d4af37] transition">Paithani Tapestry</a></li>
-            <li><a href="#product-detail" class="hover:text-[#d4af37] transition">Ivory Organza</a></li>
-            <li><a href="#bridal-collection" class="hover:text-[#d4af37] transition">The Bridal Suite</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="font-semibold uppercase tracking-wider text-[#d4af37] text-[11px] mb-4">Occasion</h4>
-          <ul class="space-y-2 text-gray-300">
-            <li><a href="#bridal-collection" class="hover:text-[#d4af37] transition">Bridal Trousseau</a></li>
-            <li><a href="#six-moods" class="hover:text-[#d4af37] transition">Festive Poojas</a></li>
-            <li><a href="#occasion-edits" class="hover:text-[#d4af37] transition">Cocktail Soirées</a></li>
-            <li><a href="#six-moods" class="hover:text-[#d4af37] transition">Heirloom Gifting</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="font-semibold uppercase tracking-wider text-[#d4af37] text-[11px] mb-4">Client Care</h4>
-          <ul class="space-y-2 text-gray-300">
-            <li><a href="#" class="hover:text-[#d4af37] transition">Video Consultation</a></li>
-            <li><a href="#" class="hover:text-[#d4af37] transition">Custom Blouse Tailoring</a></li>
-            <li><a href="#" class="hover:text-[#d4af37] transition">Free Insured Shipping</a></li>
-            <li><a href="#" class="hover:text-[#d4af37] transition">Silk Mark Authenticity</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-gray-400 text-[11px]">
-        <div>© 2026 DRIFT (Draped in Stories). All rights reserved.</div>
-        <div class="flex items-center gap-4"><span>Privacy Policy</span><span>•</span><span>Terms of Service</span><span>•</span><span>Silk Mark Certified</span></div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- CART DRAWER -->
-  <div id="cart-overlay" onclick="toggleCart(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
-  <aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
-    <div class="p-5 bg-[#4d0b17] text-white flex items-center justify-between border-b border-[#d4af37]/40">
-      <div class="flex items-center gap-2"><i data-lucide="shopping-bag" class="w-5 h-5 text-[#d4af37]"></i><h3 class="font-serif-luxury text-lg font-bold">Your Sacred Bag</h3></div>
-      <button onclick="toggleCart(false)" class="p-1.5 rounded-full hover:bg-white/10 transition text-gray-300"><i data-lucide="x" class="w-5 h-5"></i></button>
-    </div>
-    <div class="bg-[#f4efe6] p-4 border-b border-gray-200 text-xs">
-      <div class="flex items-center justify-between mb-1.5" id="shipping-text"><span>Complimentary Express Delivery on orders over ₹25,000</span></div>
-      <div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden"><div id="shipping-bar" class="bg-gradient-to-r from-[#d4af37] to-[#671223] h-full w-0 transition-all duration-500"></div></div>
-    </div>
-    <div id="cart-items-list" class="flex-1 overflow-y-auto p-5 space-y-2"></div>
-    <div id="cart-empty" class="hidden flex-1 flex flex-col items-center justify-center p-8 text-center text-gray-400">
-      <i data-lucide="shopping-bag" class="w-16 h-16 text-[#d4af37]/40 mb-4"></i>
-      <h4 class="font-serif-luxury font-bold text-gray-700 text-base">Your Bag is Empty</h4>
-      <p class="text-xs text-gray-500 mt-1 max-w-xs">Explore our collections to add your heirloom drape.</p>
-    </div>
-    <div id="cart-footer" class="p-5 border-t border-gray-200 bg-[#faf7f2]">
-      <div class="flex items-center gap-2 mb-4">
-        <input type="text" id="coupon-input" placeholder="Promo code (e.g. UTSAV20)" class="flex-1 px-4 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:border-[#d4af37] uppercase">
-        <button onclick="applyCoupon()" class="bg-[#d4af37] hover:bg-[#b8860b] text-[#4d0b17] font-bold text-xs px-4 py-2 rounded-lg transition">Apply</button>
-      </div>
-      <div class="space-y-1.5 text-xs text-gray-600 mb-4">
-        <div class="flex justify-between"><span>Subtotal</span><span id="cart-subtotal" class="font-semibold text-gray-900">₹0</span></div>
-        <div class="flex justify-between text-emerald-700"><span>Festival Discount</span><span id="cart-discount" class="font-semibold">₹0</span></div>
-        <div class="flex justify-between"><span>Insured Express Shipping</span><span class="text-emerald-700 font-semibold">FREE</span></div>
-        <div class="flex justify-between text-base font-bold text-[#4d0b17] pt-2 border-t border-gray-200"><span>Total Amount</span><span id="cart-total" class="text-xl text-[#671223]">₹0</span></div>
-      </div>
-      <button onclick="openCheckout()" class="w-full bg-[#671223] hover:bg-[#4d0b17] text-white font-bold text-xs uppercase tracking-[0.18em] py-4 rounded-full shadow-lg transition flex items-center justify-center gap-2">Proceed to Secure Checkout <i data-lucide="lock" class="w-4 h-4 text-[#d4af37]"></i></button>
-    </div>
-  </aside>
-
-  <!-- QUICK VIEW MODAL -->
-  <div id="quickview-modal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
-    <div class="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-8 relative shadow-2xl border border-[#d4af37]/40 max-h-[90vh] overflow-y-auto">
-      <button onclick="closeQuickView()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center transition">✕</button>
-      <div id="quickview-content"></div>
-    </div>
-  </div>
-
-  <!-- SEARCH MODAL -->
-  <div id="search-modal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-start justify-center pt-24 px-4 opacity-0 transition-opacity duration-300">
-    <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-[#d4af37]/40">
-      <div class="flex items-center justify-between pb-3 border-b border-gray-200">
-        <div class="flex items-center gap-2 flex-1">
-          <i data-lucide="search" class="w-5 h-5 text-[#d4af37]"></i>
-          <input type="text" id="search-input" placeholder="Search for sarees, collections..." class="w-full outline-none text-sm font-light" oninput="handleSearch(this.value)">
-        </div>
-        <button onclick="toggleSearch(false)" class="text-gray-400 hover:text-gray-700 text-sm ml-3">ESC</button>
-      </div>
-      <div id="search-results" class="mt-4 space-y-2 max-h-72 overflow-y-auto"></div>
-    </div>
-  </div>
-
+  <div class="search-panel" id="search-panel" aria-hidden="true"><button class="panel-close" id="search-close" aria-label="Close search">×</button><p class="eyebrow">FIND YOUR DRAPE</p><h2>What are you looking for?</h2><label class="search-field"><span>⌕</span><input id="search-input" type="search" placeholder="Try “Banarasi”, “wedding”, “ivory”…" autocomplete="off"></label><div class="search-results" id="search-results"></div></div>
+  <div class="drawer-backdrop" id="drawer-backdrop"></div><aside class="cart-drawer" id="cart-drawer" aria-hidden="true"><div class="drawer-heading"><div><p class="eyebrow">YOUR SELECTION</p><h2>Your bag <span id="drawer-cart-count">(0)</span></h2></div><button class="panel-close" id="cart-close" aria-label="Close bag">×</button></div><div class="drawer-items" id="drawer-items"></div><div class="drawer-bottom"><div class="subtotal"><span>Subtotal</span><strong id="cart-subtotal">₹0</strong></div><p>Shipping and taxes are calculated at checkout.</p><button class="button button-wine full-button" id="checkout-button">Continue to checkout ↗</button><small>Demo storefront · no payment is processed</small></div></aside>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="app.js"></script>
-  <script>lucide.createIcons();</script>
 </body>
 </html>

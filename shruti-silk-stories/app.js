@@ -1,702 +1,297 @@
-// DRIFT: DRAPED IN STORIES - Interactive Engine (Ultra-HD Assets)
+/* DRIFT — editorial storefront interactions */
+'use strict';
 
-const sareesDatabase = [
-  {
-    id: "drift-01",
-    name: "Kalyani Temple Silk",
-    collection: "Leela Courtyard Silk",
-    craft: "Pure Kanchipuram Korvai",
-    price: 24500,
-    originalPrice: 29800,
-    mood: "ROYAL MAJESTY",
-    image: "assets/hd_mood_teal.jpg",
-    fabric: "Pure Mulberry Silk & 24K Zari",
-    color: "Peacock Teal & Temple Gold",
-    description: "Centuries-old korvai interlocking border with intricate temple gopuram motifs, woven on heavy wooden pit looms."
-  },
-  {
-    id: "drift-02",
-    name: "Saanjh Maroon Banarasi",
-    collection: "Saanjh Mukhia Banarasi",
-    craft: "Varanasi Master Kadwa Weave",
-    price: 32000,
-    originalPrice: 38500,
-    mood: "BANARASI DELIGHT",
-    image: "assets/hd_mood_mustard.jpg",
-    fabric: "Pure Katan Silk",
-    color: "Sunlit Haldi & Maroon",
-    description: "Extravagant kadwa floral jaal where each petal is individually hand-etched without floating wefts on the reverse."
-  },
-  {
-    id: "drift-03",
-    name: "Tara Peacock Paithani",
-    collection: "Tara Peacock Paithani",
-    craft: "Yeola Tapestry Silk",
-    price: 36500,
-    originalPrice: 42000,
-    mood: "FESTIVE RADIANCE",
-    image: "assets/hd_mood_pink.jpg",
-    fabric: "Heavy Mulberry Silk",
-    color: "Rani Magenta & Muga Gold",
-    description: "Featuring the famed Asawali and peacock-in-bangle gold pallu rendered in kaleidoscopic natural botanical dyes."
-  },
-  {
-    id: "drift-04",
-    name: "Amara Emerald Kanjivaram",
-    collection: "Amara Emerald Kanjivaram",
-    craft: "Double Warp Heavy Zari",
-    price: 42900,
-    originalPrice: 48000,
-    mood: "MIDNIGHT CHARM",
-    image: "assets/hd_mood_emerald.jpg",
-    fabric: "Certified Pure Silk",
-    color: "Midnight Emerald & Rust",
-    description: "Deep emerald silk contrasted with rich rust red zari borders, carrying sacred elephant and peacock motifs."
-  },
-  {
-    id: "drift-05",
-    name: "Prem Geet Festive Silk",
-    collection: "Prem Festive Silk",
-    craft: "Hand-Embroidered Zardozi",
-    price: 48000,
-    originalPrice: 55000,
-    mood: "INTERPRETIVE WEAVE",
-    image: "assets/hd_mood_wine.jpg",
-    fabric: "Silk Velvet & Organza",
-    color: "Imperial Wine",
-    description: "Dabka, Nakshi, and pearl zardozi hand embroidery adorning royal velvet borders for ceremonial bridal evenings."
-  },
-  {
-    id: "drift-06",
-    name: "Ivory Organza Bloom Saree",
-    collection: "Autumn â€” Winter 2026",
-    craft: "Watercolour Hand-Painted Organza",
-    price: 16400,
-    originalPrice: 20500,
-    mood: "SERENE EDIT",
-    image: "assets/hd_ivory_organza.jpg",
-    fabric: "Pure Sheer Organza Silk",
-    color: "Warm Ivory Gold",
-    description: "Airy translucent pure organza silk with hand-painted water-color peonies, scalloped zari borders, and matching raw silk blouse."
-  }
+const products = [
+  {id:'drift-01',name:'Leela Courtyard Silk',craft:'Kanchipuram temple zari',price:24500,old:29800,image:'assets/hd_mood_teal.jpg',badge:'SIGNATURE',colour:'Peacock teal',description:'A luminous Kanchipuram weave with a temple-inspired zari border, woven slowly and made to be kept.'},
+  {id:'drift-02',name:'Saanjh Banarasi',craft:'Varanasi kadwa weave',price:32000,old:38500,image:'assets/hd_mood_mustard.jpg',badge:'BESTSELLER',colour:'Sunlit gold',description:'A rich Banarasi silk with intricate floral kadwa work and a soft, burnished gold finish.'},
+  {id:'drift-03',name:'Tara Peacock Paithani',craft:'Yeola tapestry silk',price:36500,old:42000,image:'assets/hd_mood_pink.jpg',badge:'NEW',colour:'Rani pink',description:'A celebratory Paithani with a tapestry-like pallu, peacock motifs, and a saturated rani-pink body.'},
+  {id:'drift-04',name:'Amara Emerald Kanjivaram',craft:'Double-warp pure silk',price:42900,old:48000,image:'assets/hd_mood_emerald.jpg',badge:'FAVOURITE',colour:'Emerald',description:'Deep emerald silk paired with a warm zari border and motifs inspired by South Indian temple carvings.'},
+  {id:'drift-05',name:'Prem Geet Festive Silk',craft:'Hand-finished zardozi',price:48000,old:55000,image:'assets/hd_mood_wine.jpg',badge:'LIMITED',colour:'Imperial wine',description:'An evening-ready heirloom with a rich wine palette and ornate hand-finished details.'},
+  {id:'drift-06',name:'Ivory Organza Bloom',craft:'Hand-painted organza',price:16400,old:20500,image:'assets/hd_ivory_organza.jpg',badge:'NEW DROP',colour:'Warm ivory',description:'Airy organza silk with hand-painted florals, a delicate zari border, and a matching blouse.'},
+  {id:'drift-07',name:'Ruhani Temple Silk',craft:'Heritage korvai border',price:21200,old:26000,image:'assets/hd_bridal_1.jpg',badge:'BRIDAL',colour:'Vermilion',description:'A ceremonial silk with a rich vermilion tone and a beautifully detailed temple border.'},
+  {id:'drift-08',name:'Rose Net Embroidered',craft:'Fine organza embroidery',price:18900,old:22900,image:'assets/hd_rose_organza.jpg',badge:'NEW',colour:'Blush rose',description:'A soft rose drape with delicate embroidered details, designed for celebrations after dark.'}
 ];
+const productById = id => products.find(p => p.id === id) || products[0];
+const money = amount => new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(amount);
+const $ = (selector, root=document) => root.querySelector(selector);
+const $$ = (selector, root=document) => Array.from(root.querySelectorAll(selector));
+const safeLoad = (key, fallback) => { try { const v=JSON.parse(localStorage.getItem(key)); return v ?? fallback; } catch { return fallback; } };
+let cart = safeLoad('drift_cart_v2', []);
+let wishlist = safeLoad('drift_wishlist_v2', []);
+let activeProduct = 'drift-06';
+let quantity = 1;
+let toastTimer;
+let heroIndex = 0;
+let heroTimer = null;
+let storyIndex = 0;
+let latestIndex = 0;
 
-// App State
-let cart = JSON.parse(localStorage.getItem('drift_cart') || '[]');
-let wishlist = JSON.parse(localStorage.getItem('drift_wishlist') || '[]');
-let discountPercent = 0;
-let carouselCurrentIndex = 0;
-let audioContext = null;
-let isAudioPlaying = false;
-
-document.addEventListener('DOMContentLoaded', () => {
-  initScrollytelling();
-  init3DCarousel();
-  initOrganzaSection();
-  initSearch();
-  initAutoScroll();
-  updateCartBadge();
-  updateWishlistBadge();
-});
-
-// HERO SCROLLYTELLING ENGINE
-function initScrollytelling() {
-  const container = document.getElementById('hero-scrolly-container');
-  if (!container) return;
-
-  const scene1 = document.getElementById('scrolly-scene-1');
-  const scene2 = document.getElementById('scrolly-scene-2');
-  const scene3 = document.getElementById('scrolly-scene-3');
-  const bgShowroom = document.getElementById('scrolly-bg-showroom');
-  const bgBride = document.getElementById('scrolly-bg-bride');
-  const dots = document.querySelectorAll('.scrolly-dot');
-
-  function handleScroll() {
-    const rect = container.getBoundingClientRect();
-    const totalHeight = container.offsetHeight - window.innerHeight;
-    const progress = Math.max(0, Math.min(1, -rect.top / totalHeight));
-
-    // Update dots
-    dots.forEach((dot, idx) => {
-      let active = false;
-      if (idx === 0 && progress < 0.35) active = true;
-      if (idx === 1 && progress >= 0.35 && progress < 0.70) active = true;
-      if (idx === 2 && progress >= 0.70) active = true;
-      dot.classList.toggle('bg-[#d4af37]', active);
-      dot.classList.toggle('w-8', active);
-      dot.classList.toggle('bg-white/40', !active);
-      dot.classList.toggle('w-2.5', !active);
-    });
-
-    if (progress < 0.35) {
-      // SCENE 1: More Than a Saree
-      scene1.style.opacity = '1';
-      scene1.style.transform = 'translateY(0) scale(1)';
-      scene1.style.pointerEvents = 'auto';
-
-      scene2.style.opacity = '0';
-      scene2.style.transform = 'translateY(20px) scale(0.96)';
-      scene2.style.pointerEvents = 'none';
-
-      scene3.style.opacity = '0';
-      scene3.style.transform = 'translateY(20px) scale(0.96)';
-      scene3.style.pointerEvents = 'none';
-
-      bgShowroom.style.opacity = '1';
-      bgShowroom.style.transform = 'scale(1)';
-      bgBride.style.opacity = '0';
-
-    } else if (progress >= 0.35 && progress < 0.70) {
-      // SCENE 2: Six weavers, one thread
-      scene1.style.opacity = '0';
-      scene1.style.transform = 'translateY(-20px) scale(0.96)';
-      scene1.style.pointerEvents = 'none';
-
-      scene2.style.opacity = '1';
-      scene2.style.transform = 'translateY(0) scale(1)';
-      scene2.style.pointerEvents = 'auto';
-
-      scene3.style.opacity = '0';
-      scene3.style.transform = 'translateY(20px) scale(0.96)';
-      scene3.style.pointerEvents = 'none';
-
-      bgShowroom.style.opacity = '1';
-      bgShowroom.style.transform = 'scale(1.1)';
-      bgBride.style.opacity = '0';
-
-    } else {
-      // SCENE 3: Zari catches the light (Seated Bride)
-      scene1.style.opacity = '0';
-      scene1.style.transform = 'translateY(-20px) scale(0.96)';
-      scene1.style.pointerEvents = 'none';
-
-      scene2.style.opacity = '0';
-      scene2.style.transform = 'translateY(-20px) scale(0.96)';
-      scene2.style.pointerEvents = 'none';
-
-      scene3.style.opacity = '1';
-      scene3.style.transform = 'translateY(0) scale(1)';
-      scene3.style.pointerEvents = 'auto';
-
-      bgShowroom.style.opacity = '0';
-      bgBride.style.opacity = '1';
-      bgBride.style.transform = 'scale(1.02)';
-    }
-  }
-
-  window.addEventListener('scroll', handleScroll, { passive: true });
-  handleScroll();
-
-  window.jumpToScene = function(sceneIndex) {
-    const totalHeight = container.offsetHeight - window.innerHeight;
-    const targetY = container.offsetTop + (sceneIndex * (totalHeight / 2.5));
-    window.scrollTo({ top: targetY, behavior: 'smooth' });
+function toast(message) {
+  const el = $('#toast');
+  if (!el) return;
+  el.textContent = message;
+  el.classList.add('is-visible');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('is-visible'), 2600);
+}
+function persist() {
+  try {
+    localStorage.setItem('drift_cart_v2', JSON.stringify(cart));
+    localStorage.setItem('drift_wishlist_v2', JSON.stringify(wishlist));
+  } catch { /* Storefront remains usable if browser storage is disabled. */ }
+}
+function renderProductCard(product, compact=false) {
+  if (compact) return `<article class="mini-product"><img src="${product.image}" alt="${product.name}" loading="lazy"><div><p class="product-kicker">${product.badge}</p><h3 class="product-name">${product.name}</h3><p class="product-craft">${product.craft}</p><strong class="product-price">${money(product.price)}</strong><br><button class="mini-add" data-add="${product.id}" aria-label="Add ${product.name} to bag">+</button></div></article>`;
+  const saved = wishlist.includes(product.id);
+  return `<article class="product-card"><div class="product-image" data-view="${product.id}" role="button" tabindex="0" aria-label="View ${product.name}"><img src="${product.image}" alt="${product.name}" loading="lazy"><span class="product-badge ${product.badge==='BESTSELLER'?'gold':''}">${product.badge}</span><button class="heart-button ${saved?'is-saved':''}" data-wish="${product.id}" aria-label="${saved?'Remove from':'Add to'} wishlist" aria-pressed="${saved}">${saved?'♥':'♡'}</button></div><div class="product-copy"><p class="product-kicker">${product.craft}</p><h3 class="product-name">${product.name}</h3><p class="product-craft">${product.colour}</p><div class="product-price-row"><strong class="product-price">${money(product.price)}</strong><del class="product-old-price">${money(product.old)}</del></div><div class="product-card-bottom"><button class="product-add" data-add="${product.id}">Add to bag +</button><button class="product-view" data-view="${product.id}" aria-label="View ${product.name}">↗</button></div></div></article>`;
+}
+function renderProducts() {
+  const fill = (id, ids, compact=false) => {
+    const target = document.getElementById(id);
+    if (target) target.innerHTML = ids.map(key => renderProductCard(productById(key), compact)).join('');
   };
+  fill('new-arrivals-rail',['drift-07','drift-03','drift-06','drift-01','drift-04','drift-08']);
+  fill('best-sellers-rail',['drift-01','drift-02','drift-04','drift-05','drift-07','drift-03']);
+  fill('bridal-products',['drift-07','drift-05','drift-03','drift-04','drift-08'],false);
+  fill('trend-rail',['drift-04','drift-02','drift-03','drift-08'],true);
+  fill('seasonal-rail',['drift-07','drift-01','drift-05','drift-04'],true);
+  updateWishlistUI();
 }
-
-// 3D Curved Cylindrical Carousel Logic
-function init3DCarousel() {
-  const container = document.getElementById('carousel-3d-track');
-  if (!container) return;
-  
-  const cards = container.querySelectorAll('.carousel-3d-card');
-  const total = cards.length;
-  const radius = window.innerWidth < 768 ? 260 : 420;
-  
-  function updateCarousel() {
-    cards.forEach((card, index) => {
-      let offset = index - carouselCurrentIndex;
-      while (offset > total / 2) offset -= total;
-      while (offset < -total / 2) offset += total;
-      
-      const angle = offset * (360 / total) * 0.55;
-      const angleRad = (angle * Math.PI) / 180;
-      const x = Math.sin(angleRad) * radius;
-      const z = Math.cos(angleRad) * radius - radius;
-      
-      const isCenter = Math.abs(offset) < 0.3;
-      card.style.transform = `translateX(${x}px) translateZ(${z}px) rotateY(${angle}deg) scale(${isCenter ? 1.05 : 0.88})`;
-      card.style.opacity = Math.abs(offset) > 2.2 ? '0' : (isCenter ? '1' : '0.72');
-      card.style.zIndex = Math.round(100 - Math.abs(offset) * 10);
-      card.classList.toggle('ring-2', isCenter);
-      card.classList.toggle('ring-[#d4af37]', isCenter);
-    });
-
-    const dots = document.querySelectorAll('.carousel-dot');
-    dots.forEach((dot, idx) => {
-      dot.classList.toggle('bg-[#d4af37]', idx === carouselCurrentIndex);
-      dot.classList.toggle('w-8', idx === carouselCurrentIndex);
-      dot.classList.toggle('bg-gray-300', idx !== carouselCurrentIndex);
-      dot.classList.toggle('w-2.5', idx !== carouselCurrentIndex);
-    });
-  }
-
-  window.rotateCarousel = function(direction) {
-    carouselCurrentIndex = (carouselCurrentIndex + direction + total) % total;
-    updateCarousel();
-  };
-
-  window.setCarouselIndex = function(idx) {
-    carouselCurrentIndex = idx;
-    updateCarousel();
-  };
-
-  let startX = 0;
-  let isDragging = false;
-  container.addEventListener('mousedown', (e) => {
-    startX = e.clientX;
-    isDragging = true;
-  });
-  window.addEventListener('mouseup', (e) => {
-    if (!isDragging) return;
-    isDragging = false;
-    const diff = e.clientX - startX;
-    if (diff > 40) rotateCarousel(-1);
-    else if (diff < -40) rotateCarousel(1);
-  });
-  
-  container.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].clientX;
-  }, { passive: true });
-  container.addEventListener('touchend', (e) => {
-    const diff = e.changedTouches[0].clientX - startX;
-    if (diff > 40) rotateCarousel(-1);
-    else if (diff < -40) rotateCarousel(1);
-  }, { passive: true });
-
-  updateCarousel();
-}
-
-// Organza Interactive Section (Ultra HD Models)
-function initOrganzaSection() {
-  const swatches = document.querySelectorAll('.organza-color-btn');
-  const modelImg = document.getElementById('organza-model-view');
-  const colorName = document.getElementById('organza-selected-color');
-
-  const colorData = {
-    'rose': {
-      name: 'Blush Rose Quartz',
-      src: 'assets/hd_rose_organza.jpg'
-    },
-    'ivory': {
-      name: 'Warm Ivory Gold',
-      src: 'assets/hd_ivory_organza.jpg'
-    },
-    'wine': {
-      name: 'Royal Heritage Wine',
-      src: 'assets/hd_mood_wine.jpg'
-    }
-  };
-
-  swatches.forEach(swatch => {
-    swatch.addEventListener('click', () => {
-      swatches.forEach(s => s.classList.remove('ring-4', 'ring-[#d4af37]', 'scale-110'));
-      swatch.classList.add('ring-4', 'ring-[#d4af37]', 'scale-110');
-
-      const c = swatch.dataset.color;
-      if (colorData[c] && modelImg) {
-        modelImg.style.opacity = '0.3';
-        setTimeout(() => {
-          modelImg.src = colorData[c].src;
-          modelImg.style.opacity = '1';
-          if (colorName) colorName.textContent = colorData[c].name;
-        }, 150);
-      }
-    });
-  });
-
-  const sizeBtns = document.querySelectorAll('.size-btn-pill');
-  sizeBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      sizeBtns.forEach(b => {
-        b.classList.remove('bg-[#671223]', 'text-white', 'border-[#671223]');
-        b.classList.add('bg-white', 'text-gray-700', 'border-gray-200');
-      });
-      btn.classList.add('bg-[#671223]', 'text-white', 'border-[#671223]');
-      btn.classList.remove('bg-white', 'text-gray-700', 'border-gray-200');
-    });
+function updateWishlistUI() {
+  $('#wishlist-count').textContent = wishlist.length;
+  $$('[data-wish]').forEach(btn => {
+    const saved = wishlist.includes(btn.dataset.wish);
+    btn.classList.toggle('is-saved', saved);
+    btn.setAttribute('aria-pressed', String(saved));
+    btn.innerHTML = saved ? '♥' : '♡';
+    btn.setAttribute('aria-label', (saved ? 'Remove from' : 'Add to') + ' wishlist');
   });
 }
-
-// Automatic horizontal scrolling for sections that should move automatically but pause on hover
-function initAutoScroll() {
-  const tracks = document.querySelectorAll('.horizontal-track');
-  tracks.forEach(track => {
-    let speed = 1.2; // pixels per interval
-    let intervalId = null;
-    const startScrolling = () => {
-      if (intervalId) return;
-      intervalId = setInterval(() => {
-        // If we've reached the end, reset to start for a continuous loop
-        if (track.scrollLeft + track.clientWidth >= track.scrollWidth) {
-          track.scrollLeft = 0;
-        } else {
-          track.scrollLeft += speed;
-        }
-      }, 30);
-    };
-    const stopScrolling = () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-        intervalId = null;
-      }
-    };
-    // Start scrolling automatically
-    startScrolling();
-    // Pause on mouse hover / touch
-    track.addEventListener('mouseenter', stopScrolling);
-    track.addEventListener('mouseleave', startScrolling);
-    track.addEventListener('touchstart', stopScrolling);
-    track.addEventListener('touchend', startScrolling);
-  });
-}
-// Toast System
-function showToast(title, message) {
-  const container = document.getElementById('toast-container');
-  const toast = document.createElement('div');
-  toast.className = 'flex items-center gap-3 bg-[#4d0b17] text-white px-5 py-3.5 rounded-xl shadow-2xl border border-[#d4af37]/40 transform translate-y-4 opacity-0 transition-all duration-300 pointer-events-auto';
-  toast.innerHTML = `
-    <div class="w-8 h-8 rounded-full bg-[#d4af37]/20 flex items-center justify-center text-[#d4af37] shrink-0 font-bold">âœ“</div>
-    <div>
-      <h4 class="text-xs font-semibold uppercase tracking-wider text-[#d4af37]">${title}</h4>
-      <p class="text-xs text-gray-200">${message}</p>
-    </div>
-  `;
-  container.appendChild(toast);
-  requestAnimationFrame(() => {
-    toast.classList.remove('translate-y-4', 'opacity-0');
-  });
-  setTimeout(() => {
-    toast.classList.add('translate-y-4', 'opacity-0');
-    setTimeout(() => toast.remove(), 400);
-  }, 3200);
-}
-
-// Cart Drawer
-function toggleCart(forceOpen = null) {
-  const drawer = document.getElementById('cart-drawer');
-  const overlay = document.getElementById('cart-overlay');
-  const isOpen = !drawer.classList.contains('translate-x-full');
-  const shouldOpen = forceOpen !== null ? forceOpen : !isOpen;
-
-  if (shouldOpen) {
-    drawer.classList.remove('translate-x-full');
-    overlay.classList.remove('opacity-0', 'pointer-events-none');
-    renderCart();
+function toggleWishlist(id) {
+  if (wishlist.includes(id)) {
+    wishlist = wishlist.filter(item => item !== id);
+    toast('Removed from your wishlist.');
   } else {
-    drawer.classList.add('translate-x-full');
-    overlay.classList.add('opacity-0', 'pointer-events-none');
+    wishlist.push(id);
+    toast('Saved to your wishlist.');
   }
+  persist();
+  updateWishlistUI();
 }
-
-function addToCart(sareeId, options = {}) {
-  const saree = sareesDatabase.find(s => s.id === sareeId) || sareesDatabase[0];
-  const itemColor = options.color || saree.color;
-  const existing = cart.find(item => item.id === saree.id && item.color === itemColor);
-
-  if (existing) {
-    existing.quantity += 1;
-  } else {
-    cart.push({
-      id: saree.id,
-      name: saree.name,
-      price: saree.price,
-      image: saree.image,
-      color: itemColor,
-      size: options.size || 'Unstitched Blouse Piece Included',
-      quantity: 1
-    });
-  }
-
-  localStorage.setItem('drift_cart', JSON.stringify(cart));
-  updateCartBadge();
-  showToast('Added to Sacred Bag', `${saree.name} has been added.`);
-  toggleCart(true);
+function addToCart(id, qty=1) {
+  const found = cart.find(item => item.id === id);
+  if (found) found.qty += qty;
+  else cart.push({id,qty});
+  persist();
+  renderCart();
+  toast(productById(id).name + ' added to your bag.');
 }
-
-function updateCartQuantity(index, delta) {
-  if (!cart[index]) return;
-  cart[index].quantity += delta;
-  if (cart[index].quantity <= 0) {
-    cart.splice(index, 1);
-  }
-  localStorage.setItem('drift_cart', JSON.stringify(cart));
-  updateCartBadge();
+function removeFromCart(id) {
+  cart = cart.filter(item => item.id !== id);
+  persist();
   renderCart();
 }
-
 function renderCart() {
-  const container = document.getElementById('cart-items-list');
-  const subtotalEl = document.getElementById('cart-subtotal');
-  const discountEl = document.getElementById('cart-discount');
-  const totalEl = document.getElementById('cart-total');
-  const emptyState = document.getElementById('cart-empty');
-  const footerEl = document.getElementById('cart-footer');
-
-  if (!container) return;
-
-  if (cart.length === 0) {
-    container.innerHTML = '';
-    emptyState.classList.remove('hidden');
-    if (footerEl) footerEl.classList.add('hidden');
-    return;
-  }
-
-  emptyState.classList.add('hidden');
-  if (footerEl) footerEl.classList.remove('hidden');
-
-  let subtotal = 0;
-  container.innerHTML = cart.map((item, idx) => {
-    const itemTotal = item.price * item.quantity;
-    subtotal += itemTotal;
-    return `
-      <div class="flex items-center gap-4 py-4 border-b border-gray-100">
-        <img src="${item.image}" alt="${item.name}" class="w-16 h-20 object-cover rounded-lg shadow-sm border border-[#d4af37]/30" />
-        <div class="flex-1">
-          <h4 class="font-serif-luxury font-semibold text-sm text-[#4d0b17]">${item.name}</h4>
-          <p class="text-xs text-gray-500 mt-0.5">${item.color} Â· ${item.size}</p>
-          <div class="flex items-center justify-between mt-2">
-            <div class="flex items-center border border-gray-200 rounded-lg overflow-hidden bg-gray-50">
-              <button onclick="updateCartQuantity(${idx}, -1)" class="px-2 py-0.5 text-gray-600 hover:bg-gray-200 text-xs font-bold">-</button>
-              <span class="px-2 text-xs font-semibold text-gray-800">${item.quantity}</span>
-              <button onclick="updateCartQuantity(${idx}, 1)" class="px-2 py-0.5 text-gray-600 hover:bg-gray-200 text-xs font-bold">+</button>
-            </div>
-            <span class="font-semibold text-sm text-[#671223]">â‚¹${itemTotal.toLocaleString('en-IN')}</span>
-          </div>
-        </div>
-      </div>
-    `;
+  const count = cart.reduce((sum,item) => sum + item.qty, 0);
+  $('#cart-count').textContent = count;
+  $('#drawer-cart-count').textContent = '(' + count + ')';
+  const items = $('#drawer-items');
+  if (!cart.length) items.innerHTML = '<div class="drawer-empty">Your bag is waiting for a story.</div>';
+  else items.innerHTML = cart.map(item => {
+    const p = productById(item.id);
+    return `<article class="drawer-item"><img src="${p.image}" alt=""><div><h3>${p.name}</h3><p>Qty: ${item.qty}</p><strong>${money(p.price*item.qty)}</strong></div><button data-remove="${p.id}" aria-label="Remove ${p.name}">Remove</button></article>`;
   }).join('');
-
-  const discountAmount = Math.round(subtotal * (discountPercent / 100));
-  const finalTotal = subtotal - discountAmount;
-
-  if (subtotalEl) subtotalEl.textContent = `â‚¹${subtotal.toLocaleString('en-IN')}`;
-  if (discountEl) discountEl.textContent = discountPercent > 0 ? `- â‚¹${discountAmount.toLocaleString('en-IN')} (${discountPercent}%)` : 'â‚¹0';
-  if (totalEl) totalEl.textContent = `â‚¹${finalTotal.toLocaleString('en-IN')}`;
-
-  const shippingThreshold = 25000;
-  const progressPercent = Math.min(100, Math.round((subtotal / shippingThreshold) * 100));
-  const shippingBar = document.getElementById('shipping-bar');
-  const shippingText = document.getElementById('shipping-text');
-  if (shippingBar) shippingBar.style.width = `${progressPercent}%`;
-  if (shippingText) {
-    if (progressPercent >= 100) {
-      shippingText.innerHTML = '<span class="text-emerald-700 font-semibold">ðŸŽ‰ Compliments of DRIFT: Free Express Air Delivery Unlocked!</span>';
-    } else {
-      const remaining = shippingThreshold - subtotal;
-      shippingText.innerHTML = `Add <strong>â‚¹${remaining.toLocaleString('en-IN')}</strong> more for Free Insured Express Delivery.`;
-    }
-  }
+  const total = cart.reduce((sum,item) => sum + productById(item.id).price*item.qty, 0);
+  $('#cart-subtotal').textContent = money(total);
 }
+function openCart() {
+  $('#cart-drawer').classList.add('is-open');
+  $('#cart-drawer').setAttribute('aria-hidden','false');
+  $('#drawer-backdrop').classList.add('is-open');
+  document.body.classList.add('locked');
+}
+function closeCart() {
+  $('#cart-drawer').classList.remove('is-open');
+  $('#cart-drawer').setAttribute('aria-hidden','true');
+  $('#drawer-backdrop').classList.remove('is-open');
+  document.body.classList.remove('locked');
+}
+function showProduct(id) {
+  const p = productById(id);
+  activeProduct = p.id;
+  $('#detail-name').textContent = p.name;
+  $('#detail-price').innerHTML = money(p.price) + ' <del>' + money(p.old) + '</del>';
+  $('#detail-description').textContent = p.description;
+  $('#detail-main-image').src = p.image;
+  $('#detail-main-image').alt = p.name;
+  $$('.detail-thumb').forEach((btn,i) => btn.classList.toggle('is-active', i===0));
+  const firstThumb = $('.detail-thumb');
+  if (firstThumb) firstThumb.dataset.image = p.image;
+  if (firstThumb) firstThumb.querySelector('img').src = p.image;
+  $('#selected-colour-name').textContent = p.colour;
+  quantity = 1;
+  $('#quantity-value').textContent = quantity;
+  document.querySelector('#product-detail').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function changeHero(next) {
+  const slides = $$('.hero-slide');
+  if (!slides.length) return;
+  heroIndex = (next + slides.length) % slides.length;
+  slides.forEach((slide,i) => slide.classList.toggle('is-active',i===heroIndex));
+  $$('.hero-dot').forEach((dot,i) => dot.classList.toggle('is-active',i===heroIndex));
+}
+function startHeroTimer() {
+  clearInterval(heroTimer);
+  heroTimer = setInterval(() => changeHero(heroIndex+1), 5200);
+}
+function openSearch() {
+  $('#search-panel').classList.add('is-open');
+  $('#search-panel').setAttribute('aria-hidden','false');
+  setTimeout(() => $('#search-input').focus(), 150);
+}
+function closeSearch() {
+  $('#search-panel').classList.remove('is-open');
+  $('#search-panel').setAttribute('aria-hidden','true');
+}
+function searchProducts(query) {
+  const target = $('#search-results');
+  const q = query.trim().toLowerCase();
+  if (!q) { target.innerHTML = '<p class="search-hint">Try a colour, craft, collection, or occasion.</p>'; return; }
+  const matches = products.filter(p => [p.name,p.craft,p.colour,p.badge,p.description].join(' ').toLowerCase().includes(q));
+  target.innerHTML = matches.length ? matches.map(p => `<button class="search-result" data-view="${p.id}"><img src="${p.image}" alt=""><span><strong>${p.name}</strong><small>${p.craft} · ${money(p.price)}</small></span></button>`).join('') : '<p class="search-hint">No exact match. Try “silk”, “bridal”, “rose”, or “Banarasi”.</p>';
+}
+const stories = [
+  {title:'Courtyard<br>Air',description:'A softer kind of statement. Sunlit silks, garden greens, and the quiet joy of dressing up.',image:'assets/hd_trends_models.jpg',count:'01',product:'drift-01'},
+  {title:'Wedding<br>Circle',description:'For the people who make the celebration. Rich colour, shared rituals, and heirlooms in the making.',image:'assets/hd_bridal_feature.jpg',count:'02',product:'drift-07'},
+  {title:'Temple<br>Steps',description:'Sacred geometry, temple borders, and the enduring poetry of South Indian silk.',image:'assets/hd_mood_orange.jpg',count:'03',product:'drift-04'}
+];
+function changeStory(index) {
+  storyIndex = (index + stories.length) % stories.length;
+  const story = stories[storyIndex];
+  $('#story-title').innerHTML = story.title;
+  $('#story-description').textContent = story.description;
+  $('#story-main-image').style.opacity = '0.25';
+  setTimeout(() => { $('#story-main-image').src = story.image; $('#story-main-image').style.opacity = '1'; }, 120);
+  $('#story-main-image').alt = story.title.replace('<br>',' ') + ' campaign';
+  $('#story-count').textContent = story.count;
+  $('#story-progress').style.width = ((storyIndex+1)/stories.length*100)+'%';
+  $$('.story-tab').forEach((tab,i) => tab.classList.toggle('is-active',i===storyIndex));
+}
+const latestSlides = [
+  {image:'assets/hd_trends_models.jpg',caption:'The new range'},
+  {image:'assets/hd_mood_pink.jpg',caption:'Colour, in full bloom'},
+  {image:'assets/hd_bridal_feature.jpg',caption:'Made for the moment'}
+];
+function changeLatest(index) {
+  latestIndex = (index + latestSlides.length) % latestSlides.length;
+  const slide = latestSlides[latestIndex];
+  $('#latest-image').style.opacity = '.25';
+  setTimeout(() => { $('#latest-image').src = slide.image; $('#latest-image').style.opacity = '1'; }, 120);
+  $('#latest-caption').textContent = slide.caption;
+  $('#latest-index').textContent = String(latestIndex+1).padStart(2,'0')+' — 03';
+  $('.latest-image-caption span:last-child').textContent = String(latestIndex+1).padStart(2,'0')+' / 03';
+}
+function init() {
+  renderProducts();
+  renderCart();
+  changeHero(0);
+  startHeroTimer();
 
-function updateCartBadge() {
-  const badges = document.querySelectorAll('.cart-count-badge');
-  const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-  badges.forEach(b => {
-    b.textContent = totalCount;
-    b.classList.toggle('hidden', totalCount === 0);
+  $('#hero').addEventListener('mouseenter', () => clearInterval(heroTimer));
+  $('#hero').addEventListener('mouseleave', startHeroTimer);
+  $('#hero').addEventListener('focusin', () => clearInterval(heroTimer));
+  $('#hero').addEventListener('focusout', startHeroTimer);
+  $$('.hero-dot').forEach((dot,i) => dot.addEventListener('click', () => { changeHero(i); startHeroTimer(); }));
+  $('.hero-prev').addEventListener('click', () => { changeHero(heroIndex-1); startHeroTimer(); });
+  $('.hero-next').addEventListener('click', () => { changeHero(heroIndex+1); startHeroTimer(); });
+
+  document.addEventListener('click', event => {
+    const add = event.target.closest('[data-add]');
+    const wish = event.target.closest('[data-wish]');
+    const view = event.target.closest('[data-view]');
+    const remove = event.target.closest('[data-remove]');
+    const railButton = event.target.closest('[data-rail]');
+    if (add) { event.preventDefault(); event.stopPropagation(); addToCart(add.dataset.add); }
+    else if (wish) { event.preventDefault(); event.stopPropagation(); toggleWishlist(wish.dataset.wish); }
+    else if (view) { event.preventDefault(); showProduct(view.dataset.view); }
+    else if (remove) removeFromCart(remove.dataset.remove);
+    else if (railButton) {
+      const rail = document.getElementById(railButton.dataset.rail);
+      if (rail) rail.scrollBy({left:Number(railButton.dataset.dir)*Math.min(480,rail.clientWidth*.8),behavior:'smooth'});
+    }
   });
-}
-
-function applyCoupon() {
-  const input = document.getElementById('coupon-input');
-  const code = (input.value || '').trim().toUpperCase();
-  if (code === 'UTSAV20' || code === 'DRIFT20') {
-    discountPercent = 20;
-    showToast('Promo Code Applied!', 'Flat 20% festival discount applied.');
-    renderCart();
-  } else {
-    showToast('Invalid Code', 'Try using code UTSAV20.');
-  }
-}
-
-// Wishlist
-function toggleWishlist(sareeId) {
-  const idx = wishlist.indexOf(sareeId);
-  if (idx > -1) {
-    wishlist.splice(idx, 1);
-    showToast('Wishlist', 'Item removed from saved list.');
-  } else {
-    wishlist.push(sareeId);
-    showToast('Saved to Wishlist', 'Item saved to your heirlooms.');
-  }
-  localStorage.setItem('drift_wishlist', JSON.stringify(wishlist));
-  updateWishlistBadge();
-}
-
-function updateWishlistBadge() {
-  const badges = document.querySelectorAll('.wishlist-count-badge');
-  badges.forEach(b => {
-    b.textContent = wishlist.length;
-    b.classList.toggle('hidden', wishlist.length === 0);
+  document.addEventListener('keydown', event => {
+    const view = event.target.closest && event.target.closest('[data-view][role="button"]');
+    if (view && (event.key==='Enter'||event.key===' ')) { event.preventDefault(); showProduct(view.dataset.view); }
+    if (event.key==='Escape') { closeCart(); closeSearch(); $('#main-nav').classList.remove('is-open'); }
   });
-}
 
-// Quick View Modal
-function openQuickView(sareeId) {
-  const saree = sareesDatabase.find(s => s.id === sareeId) || sareesDatabase[0];
-  const modal = document.getElementById('quickview-modal');
-  const content = document.getElementById('quickview-content');
-  if (!modal || !content) return;
-
-  content.innerHTML = `
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-      <div class="relative overflow-hidden rounded-2xl bg-[#f4efe6] border border-[#d4af37]/30 group">
-        <img src="${saree.image}" alt="${saree.name}" class="w-full h-[400px] object-cover transition-transform duration-500 group-hover:scale-105" />
-        <span class="absolute top-4 left-4 bg-[#671223] text-[#d4af37] text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">${saree.mood}</span>
-      </div>
-      <div>
-        <div class="text-xs uppercase tracking-widest text-[#a87e14] font-semibold">${saree.craft}</div>
-        <h3 class="font-serif-luxury text-2xl md:text-3xl font-bold text-[#4d0b17] mt-1">${saree.name}</h3>
-        <p class="text-xs text-gray-500 mt-1">100% Certified Pure Silk Â· Handloom Verified</p>
-        
-        <div class="flex items-baseline gap-3 mt-4">
-          <span class="text-2xl font-bold text-[#671223]">â‚¹${saree.price.toLocaleString('en-IN')}</span>
-          <span class="text-sm text-gray-400 line-through">â‚¹${saree.originalPrice.toLocaleString('en-IN')}</span>
-          <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full">Save â‚¹${(saree.originalPrice - saree.price).toLocaleString('en-IN')}</span>
-        </div>
-
-        <p class="text-xs text-gray-600 mt-4 leading-relaxed">${saree.description}</p>
-
-        <div class="mt-6 pt-6 border-t border-gray-100 flex items-center gap-4">
-          <button onclick="addToCart('${saree.id}'); closeQuickView();" class="flex-1 bg-[#671223] hover:bg-[#4d0b17] text-white py-3.5 px-6 rounded-full font-semibold text-xs tracking-wider uppercase transition shadow-lg flex items-center justify-center gap-2">
-            Add to Bag Â· â‚¹${saree.price.toLocaleString('en-IN')}
-          </button>
-          <button onclick="toggleWishlist('${saree.id}')" class="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:text-red-500 hover:border-red-200 transition">
-            â™¥
-          </button>
-        </div>
-      </div>
-    </div>
-  `;
-
-  modal.classList.remove('hidden');
-  setTimeout(() => modal.classList.remove('opacity-0'), 10);
-}
-
-function closeQuickView() {
-  const modal = document.getElementById('quickview-modal');
-  if (!modal) return;
-  modal.classList.add('opacity-0');
-  setTimeout(() => modal.classList.add('hidden'), 300);
-}
-
-// Search
-function initSearch() {
-  const input = document.getElementById('search-input');
-  const resultsContainer = document.getElementById('search-results');
-  if (!input || !resultsContainer) return;
-
-  input.addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase().trim();
-    if (!query) {
-      resultsContainer.innerHTML = '<p class="text-xs text-gray-400 text-center py-6">Type to search sarees, fabrics, or moods...</p>';
-      return;
-    }
-
-    const matches = sareesDatabase.filter(s => 
-      s.name.toLowerCase().includes(query) ||
-      s.craft.toLowerCase().includes(query) ||
-      s.mood.toLowerCase().includes(query) ||
-      s.color.toLowerCase().includes(query)
-    );
-
-    if (matches.length === 0) {
-      resultsContainer.innerHTML = `<p class="text-xs text-gray-500 text-center py-6">No matches for "${query}". Try "Kanjivaram" or "Organza".</p>`;
-      return;
-    }
-
-    resultsContainer.innerHTML = matches.map(s => `
-      <div onclick="openQuickView('${s.id}'); toggleSearch(false);" class="flex items-center gap-4 p-3 hover:bg-[#f4efe6] rounded-xl cursor-pointer transition">
-        <img src="${s.image}" class="w-12 h-14 object-cover rounded-lg border border-[#d4af37]/30" />
-        <div class="flex-1">
-          <h4 class="font-serif-luxury font-semibold text-xs text-[#4d0b17]">${s.name}</h4>
-          <span class="text-[11px] text-gray-500">${s.craft}</span>
-        </div>
-        <span class="text-xs font-semibold text-[#671223]">â‚¹${s.price.toLocaleString('en-IN')}</span>
-      </div>
-    `).join('');
+  $('#cart-open').addEventListener('click', openCart);
+  $('#cart-close').addEventListener('click', closeCart);
+  $('#drawer-backdrop').addEventListener('click', closeCart);
+  $('#checkout-button').addEventListener('click', () => toast(cart.length ? 'Checkout is a demo — no payment was taken.' : 'Your bag is empty.'));
+  $('#search-open').addEventListener('click', openSearch);
+  $('#search-close').addEventListener('click', closeSearch);
+  $('#search-input').addEventListener('input', event => searchProducts(event.target.value));
+  $('#wishlist-open').addEventListener('click', () => {
+    if (!wishlist.length) { toast('Your wishlist is empty. Save a piece you love.'); return; }
+    openSearch();
+    $('#search-input').value = '';
+    $('#search-results').innerHTML = wishlist.map(id => productById(id)).map(p => `<button class="search-result" data-view="${p.id}"><img src="${p.image}" alt=""><span><strong>${p.name}</strong><small>Saved to your wishlist · ${money(p.price)}</small></span></button>`).join('');
+    $('#search-panel').querySelector('.eyebrow').textContent = 'YOUR SAVED PIECES';
+    $('#search-panel').querySelector('h2').textContent = 'Your wishlist';
   });
+
+  $('#menu-toggle').addEventListener('click', () => $('#main-nav').classList.toggle('is-open'));
+  $$('.main-nav a').forEach(link => link.addEventListener('click', () => $('#main-nav').classList.remove('is-open')));
+  $$('.size-options button').forEach(btn => btn.addEventListener('click', () => {
+    $$('.size-options button').forEach(item => item.classList.remove('selected'));
+    btn.classList.add('selected');
+  }));
+  $$('.colour-swatch').forEach(btn => btn.addEventListener('click', () => {
+    $$('.colour-swatch').forEach(item => item.classList.remove('selected'));
+    btn.classList.add('selected');
+    $('#selected-colour-name').textContent = btn.dataset.colour;
+    $('#detail-main-image').style.opacity = '.25';
+    setTimeout(() => { $('#detail-main-image').src = btn.dataset.image; $('#detail-main-image').style.opacity = '1'; }, 120);
+    $$('.detail-thumb').forEach(item => item.classList.remove('is-active'));
+  }));
+  $$('.detail-thumb').forEach(btn => btn.addEventListener('click', () => {
+    $$('.detail-thumb').forEach(item => item.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    $('#detail-main-image').src = btn.dataset.image;
+  }));
+  $('#detail-next').addEventListener('click', () => {
+    const thumbs = $$('.detail-thumb');
+    const current = Math.max(0,thumbs.findIndex(btn => btn.classList.contains('is-active')));
+    thumbs[(current+1)%thumbs.length].click();
+  });
+  $('#quantity-minus').addEventListener('click', () => { quantity=Math.max(1,quantity-1); $('#quantity-value').textContent=quantity; });
+  $('#quantity-plus').addEventListener('click', () => { quantity=Math.min(10,quantity+1); $('#quantity-value').textContent=quantity; });
+  $('#detail-add').addEventListener('click', () => addToCart(activeProduct,quantity));
+  $('#detail-wishlist').addEventListener('click', () => toggleWishlist(activeProduct));
+  $('#size-guide').addEventListener('click', () => toast('Size guide: S 34 · M 36 · L 38 · XL 40 · 2XL 42 (demo sizing).'));
+  $$('.story-tab').forEach(tab => tab.addEventListener('click', () => changeStory(Number(tab.dataset.story))));
+  $$('.story-thumb').forEach(btn => btn.addEventListener('click', () => {
+    $$('.story-thumb').forEach(item => item.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    $('#story-main-image').src = btn.dataset.image;
+  }));
+  $('#story-shop').addEventListener('click', () => showProduct(stories[storyIndex].product));
+  $('#latest-prev').addEventListener('click', () => changeLatest(latestIndex-1));
+  $('#latest-next').addEventListener('click', () => changeLatest(latestIndex+1));
+
+  const revealObserver = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+    entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); revealObserver.unobserve(entry.target); } });
+  }, {threshold:.08}) : null;
+  $$('.section-heading,.mood-card,.woven-card,.product-card,.bridal-feature,.detail-gallery,.detail-copy,.occasion-card,.attention-card,.stories-title,.story-gallery,.latest-intro,.latest-feature,.latest-links').forEach(el => {
+    el.classList.add('reveal');
+    if (revealObserver) revealObserver.observe(el); else el.classList.add('is-visible');
+  });
+  const header = $('#site-header');
+  window.addEventListener('scroll', () => header.classList.toggle('scrolled',window.scrollY>20), {passive:true});
+  changeStory(0);
+  changeLatest(0);
+  searchProducts('');
 }
-
-function toggleSearch(open = null) {
-  const modal = document.getElementById('search-modal');
-  if (!modal) return;
-  const isHidden = modal.classList.contains('hidden');
-  const shouldOpen = open !== null ? open : isHidden;
-
-  if (shouldOpen) {
-    modal.classList.remove('hidden');
-    setTimeout(() => {
-      modal.classList.remove('opacity-0');
-      document.getElementById('search-input')?.focus();
-    }, 10);
-  } else {
-    modal.classList.add('opacity-0');
-    setTimeout(() => modal.classList.add('hidden'), 250);
-  }
-}
-
-// Ambient Tanpura Sound
-function toggleAmbientSound() {
-  const btn = document.getElementById('sound-toggle-btn');
-  if (!audioContext) {
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    audioContext = new AudioCtx();
-  }
-
-  if (isAudioPlaying) {
-    if (audioContext.state === 'running') audioContext.suspend();
-    isAudioPlaying = false;
-    if (btn) btn.classList.remove('bg-[#d4af37]', 'text-[#4d0b17]');
-    showToast('Sound Muted', 'Atmosphere paused.');
-  } else {
-    if (audioContext.state === 'suspended') {
-      audioContext.resume();
-    } else {
-      const master = audioContext.createGain();
-      master.gain.setValueAtTime(0.04, audioContext.currentTime);
-      master.connect(audioContext.destination);
-
-      [138.59, 207.65, 277.18, 554.37].forEach((f, i) => {
-        const osc = audioContext.createOscillator();
-        const g = audioContext.createGain();
-        osc.type = i % 2 === 0 ? 'sine' : 'triangle';
-        osc.frequency.setValueAtTime(f, audioContext.currentTime);
-        osc.connect(g);
-        g.connect(master);
-        osc.start();
-      });
-    }
-    isAudioPlaying = true;
-    if (btn) btn.classList.add('bg-[#d4af37]', 'text-[#4d0b17]');
-    showToast('Atmosphere Active', 'Playing sitar and tanpura harmonics.');
-  }
-}
-
-// Checkout simulation
-function openCheckout() {
-  toggleCart(false);
-  const m = document.getElementById('checkout-modal');
-  if (m) {
-    m.classList.remove('hidden');
-    setTimeout(() => m.classList.remove('opacity-0'), 10);
-  }
-}
-
-function closeCheckout() {
-  const m = document.getElementById('checkout-modal');
-  if (m) {
-    m.classList.add('opacity-0');
-    setTimeout(() => m.classList.add('hidden'), 250);
-  }
-}
-
-function completeOrder() {
-  cart = [];
-  localStorage.setItem('drift_cart', JSON.stringify(cart));
-  updateCartBadge();
-  closeCheckout();
-  showToast('Order Confirmed!', 'Your heirloom saree is packed in our signature DRIFT fragrance box.');
-}
+document.addEventListener('DOMContentLoaded', init);
