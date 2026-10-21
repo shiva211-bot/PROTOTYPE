@@ -282,10 +282,14 @@ function initWovenRing() {
   };
   const resume = () => { paused = false; if (visible && !reducedMotion && !frame) frame = requestAnimationFrame(tick); };
   const stop = () => { paused = true; if (frame) cancelAnimationFrame(frame); frame = 0; last = 0; };
-  rail.addEventListener('mouseenter', stop);
-  rail.addEventListener('mouseleave', resume);
+  cards.forEach(card => {
+    card.addEventListener('pointerenter', stop);
+    card.addEventListener('pointerleave', () => {
+      if (!rail.querySelector('.woven-card:hover') && !rail.contains(document.activeElement)) resume();
+    });
+  });
   rail.addEventListener('focusin', stop);
-  rail.addEventListener('focusout', event => { if (!rail.contains(event.relatedTarget)) resume(); });
+  rail.addEventListener('focusout', event => { if (!rail.contains(event.relatedTarget) && !rail.querySelector('.woven-card:hover')) resume(); });
   rail.addEventListener('click', event => {
     const card = event.target.closest('.woven-card');
     if (!card) return;
