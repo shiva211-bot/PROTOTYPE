@@ -198,6 +198,7 @@ function initSpotlightRails() {
     let activeIndex = rail.classList.contains('spotlight-moods') ? Math.min(2, cards.length - 1) : Math.min(1, cards.length - 1);
     let timer = null;
     let isVisible = false;
+    let isPaused = false;
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const activate = index => {
       activeIndex = (index + cards.length) % cards.length;
@@ -207,12 +208,22 @@ function initSpotlightRails() {
         card.setAttribute('aria-current', active ? 'true' : 'false');
       });
     };
+    const stop = () => { clearInterval(timer); timer = null; };
     const start = () => {
-      clearInterval(timer);
-      if (!isVisible || reducedMotion) return;
-      // 1.10x the previous 3.2-second cadence; keep moving even while hovered or focused.
+      stop();
+      if (!isVisible || isPaused || reducedMotion) return;
+      // Continuous 1.10x loop while visible; pause immediately for pointer or keyboard interaction.
       timer = setInterval(() => activate(activeIndex + 1), Math.round(3200 / 1.10));
     };
+    rail.addEventListener('pointerenter', () => { isPaused = true; stop(); });
+    rail.addEventListener('pointerleave', () => { isPaused = false; start(); });
+    rail.addEventListener('focusin', () => { isPaused = true; stop(); });
+    rail.addEventListener('focusout', event => {
+      if (!rail.contains(event.relatedTarget) && !rail.matches(':hover')) {
+        isPaused = false;
+        start();
+      }
+    });
     activate(activeIndex);
     rail.addEventListener('click', event => {
       const card = event.target.closest('.mood-card, .product-card');
