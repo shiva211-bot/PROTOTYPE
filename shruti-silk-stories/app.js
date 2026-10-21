@@ -269,7 +269,7 @@ function initWovenRing() {
   const tick = now => {
     frame = 0;
     if (visible && !paused && !reducedMotion) {
-      if (last) phase = (phase + (now - last) * .000012) % 1;
+      if (last) phase += Math.min(now - last, 32) * .000012;
       layout();
       last = now;
       frame = requestAnimationFrame(tick);
