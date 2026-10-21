@@ -195,35 +195,45 @@ function initSpotlightRails() {
   $$('.spotlight-rail').forEach(rail => {
     const cards = Array.from(rail.children);
     if (!cards.length) return;
-    const initial = rail.classList.contains('spotlight-moods') ? Math.min(2, cards.length - 1) : Math.min(1, cards.length - 1);
-    cards.forEach((card, index) => {
-      card.classList.toggle('is-spotlight', index === initial);
-      card.setAttribute('aria-current', index === initial ? 'true' : 'false');
-    });
+    let activeIndex = rail.classList.contains('spotlight-moods') ? Math.min(2, cards.length - 1) : Math.min(1, cards.length - 1);
+    let timer;
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const activate = (index, scroll = true) => {
+      activeIndex = (index + cards.length) % cards.length;
+      cards.forEach((card, i) => {
+        const active = i === activeIndex;
+        card.classList.toggle('is-spotlight', active);
+        card.setAttribute('aria-current', active ? 'true' : 'false');
+      });
+      if (scroll) cards[activeIndex].scrollIntoView({behavior: reducedMotion ? 'auto' : 'smooth', block: 'nearest', inline: 'center'});
+    };
+    const start = () => {
+      clearInterval(timer);
+      if (reducedMotion || cards.length < 2 || rail.matches(':hover') || rail.contains(document.activeElement)) return;
+      timer = setInterval(() => activate(activeIndex + 1), 3200);
+    };
+    activate(activeIndex, false);
     rail.addEventListener('click', event => {
       const card = event.target.closest('.mood-card, .product-card');
       if (!card || !rail.contains(card)) return;
-      cards.forEach(item => {
-        const active = item === card;
-        item.classList.toggle('is-spotlight', active);
-        item.setAttribute('aria-current', active ? 'true' : 'false');
-      });
+      if (card.matches('a.mood-card')) event.preventDefault();
+      activate(cards.indexOf(card));
+      start();
     });
     rail.addEventListener('keydown', event => {
       if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
       const card = event.target.closest('.mood-card, .product-card');
       if (!card) return;
       event.preventDefault();
-      const current = cards.indexOf(card);
-      const next = Math.max(0, Math.min(cards.length - 1, current + (event.key === 'ArrowRight' ? 1 : -1)));
-      cards.forEach((item, index) => {
-        const active = index === next;
-        item.classList.toggle('is-spotlight', active);
-        item.setAttribute('aria-current', active ? 'true' : 'false');
-      });
-      cards[next].focus({preventScroll:true});
-      cards[next].scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest',inline:'nearest'});
+      activate(activeIndex + (event.key === 'ArrowRight' ? 1 : -1));
+      cards[activeIndex].focus({preventScroll:true});
+      start();
     });
+    rail.addEventListener('mouseenter', () => clearInterval(timer));
+    rail.addEventListener('mouseleave', start);
+    rail.addEventListener('focusin', () => clearInterval(timer));
+    rail.addEventListener('focusout', event => { if (!rail.contains(event.relatedTarget)) start(); });
+    start();
   });
 }
 
