@@ -246,8 +246,65 @@ function initSpotlightRails() {
   });
 }
 
+function initWovenRing() {
+  const rail = $('#woven-rail');
+  if (!rail) return;
+  const cards = Array.from(rail.querySelectorAll('.woven-card'));
+  if (cards.length < 2) return;
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let visible = false, paused = false, phase = 0, frame = 0, last = 0;
+  const layout = () => {
+    const width = rail.clientWidth;
+    const cardWidth = cards[0].getBoundingClientRect().width;
+    const spread = Math.min(cardWidth + 18, Math.max(110, width / (cards.length * 1.04)));
+    cards.forEach((card, i) => {
+      let slot = ((i / cards.length + phase + .5) % 1 + 1) % 1 - .5;
+      const x = slot * spread * cards.length;
+      const edge = Math.min(1, Math.abs(slot) * 2);
+      const scale = .72 + edge * .28;
+      const lean = -slot * 54;
+      const depth = -Math.abs(slot) * 150;
+      card.style.zIndex = String(100 - Math.round(Math.abs(slot) * 100));
+      card.style.opacity = String(1 - Math.max(0, edge - .82) * 1.8);
+      card.style.transform = `translate(-50%, -50%) translate3d(${x}px, 0, ${depth}px) rotateY(${lean}deg) scale(${scale})`;
+      card.classList.toggle('is-ring-front', Math.abs(slot) < .18);
+      card.setAttribute('aria-current', Math.abs(slot) < .18 ? 'true' : 'false');
+    });
+  };
+  const tick = now => {
+    frame = 0;
+    if (visible && !paused && !reducedMotion) {
+      if (last) phase = (phase + (now - last) * .000012) % 1;
+      layout();
+      last = now;
+      frame = requestAnimationFrame(tick);
+    } else last = 0;
+  };
+  const resume = () => { paused = false; if (visible && !reducedMotion && !frame) frame = requestAnimationFrame(tick); };
+  const stop = () => { paused = true; if (frame) cancelAnimationFrame(frame); frame = 0; last = 0; };
+  rail.addEventListener('mouseenter', stop);
+  rail.addEventListener('mouseleave', resume);
+  rail.addEventListener('focusin', stop);
+  rail.addEventListener('focusout', event => { if (!rail.contains(event.relatedTarget)) resume(); });
+  rail.addEventListener('click', event => {
+    const card = event.target.closest('.woven-card');
+    if (!card) return;
+    const index = cards.indexOf(card);
+    if (index >= 0) phase = (phase + 1 - index / cards.length + 1) % 1;
+    layout();
+  });
+  const observer = new IntersectionObserver(entries => {
+    visible = entries.some(entry => entry.isIntersecting);
+    if (visible) resume(); else stop();
+  }, {threshold: 0});
+  observer.observe(rail);
+  window.addEventListener('resize', layout, {passive:true});
+  layout();
+}
+
 function init() {
   renderProducts();
+  initWovenRing();
   initSpotlightRails();
   renderCart();
   changeHero(0);
@@ -267,10 +324,12 @@ function init() {
     const view = event.target.closest('[data-view]');
     const remove = event.target.closest('[data-remove]');
     const railButton = event.target.closest('[data-rail]');
+    const productButton = event.target.closest('[data-product]');
     if (add) { event.preventDefault(); event.stopPropagation(); addToCart(add.dataset.add); }
     else if (wish) { event.preventDefault(); event.stopPropagation(); toggleWishlist(wish.dataset.wish); }
     else if (view) { event.preventDefault(); showProduct(view.dataset.view); }
     else if (remove) removeFromCart(remove.dataset.remove);
+    else if (productButton) showProduct(productButton.dataset.product);
     else if (railButton) {
       const rail = document.getElementById(railButton.dataset.rail);
       if (rail) rail.scrollBy({left:Number(railButton.dataset.dir)*Math.min(480,rail.clientWidth*.8),behavior:'smooth'});
