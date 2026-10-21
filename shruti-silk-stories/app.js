@@ -205,7 +205,7 @@ function initSpotlightRails() {
         card.classList.toggle('is-spotlight', active);
         card.setAttribute('aria-current', active ? 'true' : 'false');
       });
-      if (scroll) cards[activeIndex].scrollIntoView({behavior: reducedMotion ? 'auto' : 'smooth', block: 'nearest', inline: 'center'});
+      // Keep spotlight motion inside the horizontal rail; never auto-scroll the page.
     };
     const start = () => {
       clearInterval(timer);
