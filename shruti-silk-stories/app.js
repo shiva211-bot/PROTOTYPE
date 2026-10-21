@@ -486,3 +486,25 @@ function init() {
   searchProducts('');
 }
 document.addEventListener('DOMContentLoaded', init);
+
+// Liquid Glass pointer response: update CSS variables on pointer events only (no frame loop).
+(function initLiquidGlassControls(){
+  const selector='button:not(.colour-swatch):not(.detail-thumb),a.button,a.text-link,a.back-top,.search-trigger,.icon-button,.menu-toggle';
+  document.addEventListener('pointermove',event=>{
+    const control=event.target.closest(selector);
+    if(!control||event.pointerType==='touch')return;
+    const rect=control.getBoundingClientRect();
+    const x=Math.max(0,Math.min(1,(event.clientX-rect.left)/Math.max(1,rect.width)));
+    const y=Math.max(0,Math.min(1,(event.clientY-rect.top)/Math.max(1,rect.height)));
+    control.style.setProperty('--lg-pointer-x',(x*100).toFixed(1)+'%');
+    control.style.setProperty('--lg-pointer-y',(y*100).toFixed(1)+'%');
+    control.style.setProperty('--lg-tilt-x',((x-.5)*7).toFixed(2)+'deg');
+    control.style.setProperty('--lg-tilt-y',((.5-y)*6).toFixed(2)+'deg');
+  },{passive:true});
+  document.addEventListener('pointerout',event=>{
+    const control=event.target.closest(selector);
+    if(!control||control.contains(event.relatedTarget))return;
+    control.style.setProperty('--lg-pointer-x','50%');control.style.setProperty('--lg-pointer-y','50%');
+    control.style.setProperty('--lg-tilt-x','0deg');control.style.setProperty('--lg-tilt-y','0deg');
+  },{passive:true});
+})();

@@ -160,6 +160,37 @@
 .glow-home-button:focus-visible .glow-home-icon:before,
 .glow-home-button:focus-visible .glow-home-icon:after{animation-play-state:paused;}
 .glow-home-label{white-space:nowrap;}
+
+/* LIQUID GLASS CONTROLS — refractive pills with registered CSS motion. */
+@property --lg-pointer-x{syntax:"<percentage>";inherits:false;initial-value:50%;}
+@property --lg-pointer-y{syntax:"<percentage>";inherits:false;initial-value:50%;}
+@property --lg-tilt-x{syntax:"<angle>";inherits:false;initial-value:0deg;}
+@property --lg-tilt-y{syntax:"<angle>";inherits:false;initial-value:0deg;}
+button:not(.colour-swatch):not(.detail-thumb),a.button,a.text-link,a.back-top,.search-trigger,.icon-button,.menu-toggle{
+ --lg-pointer-x:50%;--lg-pointer-y:50%;--lg-tilt-x:0deg;--lg-tilt-y:0deg;position:relative;isolation:isolate;overflow:hidden;
+ border:1px solid color-mix(in srgb,currentColor 24%,transparent);border-radius:999px;
+ background:linear-gradient(145deg,#ffffff45,#ffffff12 48%,#ffffff24),radial-gradient(130% 160% at var(--lg-pointer-x) var(--lg-pointer-y),#ffffff58,transparent 48%);
+ color:inherit;box-shadow:inset 0 1px 1px #ffffffa8,inset 0 -1px 1px #ffffff20,0 5px 16px #1c09131a;
+ backdrop-filter:blur(18px) saturate(165%);-webkit-backdrop-filter:blur(18px) saturate(165%);
+ transform:perspective(700px) rotateX(var(--lg-tilt-y)) rotateY(var(--lg-tilt-x));transform-style:preserve-3d;
+ transition:background .28s ease,border-color .28s ease,box-shadow .28s ease,transform .22s ease,color .25s ease;
+}
+button:not(.colour-swatch):not(.detail-thumb)::before,a.button::before,a.text-link::before,a.back-top::before,.search-trigger::before,.icon-button::before,.menu-toggle::before{
+ content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;border-radius:inherit;background:radial-gradient(150px circle at var(--lg-pointer-x) var(--lg-pointer-y),#ffffff75,transparent 72%);opacity:.62;transition:opacity .25s ease;
+}
+button:not(.colour-swatch):not(.detail-thumb)::after,a.button::after,a.text-link::after,a.back-top::after,.search-trigger::after,.icon-button::after,.menu-toggle::after{
+ content:"";position:absolute;inset:1px;z-index:1;pointer-events:none;border-radius:inherit;background:linear-gradient(112deg,transparent 18%,#ffffff48 36%,#ffffff08 49%,transparent 67%);transform:translateX(-125%);transition:transform .65s cubic-bezier(.2,.7,.2,1);
+}
+button:not(.colour-swatch):not(.detail-thumb):hover,a.button:hover,a.text-link:hover,a.back-top:hover,.search-trigger:hover,.icon-button:hover,.menu-toggle:hover,button:not(.colour-swatch):not(.detail-thumb):focus-visible,a.button:focus-visible,a.text-link:focus-visible,a.back-top:focus-visible{
+ border-color:#ffffffb5;background:linear-gradient(145deg,#ffffff62,#ffffff20 52%,#ffffff35),radial-gradient(130% 160% at var(--lg-pointer-x) var(--lg-pointer-y),#ffffff70,transparent 48%);box-shadow:inset 0 1px 2px #ffffffd1,inset 0 -1px 2px #ffffff30,0 9px 24px #1c091326,0 0 0 1px #ffffff18;
+}
+button:not(.colour-swatch):not(.detail-thumb):hover::after,a.button:hover::after,a.text-link:hover::after,a.back-top:hover::after,.search-trigger:hover::after,.icon-button:hover::after,.menu-toggle:hover::after{transform:translateX(125%);}
+button:not(.colour-swatch):not(.detail-thumb):active,a.button:active,a.text-link:active,.search-trigger:active,.icon-button:active{transform:perspective(700px) rotateX(0deg) rotateY(0deg) scale(.965);box-shadow:inset 0 2px 5px #17070b25,0 2px 6px #1c09131a;}
+.colour-swatch,.detail-thumb{backdrop-filter:none;-webkit-backdrop-filter:none;}
+/* Preserve the separate iridescent orbit on the Back to Home control. */
+.glow-home-button,.glow-home-button:hover,.glow-home-button:focus-visible{transform:none;}
+@media(max-width:760px){button:not(.colour-swatch):not(.detail-thumb),a.button,a.text-link,a.back-top,.search-trigger,.icon-button,.menu-toggle{backdrop-filter:blur(12px) saturate(150%);-webkit-backdrop-filter:blur(12px) saturate(150%);}}
+@media(prefers-reduced-motion:reduce){button:not(.colour-swatch):not(.detail-thumb),a.button,a.text-link,a.back-top,.search-trigger,.icon-button,.menu-toggle{transition:none;transform:none!important;}button:not(.colour-swatch):not(.detail-thumb)::after,a.button::after,a.text-link::after,a.back-top::after,.search-trigger::after,.icon-button::after,.menu-toggle::after{display:none;}}
 @keyframes glow-ring-orbit{to{transform:rotate(360deg)}}
 @media(max-width:480px){
   .glow-home-button{right:14px;bottom:14px;gap:0;padding:7px;background:#260b16ed;}
