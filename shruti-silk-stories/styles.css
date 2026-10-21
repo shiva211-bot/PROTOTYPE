@@ -192,6 +192,35 @@ button:not(.colour-swatch):not(.detail-thumb):active,a.button:active,a.text-link
 @media(max-width:760px){button:not(.colour-swatch):not(.detail-thumb),a.button,a.text-link,a.back-top,.search-trigger,.icon-button,.menu-toggle{backdrop-filter:blur(12px) saturate(150%);-webkit-backdrop-filter:blur(12px) saturate(150%);}}
 @media(prefers-reduced-motion:reduce){button:not(.colour-swatch):not(.detail-thumb),a.button,a.text-link,a.back-top,.search-trigger,.icon-button,.menu-toggle{transition:none;transform:none!important;}button:not(.colour-swatch):not(.detail-thumb)::after,a.button::after,a.text-link::after,a.back-top::after,.search-trigger::after,.icon-button::after,.menu-toggle::after{display:none;}}
 @keyframes glow-ring-orbit{to{transform:rotate(360deg)}}
+
+/* Bridal campaign Fan Deck: cards swing from one shared hinge below the spread. */
+.bridal-fan-deck{position:relative;padding:clamp(54px,7vw,92px) 0 30px;overflow:hidden;color:#fff8ed;}
+.fan-deck-heading{position:relative;z-index:8;text-align:center;margin:0 auto 12px;max-width:520px;padding:0 20px;}
+.fan-deck-heading h3{font:400 clamp(2.1rem,4.5vw,4rem)/1 var(--serif);letter-spacing:-.04em;margin:12px 0;}
+.fan-deck-heading h3 em{color:#e8ca8e;font-weight:400;}
+.fan-deck-heading>p:last-child{font-size:11px;color:#f4e5d8b8;letter-spacing:.06em;}
+.fan-deck-stage{position:relative;height:clamp(390px,47vw,560px);max-width:1000px;margin:0 auto;perspective:1400px;isolation:isolate;overflow:hidden;}
+.fan-card{position:absolute;left:50%;bottom:18px;width:clamp(190px,23vw,270px);height:clamp(300px,36vw,430px);display:block;overflow:hidden;border:1px solid #f4e4c540;border-radius:3px;background:#270a12;box-shadow:0 18px 38px #10030952;transform-origin:50% 118%;transform:translateX(-50%) rotate(var(--fan-angle));z-index:var(--fan-order);transition:transform .65s cubic-bezier(.2,.8,.2,1),box-shadow .5s ease;will-change:transform;}
+.fan-card img{display:block;width:100%;height:100%;object-fit:cover;filter:saturate(.9);transition:transform .7s ease,filter .5s ease;}
+.fan-card>span:last-child{position:absolute;left:15px;bottom:14px;color:#fff9ee;font:600 8px/1 var(--sans);letter-spacing:.16em;text-shadow:0 2px 12px #000;}
+.fan-card:not(.fan-card-featured):hover,.fan-card:not(.fan-card-featured):focus-visible{transform:translateX(-50%) translateY(-15px) rotate(calc(var(--fan-angle)*.55));z-index:9;box-shadow:0 28px 50px #0802078a;}
+.fan-card:hover img,.fan-card:focus-visible img{transform:scale(1.045);filter:saturate(1.08);}
+.fan-card-featured{z-index:10;transform:translateX(-50%) rotate(0deg);box-shadow:0 25px 55px #10030970;}
+.fan-card-featured:hover,.fan-card-featured:focus-visible{transform:translateX(-50%) translateY(-12px) rotate(0deg);}
+.fan-yellow-plate{position:absolute;z-index:3;top:9%;left:-10%;width:78%;height:37%;padding:18px 17px;background:#eaff00;color:#21150a;font:800 clamp(21px,3.3vw,38px)/.86 var(--sans);letter-spacing:-.065em;box-shadow:8px 12px 28px #16060b3b;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;text-shadow:none;}
+.fan-yellow-plate i{position:absolute;right:15px;bottom:13px;font:400 24px/1 var(--sans);font-style:normal;}
+@media(max-width:760px){
+ .bridal-fan-deck{padding:48px 0 18px;}
+ .fan-deck-stage{height:390px;margin:0 -20px;overflow:hidden;}
+ .fan-card{width:clamp(155px,48vw,215px);height:300px;bottom:22px;transform-origin:50% 120%;}
+ .fan-card:nth-child(2){left:calc(50% - 4px);}
+ .fan-card:nth-child(4){left:calc(50% + 4px);}
+ .fan-card:nth-child(1){left:calc(50% - 4px);}
+ .fan-card:nth-child(5){left:calc(50% + 4px);}
+ .fan-yellow-plate{font-size:25px;width:79%;height:34%;padding:14px;}
+}
+@media(prefers-reduced-motion:reduce){.fan-card,.fan-card img{transition:none!important;}}
+
 @media(max-width:480px){
   .glow-home-button{right:14px;bottom:14px;gap:0;padding:7px;background:#260b16ed;}
   .glow-home-label{max-width:0;opacity:0;overflow:hidden;transition:max-width .25s ease,opacity .2s ease;}
