@@ -236,3 +236,16 @@ button:not(.colour-swatch):not(.detail-thumb):active,a.button:active,a.text-link
   .glow-home-icon:before,.glow-home-icon:after{animation:none;}
   .glow-home-button,.glow-home-label{transition:none;}
 }
+
+/* 3D Scroll Key: a recessed glass keycap with a violet-lit bevel. */
+.scroll-key{position:fixed;z-index:90;left:clamp(18px,3vw,42px);bottom:clamp(18px,3vw,34px);width:72px;height:72px;padding:0;border:0;border-radius:21px;background:linear-gradient(145deg,#ffffff25,#ffffff04 42%,#8d69ff22);box-shadow:inset 1px 1px 1px #ffffff78,inset -2px -3px 6px #130c2d9c,0 0 0 1px #a995ff85,0 0 22px #9a70ff42,0 12px 26px #10051d80;backdrop-filter:blur(18px) saturate(145%);-webkit-backdrop-filter:blur(18px) saturate(145%);cursor:pointer;perspective:500px;transform:translateZ(0);transition:transform .16s ease,box-shadow .2s ease,filter .2s ease;isolation:isolate;}
+.scroll-key:before{content:'';position:absolute;inset:5px;border-radius:16px;border:1px solid #c8bbff65;box-shadow:inset 0 0 14px #a98cff1c;pointer-events:none;}
+.scroll-key-face{position:absolute;inset:7px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border-radius:14px;background:linear-gradient(145deg,#ffffff26,#8d78ca12 55%,#17112655);box-shadow:inset 0 1px 1px #ffffff6e,inset 0 -5px 9px #09061573,0 3px 0 #4a3a77;transform:rotateX(var(--key-tilt-y,0deg)) rotateY(var(--key-tilt-x,0deg));transform-style:preserve-3d;transition:transform .16s ease,box-shadow .16s ease;}
+.scroll-key-glyph{font:500 27px/1 var(--sans);color:#f6f0ff;text-shadow:0 0 10px #c2aaff,0 1px 2px #140d2c;}
+.scroll-key-label{font:700 7px/1 var(--sans);letter-spacing:.2em;color:#d8caff;text-shadow:0 0 9px #a68aff;}
+.scroll-key:hover{filter:brightness(1.16);box-shadow:inset 1px 1px 1px #ffffff8c,inset -2px -3px 6px #130c2d9c,0 0 0 1px #c0aaff,0 0 30px #a27cff73,0 14px 30px #10051d90;}
+.scroll-key:active,.scroll-key.is-pressed{transform:translateY(3px) scale(.97);box-shadow:inset 1px 1px 1px #ffffff65,inset 0 0 16px #130c2d9c,0 0 0 1px #bba4ff,0 0 18px #9a70ff55,0 5px 12px #10051d80;}
+.scroll-key:active .scroll-key-face,.scroll-key.is-pressed .scroll-key-face{transform:translateY(3px) rotateX(0) rotateY(0);box-shadow:inset 0 2px 8px #080512a8,0 1px 0 #4a3a77;}
+.scroll-key:focus-visible{outline:2px solid #eaff00;outline-offset:5px;}
+@media(max-width:480px){.scroll-key{left:14px;bottom:14px;width:60px;height:60px;border-radius:18px}.scroll-key-face{inset:6px}.scroll-key-glyph{font-size:23px}}
+@media(prefers-reduced-motion:reduce){.scroll-key,.scroll-key-face{transition:none!important;}}

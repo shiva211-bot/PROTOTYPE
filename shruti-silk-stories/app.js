@@ -498,6 +498,27 @@ function init() {
 }
 document.addEventListener('DOMContentLoaded', init);
 
+// 3D Scroll Key: tilt the glass cap toward the pointer and scroll forward on press.
+(function initScrollKey(){
+  const key=document.getElementById('scroll-key');
+  if(!key)return;
+  key.addEventListener('pointermove',event=>{
+    if(event.pointerType==='touch')return;
+    const rect=key.getBoundingClientRect();
+    const x=(event.clientX-rect.left)/Math.max(1,rect.width);
+    const y=(event.clientY-rect.top)/Math.max(1,rect.height);
+    key.style.setProperty('--key-tilt-x',((x-.5)*13).toFixed(2)+'deg');
+    key.style.setProperty('--key-tilt-y',((.5-y)*13).toFixed(2)+'deg');
+  });
+  key.addEventListener('pointerleave',()=>{key.style.setProperty('--key-tilt-x','0deg');key.style.setProperty('--key-tilt-y','0deg');});
+  key.addEventListener('click',()=>{
+    key.classList.add('is-pressed');
+    window.setTimeout(()=>key.classList.remove('is-pressed'),150);
+    const nextY=Math.min(document.documentElement.scrollHeight-window.innerHeight,window.scrollY+Math.max(420,window.innerHeight*.78));
+    window.scrollTo({top:nextY,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+  });
+})();
+
 // Liquid Glass pointer response: update CSS variables on pointer events only (no frame loop).
 (function initLiquidGlassControls(){
   const selector='button:not(.colour-swatch):not(.detail-thumb),a.button,a.text-link,a.back-top,.search-trigger,.icon-button,.menu-toggle';
