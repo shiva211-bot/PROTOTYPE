@@ -236,7 +236,7 @@ function initSpotlightRails() {
     rail.addEventListener('focusout', event => { if (!rail.contains(event.relatedTarget)) start(); });
     const visibilityObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        isVisible = entry.isIntersecting && entry.intersectionRatio >= 0.25;
+        isVisible = entry.isIntersecting;
         if (isVisible) start();
         else clearInterval(timer);
       });
