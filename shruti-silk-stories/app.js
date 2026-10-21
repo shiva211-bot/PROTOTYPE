@@ -197,6 +197,7 @@ function initSpotlightRails() {
     if (!cards.length) return;
     let activeIndex = rail.classList.contains('spotlight-moods') ? Math.min(2, cards.length - 1) : Math.min(1, cards.length - 1);
     let timer;
+    let isVisible = false;
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const activate = (index, scroll = true) => {
       activeIndex = (index + cards.length) % cards.length;
@@ -209,7 +210,7 @@ function initSpotlightRails() {
     };
     const start = () => {
       clearInterval(timer);
-      if (reducedMotion || cards.length < 2 || rail.matches(':hover') || rail.contains(document.activeElement)) return;
+      if (!isVisible || reducedMotion || cards.length < 2 || rail.matches(':hover') || rail.contains(document.activeElement)) return;
       timer = setInterval(() => activate(activeIndex + 1), 3200);
     };
     activate(activeIndex, false);
@@ -233,7 +234,15 @@ function initSpotlightRails() {
     rail.addEventListener('mouseleave', start);
     rail.addEventListener('focusin', () => clearInterval(timer));
     rail.addEventListener('focusout', event => { if (!rail.contains(event.relatedTarget)) start(); });
-    start();
+    const visibilityObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        isVisible = entry.isIntersecting && entry.intersectionRatio >= 0.25;
+        if (isVisible) start();
+        else clearInterval(timer);
+      });
+    }, { threshold: [0, 0.25] });
+    visibilityObserver.observe(rail);
+
   });
 }
 
