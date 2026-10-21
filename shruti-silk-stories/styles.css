@@ -100,3 +100,12 @@
   .journey-panel{min-height:0;height:auto;padding:34px 0;opacity:1!important;}
   .journey-copy{position:relative;top:auto;left:8%;width:84%;transform:none;}
 }
+
+
+/* Uploaded reference walkthrough: scroll scrubs the real forward-moving camera footage. */
+.journey-track>.journey-video{position:absolute;inset:-2%;z-index:0;width:104%;height:104%;object-fit:cover;object-position:center 50%;opacity:0;pointer-events:none;transform:translateZ(0);will-change:opacity;backface-visibility:hidden;}
+.journey-track.is-video-ready>.journey-video{opacity:1;}
+.journey-track.is-video-ready>.journey-scene{opacity:0;}
+.journey-track>.journey-scene{transition:opacity .12s linear;}
+.journey-track>.journey-vignette{z-index:1;}
+@media(prefers-reduced-motion:reduce){.journey-track>.journey-video{display:none}.journey-track>.journey-scene{opacity:1!important}}
