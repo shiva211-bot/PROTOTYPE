@@ -194,32 +194,31 @@ function changeLatest(index) {
 function initSpotlightRails() {
   $$('.spotlight-rail').forEach(rail => {
     const cards = Array.from(rail.children);
-    if (!cards.length) return;
+    if (cards.length < 2) return;
     let activeIndex = rail.classList.contains('spotlight-moods') ? Math.min(2, cards.length - 1) : Math.min(1, cards.length - 1);
-    let timer;
+    let timer = null;
     let isVisible = false;
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const activate = (index, scroll = true) => {
+    const activate = index => {
       activeIndex = (index + cards.length) % cards.length;
       cards.forEach((card, i) => {
         const active = i === activeIndex;
         card.classList.toggle('is-spotlight', active);
         card.setAttribute('aria-current', active ? 'true' : 'false');
       });
-      // Keep spotlight motion inside the horizontal rail; never auto-scroll the page.
     };
     const start = () => {
       clearInterval(timer);
-      if (!isVisible || reducedMotion || cards.length < 2 || rail.matches(':hover') || rail.contains(document.activeElement)) return;
-      timer = setInterval(() => activate(activeIndex + 1), 3200);
+      if (!isVisible || reducedMotion) return;
+      // 1.10x the previous 3.2-second cadence; keep moving even while hovered or focused.
+      timer = setInterval(() => activate(activeIndex + 1), Math.round(3200 / 1.10));
     };
-    activate(activeIndex, false);
+    activate(activeIndex);
     rail.addEventListener('click', event => {
       const card = event.target.closest('.mood-card, .product-card');
       if (!card || !rail.contains(card)) return;
       if (card.matches('a.mood-card')) event.preventDefault();
       activate(cards.indexOf(card));
-      start();
     });
     rail.addEventListener('keydown', event => {
       if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
@@ -228,21 +227,15 @@ function initSpotlightRails() {
       event.preventDefault();
       activate(activeIndex + (event.key === 'ArrowRight' ? 1 : -1));
       cards[activeIndex].focus({preventScroll:true});
-      start();
     });
-    rail.addEventListener('mouseenter', () => clearInterval(timer));
-    rail.addEventListener('mouseleave', start);
-    rail.addEventListener('focusin', () => clearInterval(timer));
-    rail.addEventListener('focusout', event => { if (!rail.contains(event.relatedTarget)) start(); });
     const visibilityObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
+      for (const entry of entries) {
         isVisible = entry.isIntersecting;
         if (isVisible) start();
         else clearInterval(timer);
-      });
-    }, { threshold: [0, 0.25] });
+      }
+    }, { threshold: 0.01 });
     visibilityObserver.observe(rail);
-
   });
 }
 
