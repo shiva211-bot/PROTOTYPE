@@ -357,7 +357,7 @@ function initShopJourney() {
 
     const activePanel = Math.min(panels.length - 1, Math.floor(journey + 0.5));
     panels.forEach((panel, index) => {
-      panel.style.opacity = index === activePanel ? '1' : '0';
+      panel.style.setProperty('opacity', index === activePanel ? '1' : '0', 'important');
       panel.style.zIndex = String(index + 2);
     });
     if (progress) progress.style.transform = 'scaleX(' + amount + ')';

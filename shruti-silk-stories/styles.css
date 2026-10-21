@@ -108,4 +108,15 @@
 .journey-track.is-video-ready>.journey-scene{opacity:0;}
 .journey-track>.journey-scene{transition:opacity .12s linear;}
 .journey-track>.journey-vignette{z-index:1;}
-@media(prefers-reduced-motion:reduce){.journey-track>.journey-video{display:block;inset:0;width:100%;height:55svh;opacity:0}.journey-track.is-video-ready>.journey-video{opacity:1}.journey-track.is-video-ready>.journey-scene{opacity:0!important}.journey-track>.journey-scene{opacity:1}}
+@media(prefers-reduced-motion:reduce){
+  /* Scroll-driven motion is user-controlled, so preserve the pinned full-screen journey. */
+  .shop-journey{height:420vh!important;}
+  .journey-sticky{position:sticky!important;top:0;height:100svh!important;min-height:540px!important;overflow:hidden!important;}
+  .journey-track{position:absolute!important;inset:0!important;display:block!important;height:100%!important;padding-top:0!important;}
+  .journey-panel{position:absolute!important;inset:0!important;display:block!important;height:100%!important;min-height:0!important;width:100%!important;padding:0!important;}
+  .journey-track>.journey-video{display:block;inset:-2%;width:104%;height:104%;opacity:0;}
+  .journey-track.is-video-ready>.journey-video{opacity:1;}
+  .journey-track.is-video-ready>.journey-scene{opacity:0!important;}
+  .journey-track>.journey-scene{opacity:1;}
+  .journey-progress,.journey-counter{display:block;}
+}
