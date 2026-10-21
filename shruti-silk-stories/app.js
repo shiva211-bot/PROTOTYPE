@@ -305,37 +305,43 @@ function initShopJourney() {
   const section = $('#shop-journey');
   const track = section && section.querySelector('.journey-track');
   if (!section || !track) return;
+  const scene = track.querySelector('.journey-scene');
   const panels = Array.from(track.querySelectorAll('.journey-panel'));
   const progress = section.querySelector('.journey-progress span');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduced) return;
+  if (!scene || !panels.length) return;
+  if (reduced) {
+    panels.forEach(panel => { panel.style.opacity = '1'; });
+    return;
+  }
   let queued = false;
+  const clamp = value => Math.max(0, Math.min(1, value));
   const update = () => {
     queued = false;
     const rect = section.getBoundingClientRect();
     const travel = Math.max(1, section.offsetHeight - window.innerHeight);
-    const amount = Math.max(0, Math.min(1, -rect.top / travel));
+    const amount = clamp(-rect.top / travel);
     const journey = amount * (panels.length - 1);
+
+    // One continuous camera move: the showroom image never switches or resets between scenes.
+    // Scaling around the aisle's vanishing point makes scroll feel like walking forward into the shop.
+    const scale = 1.02 + amount * 1.52;
+    scene.style.transform = 'translate3d(0,' + (-amount * 1.8) + '%,0) scale(' + scale + ')';
+    scene.style.filter = 'saturate(' + (0.9 + amount * 0.08) + ') brightness(' + (1 - amount * 0.08) + ')';
+
+    const activePanel = Math.min(panels.length - 1, Math.floor(journey + 0.5));
     panels.forEach((panel, index) => {
-      const image = panel.querySelector('img');
-      // Each scene is a depth plane: approach it, pass through it, then reveal the next scene ahead.
-      const local = Math.max(0, Math.min(1, journey - index));
-      const entering = Math.max(0, Math.min(1, (journey - (index - 1)) * 3));
-      const leaving = Math.max(0, Math.min(1, (index + 1.08 - journey) * 3));
-      const opacity = index === 0 && journey < .01 ? 1 : Math.min(entering, leaving);
-      panel.style.opacity = String(opacity);
-      panel.style.zIndex = String(index);
-      if (image) {
-        const scale = 1.02 + local * 0.62;
-        const lift = local * 5.5;
-        image.style.transform = 'scale(' + scale + ') translate3d(0,' + lift + '%,0)';
-        image.style.filter = 'saturate(' + (0.82 + local * 0.12) + ') brightness(' + (1 - local * 0.12) + ')';
-      }
-      panel.style.setProperty('--journey-depth', String(local));
+      panel.style.opacity = index === activePanel ? '1' : '0';
+      panel.style.zIndex = String(index + 2);
     });
     if (progress) progress.style.transform = 'scaleX(' + amount + ')';
   };
-  const requestUpdate = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
+  const requestUpdate = () => {
+    if (!queued) {
+      queued = true;
+      requestAnimationFrame(update);
+    }
+  };
   window.addEventListener('scroll', requestUpdate, {passive:true});
   window.addEventListener('resize', requestUpdate, {passive:true});
   update();
