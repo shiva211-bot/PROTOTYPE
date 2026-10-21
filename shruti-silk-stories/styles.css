@@ -41,14 +41,14 @@
 @media(prefers-reduced-motion:reduce){.spotlight-rail>*{transition:none!important}}
 /* Woven to be remembered: a continuously moving, projected-space portrait ring. */
 .woven-stage{height:clamp(390px,43vw,500px);perspective:1200px;overflow:hidden;padding:0;margin:0 -2%;}
-.woven-ring{position:relative;width:100%;height:100%;display:block;overflow:hidden;perspective:1200px;transform-style:preserve-3d;touch-action:pan-y;}
-.woven-ring .woven-card{position:absolute;left:50%;top:50%;width:clamp(220px,24vw,315px);height:clamp(310px,36vw,410px);margin:0;transform-origin:center center;will-change:transform;backface-visibility:hidden;transition:box-shadow .35s,filter .35s;}
+.woven-ring{position:relative;width:100%;height:100%;display:block;overflow:hidden;contain:layout paint;isolation:isolate;perspective:1200px;transform-style:preserve-3d;touch-action:pan-y;}
+.woven-ring .woven-card{position:absolute;left:50%;top:50%;width:clamp(220px,24vw,315px);height:clamp(310px,36vw,410px);margin:0;transform-origin:center center;will-change:transform,opacity;backface-visibility:hidden;transition:none;}
 .woven-ring .woven-card>img{height:62%;object-fit:cover;}
 .woven-ring .woven-card>div{padding:13px 16px 14px;}
 .woven-ring .woven-card h3{font-size:clamp(16px,1.7vw,22px);}
 .woven-ring .woven-card p{margin-bottom:8px;}
 .woven-ring .woven-card .text-link{font-size:8px;}
-.woven-ring .woven-card.is-ring-front{box-shadow:0 20px 45px #4a28142c;}
+.woven-ring .woven-card.is-ring-front{box-shadow:0 15px 40px #4a28140c;}
 .woven-section .rail-footer{margin-top:20px;}
 @media(max-width:760px){.woven-stage{height:380px;margin:0 -5%;}.woven-ring .woven-card{width:220px;height:320px}.woven-ring .woven-card>img{height:58%}.woven-ring .woven-card>div{padding:10px 12px}.woven-ring .woven-card h3{font-size:17px}.woven-ring .woven-card .text-link{font-size:7px}}
 @media(prefers-reduced-motion:reduce){.woven-ring .woven-card{will-change:auto}}
