@@ -306,16 +306,33 @@ function initShopJourney() {
   const track = section && section.querySelector('.journey-track');
   if (!section || !track) return;
   const scene = track.querySelector('.journey-scene');
+  const video = track.querySelector('.journey-video');
   const panels = Array.from(track.querySelectorAll('.journey-panel'));
   const progress = section.querySelector('.journey-progress span');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!scene || !panels.length) return;
-  if (reduced) {
-    panels.forEach(panel => { panel.style.opacity = '1'; });
-    return;
-  }
-  let queued = false;
   const clamp = value => Math.max(0, Math.min(1, value));
+  let queued = false;
+  let videoReady = false;
+
+  if (video) {
+    const markReady = () => {
+      if (video.readyState >= 2 && Number.isFinite(video.duration) && video.duration > 0) {
+        videoReady = true;
+        track.classList.add('is-video-ready');
+        update();
+      }
+    };
+    video.addEventListener('loadedmetadata', markReady);
+    video.addEventListener('loadeddata', markReady);
+    video.addEventListener('canplay', markReady);
+    video.addEventListener('error', () => {
+      videoReady = false;
+      track.classList.remove('is-video-ready');
+    });
+    video.load();
+  }
+
   const update = () => {
     queued = false;
     const rect = section.getBoundingClientRect();
@@ -323,11 +340,20 @@ function initShopJourney() {
     const amount = clamp(-rect.top / travel);
     const journey = amount * (panels.length - 1);
 
-    // One continuous camera move: the showroom image never switches or resets between scenes.
-    // Scaling around the aisle's vanishing point makes scroll feel like walking forward into the shop.
-    const scale = 1.02 + amount * 1.52;
-    scene.style.transform = 'translate3d(0,' + (-amount * 1.8) + '%,0) scale(' + scale + ')';
-    scene.style.filter = 'saturate(' + (0.9 + amount * 0.08) + ') brightness(' + (1 - amount * 0.08) + ')';
+    // When the supplied walkthrough is available, scroll scrubs its real camera path
+    // in both directions. Keep the still image as a graceful fallback if video is unavailable.
+    if (videoReady && video && Number.isFinite(video.duration)) {
+      const targetTime = amount * Math.max(0, video.duration - 0.04);
+      if (Math.abs(video.currentTime - targetTime) > 0.045) {
+        try { video.currentTime = targetTime; } catch (_) {}
+      }
+      scene.style.transform = 'translate3d(0,0,0) scale(1.02)';
+      scene.style.filter = 'none';
+    } else {
+      const scale = 1.02 + amount * 1.52;
+      scene.style.transform = 'translate3d(0,' + (-amount * 1.8) + '%,0) scale(' + scale + ')';
+      scene.style.filter = 'saturate(' + (0.9 + amount * 0.08) + ') brightness(' + (1 - amount * 0.08) + ')';
+    }
 
     const activePanel = Math.min(panels.length - 1, Math.floor(journey + 0.5));
     panels.forEach((panel, index) => {
@@ -342,11 +368,15 @@ function initShopJourney() {
       requestAnimationFrame(update);
     }
   };
+  if (reduced) {
+    panels.forEach(panel => { panel.style.opacity = '1'; });
+    if (video) video.pause();
+    return;
+  }
   window.addEventListener('scroll', requestUpdate, {passive:true});
   window.addEventListener('resize', requestUpdate, {passive:true});
   update();
 }
-
 function init() {
   renderProducts();
   initShopJourney();
