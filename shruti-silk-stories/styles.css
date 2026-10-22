@@ -318,3 +318,20 @@ button:not(.colour-swatch):not(.detail-thumb):not(.scroll-key):active,a.button:a
 .contact-glow-rose{width:170px;height:190px;right:11%;top:39%;background:radial-gradient(ellipse,#db286c 0%,#5c267d 40%,transparent 72%);opacity:.24}
 @media(max-width:700px){.contact-section{padding:30px 22px 50px}.contact-topline{font-size:7px;letter-spacing:.11em}.contact-topline span:last-child{text-align:right;max-width:150px}.contact-layout{grid-template-columns:1fr;gap:42px;margin-top:42px}.contact-left{min-height:0}.contact-left h2{font-size:clamp(58px,16vw,86px)}.contact-dot-grid{height:85px;margin-top:20px}.contact-signoff{margin-top:26px}.contact-right{max-width:500px}.contact-detail{padding-bottom:20px;margin-bottom:20px}.contact-glow-teal{right:-10%;top:43%;width:130px;height:150px}.contact-glow-rose{right:-8%;top:57%;width:140px;height:150px}}
 @media(prefers-reduced-motion:reduce){.contact-arrow,.contact-social-links a{transition:none}}
+
+/* Wordmark Bleed footer */
+.wordmark-footer{position:relative;isolation:isolate;overflow:hidden;background:#050706!important;color:#f2f2ec;padding:42px clamp(22px,6vw,88px) 0;border-top:1px solid #ffffff18}
+.wordmark-footer-top{display:grid;grid-template-columns:1fr 1fr 1fr;align-items:start;gap:24px;max-width:1320px;margin:0 auto 52px}
+.wordmark-footer .brand-footer{justify-self:start}
+.wordmark-footer-top>p{margin:0;color:#a4aaa0;font:400 13px/1.65 var(--sans)}
+.wordmark-back-top{justify-self:end;color:#d7ddd3;text-decoration:none;font:600 8px/1.4 var(--sans);letter-spacing:.15em}
+.wordmark-back-top span{margin-left:8px;color:#b9f34a}
+.wordmark-link-columns{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;max-width:1320px;margin:0 auto;padding:0 0 54px;border-bottom:1px solid #ffffff20}
+.wordmark-link-group{display:flex;flex-direction:column;align-items:flex-start;gap:13px}
+.wordmark-link-group p{margin:0 0 8px;color:#8e968c;font:600 8px/1.4 var(--sans);letter-spacing:.18em}
+.wordmark-link-group a{color:#c2c7bd;text-decoration:none;font:400 11px/1.4 var(--sans);transition:color .2s,transform .2s}
+.wordmark-link-group a:hover{color:#b9f34a;transform:translateX(3px)}
+.wordmark-footer-meta{position:relative;z-index:2;display:flex;justify-content:space-between;gap:16px;max-width:1320px;margin:0 auto;padding:18px 0 20px;color:#737b70;font:600 7px/1.5 var(--sans);letter-spacing:.12em}
+.wordmark-bleed{position:relative;z-index:0;left:50%;width:100vw;transform:translateX(-50%);margin:0 0 -.19em;color:#b9f34a;font:800 25.5vw/.76 var(--sans);letter-spacing:-.105em;white-space:nowrap;text-align:center;pointer-events:none;user-select:none}
+@media(max-width:700px){.wordmark-footer{padding:32px 22px 0}.wordmark-footer-top{grid-template-columns:1fr auto;gap:16px;margin-bottom:36px}.wordmark-footer-top>p{grid-column:1;grid-row:2;font-size:12px}.wordmark-back-top{grid-column:2;grid-row:1}.wordmark-link-columns{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 20px;padding-bottom:36px}.wordmark-footer-meta{flex-direction:column;gap:7px;padding:16px 0}.wordmark-bleed{font-size:26vw;margin-bottom:-.14em}}
+@media(prefers-reduced-motion:reduce){.wordmark-link-group a{transition:none}}
