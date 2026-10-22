@@ -297,3 +297,24 @@ button:not(.colour-swatch):not(.detail-thumb):not(.scroll-key):active,a.button:a
 @media(prefers-reduced-motion:reduce){.fan-card{transition:none!important;}}
 
 @media(max-width:760px){.fan-deck-stage .fan-card:nth-child(n){left:50%;}}
+/* DRIFT contact section */
+.contact-section{position:relative;isolation:isolate;overflow:hidden;background:#080d11;color:#f5f4f0;padding:clamp(34px,5vw,70px) clamp(22px,7.8vw,112px) clamp(48px,7vw,88px);border-top:1px solid #ffffff16}
+.contact-topline{position:relative;z-index:1;display:flex;justify-content:space-between;gap:20px;color:#9299a0;font:600 8px/1.4 var(--sans);letter-spacing:.18em}
+.contact-layout{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.8fr);gap:clamp(42px,10vw,150px);max-width:1180px;margin:clamp(42px,6vw,76px) auto 0}
+.contact-left{position:relative;min-height:440px}.contact-left>.eyebrow{color:#b9c0c7;margin:0 0 20px}
+.contact-left h2{position:relative;z-index:1;margin:0;font:600 clamp(54px,7vw,92px)/.92 var(--sans);letter-spacing:-.075em}
+.contact-dot-grid{position:relative;width:min(360px,95%);height:120px;margin:28px 0 0;background-image:radial-gradient(circle,#6c8796 1px,transparent 1.25px);background-size:19px 19px;opacity:.43;mask-image:linear-gradient(90deg,#000,transparent 95%)}
+.contact-signoff{position:relative;margin:38px 0 16px;color:#a7adb4;font:600 clamp(23px,3vw,34px)/1.05 var(--sans);letter-spacing:-.045em}
+.contact-tag{display:inline-flex;border:1px solid #ffffff27;border-radius:999px;padding:8px 14px;color:#c4cbd0;font-size:11px}
+.contact-right{padding-top:2px}.contact-detail,.contact-social{position:relative;display:grid;grid-template-columns:24px 1fr 18px;align-items:start;gap:12px;padding:0 0 28px;margin:0 0 24px;color:inherit;text-decoration:none;border-bottom:1px solid #ffffff12}
+.contact-detail-icon{color:#b2bac2;font-size:17px;line-height:1.2}.contact-detail strong,.contact-social strong{display:block;font:600 15px/1.2 var(--sans);letter-spacing:-.025em}
+.contact-detail small{display:block;margin-top:8px;color:#969fa8;font:400 10px/1.65 var(--sans)}
+.contact-arrow{color:#8d979e;opacity:0;transform:translate(-4px,4px);transition:opacity .25s,transform .25s}.contact-detail[href]:hover .contact-arrow{opacity:1;transform:translate(0,0)}
+.contact-detail[href]:hover strong,.contact-social-links a:hover{color:#d9f7e9}.contact-social{grid-template-columns:24px 1fr;border:0;margin-bottom:0;padding-bottom:18px}
+.contact-social-links{display:flex;gap:8px;margin-top:12px}.contact-social-links a{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;border:1px solid #ffffff32;background:#ffffff0b;color:#d4d8db;text-decoration:none;font:600 10px/1 var(--sans);transition:background .2s,color .2s,transform .2s}
+.contact-social-links a:hover{background:#ffffff20;transform:translateY(-2px)}.contact-note{margin:25px 0 0;color:#828c94;font-size:10px;line-height:1.7}
+.contact-glow{position:absolute;z-index:-1;pointer-events:none;filter:blur(50px);border-radius:50%;opacity:.32}
+.contact-glow-teal{width:170px;height:190px;right:13%;top:22%;background:radial-gradient(ellipse,#00d7a5 0%,#006d71 38%,transparent 72%)}
+.contact-glow-rose{width:170px;height:190px;right:11%;top:39%;background:radial-gradient(ellipse,#db286c 0%,#5c267d 40%,transparent 72%);opacity:.24}
+@media(max-width:700px){.contact-section{padding:30px 22px 50px}.contact-topline{font-size:7px;letter-spacing:.11em}.contact-topline span:last-child{text-align:right;max-width:150px}.contact-layout{grid-template-columns:1fr;gap:42px;margin-top:42px}.contact-left{min-height:0}.contact-left h2{font-size:clamp(58px,16vw,86px)}.contact-dot-grid{height:85px;margin-top:20px}.contact-signoff{margin-top:26px}.contact-right{max-width:500px}.contact-detail{padding-bottom:20px;margin-bottom:20px}.contact-glow-teal{right:-10%;top:43%;width:130px;height:150px}.contact-glow-rose{right:-8%;top:57%;width:140px;height:150px}}
+@media(prefers-reduced-motion:reduce){.contact-arrow,.contact-social-links a{transition:none}}
