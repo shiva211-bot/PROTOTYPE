@@ -226,14 +226,14 @@ function initSpotlightRails() {
     });
     activate(activeIndex);
     rail.addEventListener('click', event => {
-      const card = event.target.closest('.mood-card, .product-card');
+      const card = event.target.closest('.mood-card, .product-card, .mini-product, .occasion-card, .attention-card');
       if (!card || !rail.contains(card)) return;
       if (card.matches('a.mood-card')) event.preventDefault();
       activate(cards.indexOf(card));
     });
     rail.addEventListener('keydown', event => {
       if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
-      const card = event.target.closest('.mood-card, .product-card');
+      const card = event.target.closest('.mood-card, .product-card, .mini-product, .occasion-card, .attention-card');
       if (!card) return;
       event.preventDefault();
       activate(activeIndex + (event.key === 'ArrowRight' ? 1 : -1));
