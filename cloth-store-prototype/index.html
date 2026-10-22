@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Discover considered essentials and contemporary clothing from Threads & Co.">
+  <meta name="theme-color" content="#fafafa">
+  <title>Threads &amp; Co. — Premium Contemporary Clothing</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4/dist/locomotive-scroll.min.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav-container">
+      <a href="#hero" class="logo" aria-label="Threads & Co. home">Threads &amp; Co.</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" id="primary-navigation">
+        <a href="#hero">Home</a>
+        <a href="#collections">Collections</a>
+        <a href="#featured">Featured</a>
+        <a href="#story">Our Story</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main-content" data-scroll-container>
+    <section data-scroll-section class="hero" id="hero" aria-labelledby="hero-title">
+      <div data-scroll class="hero-content">
+        <p class="eyebrow">Thoughtfully considered. Made to be worn.</p>
+        <h1 id="hero-title">Threads &amp; Co.</h1>
+        <p>Premium contemporary clothing for the everyday and everything after.</p>
+        <a href="#collections" class="cta-button">Explore Collections</a>
+      </div>
+      <div class="hero-bg" aria-hidden="true"></div>
+    </section>
+
+    <section data-scroll-section class="collections-section" id="collections" aria-labelledby="collections-title">
+      <p class="eyebrow section-eyebrow">Find your next favourite</p>
+      <h2 id="collections-title">Our Collections</h2>
+      <div class="horizontal-scroll-wrapper">
+        <div class="horizontal-scroll-container">
+          <article class="collection-panel">
+            <div class="panel-content">
+              <p class="collection-number">01 / SPRING</p>
+              <h3>Spring Collection</h3>
+              <p>Light fabrics, fresh colours, effortless style.</p>
+              <a class="collection-link" href="#featured" data-collection="spring" data-label="Spring">Explore Spring <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+          <article class="collection-panel">
+            <div class="panel-content">
+              <p class="collection-number">02 / SUMMER</p>
+              <h3>Summer Essentials</h3>
+              <p>Breathable linens, vibrant prints, relaxed fits.</p>
+              <a class="collection-link" href="#featured" data-collection="summer" data-label="Summer">Explore Summer <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+          <article class="collection-panel">
+            <div class="panel-content">
+              <p class="collection-number">03 / AUTUMN</p>
+              <h3>Autumn Layers</h3>
+              <p>Cosy knits, rich textures, transitional pieces.</p>
+              <a class="collection-link" href="#featured" data-collection="autumn" data-label="Autumn">Explore Autumn <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+          <article class="collection-panel">
+            <div class="panel-content">
+              <p class="collection-number">04 / WINTER</p>
+              <h3>Winter Luxe</h3>
+              <p>Warm layers, tactile textures, timeless silhouettes.</p>
+              <a class="collection-link" href="#featured" data-collection="winter" data-label="Winter">Explore Winter <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+        </div>
+      </div>
+      <p class="collection-note">A curated preview: each season currently features one sample product.</p>
+    </section>
+
+    <section data-scroll-section class="featured-section" id="featured" aria-labelledby="featured-title">
+      <p class="eyebrow section-eyebrow">The considered edit</p>
+      <h2 id="featured-title">Featured Pieces</h2>
+      <div class="featured-grid">
+        <article class="featured-card" data-category="spring">
+          <div class="product-image product-1" role="img" aria-label="Silk blouse product photograph"></div>
+          <div class="product-info">
+            <p class="product-category">SPRING / ESSENTIALS</p>
+            <h3>Silk Blouse</h3>
+            <p class="price">$128.00</p>
+            <button class="quick-view" type="button" data-product-index="0">Quick View <span aria-hidden="true">↗</span></button>
+          </div>
+        </article>
+        <article class="featured-card" data-category="summer">
+          <div class="product-image product-2" role="img" aria-label="Linen clothing product photograph"></div>
+          <div class="product-info">
+            <p class="product-category">SUMMER / ESSENTIALS</p>
+            <h3>Linen Trousers</h3>
+            <p class="price">$98.00</p>
+            <button class="quick-view" type="button" data-product-index="1">Quick View <span aria-hidden="true">↗</span></button>
+          </div>
+        </article>
+        <article class="featured-card" data-category="autumn">
+          <div class="product-image product-3" role="img" aria-label="Cashmere knitwear product photograph"></div>
+          <div class="product-info">
+            <p class="product-category">AUTUMN / KNITWEAR</p>
+            <h3>Cashmere Sweater</h3>
+            <p class="price">$185.00</p>
+            <button class="quick-view" type="button" data-product-index="2">Quick View <span aria-hidden="true">↗</span></button>
+          </div>
+        </article>
+        <article class="featured-card" data-category="winter">
+          <div class="product-image product-4" role="img" aria-label="Leather jacket product photograph"></div>
+          <div class="product-info">
+            <p class="product-category">WINTER / OUTERWEAR</p>
+            <h3>Leather Jacket</h3>
+            <p class="price">$298.00</p>
+            <button class="quick-view" type="button" data-product-index="3">Quick View <span aria-hidden="true">↗</span></button>
+          </div>
+        </article>
+      </div>
+      <div class="show-all-wrap"><button class="show-all-products" type="button">Show all featured pieces</button></div>
+    </section>
+
+    <section data-scroll-section class="reveal-section" id="reveal" aria-labelledby="reveal-title">
+      <p class="eyebrow section-eyebrow">The process</p>
+      <h2 id="reveal-title">From Sketch to Style</h2>
+      <div class="reveal-container">
+        <div class="reveal-sketch">
+          <div class="sketch-placeholder">Design Sketch</div>
+          <p class="sketch-label">Initial Concept</p>
+        </div>
+        <div class="reveal-product">
+          <div class="product-placeholder">Final Product</div>
+          <p class="product-label">Finished Garment</p>
+        </div>
+      </div>
+      <p class="reveal-description">Each piece begins as a considered idea, shaped into the garment you see here.</p>
+    </section>
+
+    <section data-scroll-section class="story-section" id="story" aria-labelledby="story-title">
+      <p class="eyebrow section-eyebrow">A little about us</p>
+      <h2 id="story-title">Our Story</h2>
+      <div class="story-content">
+        <p>At Threads &amp; Co., we believe clothing should be more than fabric—it should be an expression of who you are. Our concept grew from a passion for quality craftsmanship and timeless design.</p>
+        <p>We celebrate considered materials, thoughtful details and pieces designed to earn their place in your wardrobe.</p>
+        <p>Our collections are made for people who value both style and substance: clothing that moves from work to weekend and casual to refined.</p>
+        <p class="story-cta">Join us on this journey of conscious style.</p>
+      </div>
+    </section>
+
+    <section data-scroll-section class="newsletter-section" id="contact" aria-labelledby="newsletter-title">
+      <p class="eyebrow section-eyebrow">Notes from the studio</p>
+      <h2 id="newsletter-title">Stay Inspired</h2>
+      <div class="newsletter-content">
+        <p>Get a preview of new collections, styling notes and occasional updates.</p>
+        <form class="newsletter-form">
+          <label class="visually-hidden" for="newsletter-email">Email address</label>
+          <input id="newsletter-email" name="email" type="email" autocomplete="email" placeholder="Enter your email address" required>
+          <button type="submit">Subscribe <span aria-hidden="true">↗</span></button>
+        </form>
+        <p id="newsletter-status" class="newsletter-status" aria-live="polite"></p>
+        <p class="newsletter-footer">Prototype form only. Email addresses are not sent or stored.</p>
+      </div>
+    </section>
+
+    <footer data-scroll-section class="footer">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <h3>Threads &amp; Co.</h3>
+          <p>Premium contemporary clothing.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Explore</h4>
+          <a href="#collections">Collections</a>
+          <a href="#featured">Featured pieces</a>
+          <a href="#story">Our story</a>
+        </div>
+        <div class="footer-links">
+          <h4>Information</h4>
+          <a href="#contact">Contact &amp; newsletter</a>
+          <a href="#contact">Customer enquiries</a>
+        </div>
+        <div class="footer-social">
+          <h4>Stay connected</h4>
+          <p>Follow along for future collection updates.</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Threads &amp; Co. Concept store prototype.</p>
+      </div>
+    </footer>
+  </main>
+
+  <div class="product-modal" id="product-modal" hidden>
+    <div class="modal-backdrop" data-close-modal></div>
+    <section class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-product-title">
+      <button class="modal-close" type="button" aria-label="Close product details">×</button>
+      <div class="modal-product-image product-1" id="modal-product-image" role="img" aria-label="Selected product image"></div>
+      <div class="modal-product-info">
+        <p class="eyebrow">Featured piece</p>
+        <h2 id="modal-product-title">Product</h2>
+        <p id="modal-product-description"></p>
+        <p class="modal-product-price" id="modal-product-price"></p>
+        <p class="modal-note">This is a visual prototype. Checkout is not available.</p>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
