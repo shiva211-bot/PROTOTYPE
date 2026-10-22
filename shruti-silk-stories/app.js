@@ -288,11 +288,11 @@ function initWovenRing() {
   };
   const resume = () => { paused = false; if (visible && !reducedMotion && !frame) frame = requestAnimationFrame(tick); };
   const stop = () => { paused = true; if (frame) cancelAnimationFrame(frame); frame = 0; last = 0; };
-  cards.forEach(card => {
-    card.addEventListener('pointerenter', stop);
-    card.addEventListener('pointerleave', () => {
-      if (!rail.querySelector('.woven-card:hover') && !rail.contains(document.activeElement)) resume();
-    });
+  // Pause at the whole rail boundary. Per-card pointer events can oscillate
+  // as moving cards pass beneath a stationary cursor, creating visible jitter.
+  rail.addEventListener('pointerenter', stop);
+  rail.addEventListener('pointerleave', () => {
+    if (!rail.contains(document.activeElement)) resume();
   });
   rail.addEventListener('focusin', stop);
   rail.addEventListener('focusout', event => { if (!rail.contains(event.relatedTarget) && !rail.querySelector('.woven-card:hover')) resume(); });
