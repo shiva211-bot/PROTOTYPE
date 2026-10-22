@@ -136,15 +136,20 @@
 
     <section class="bridal-section" id="bridal-collection">
       <div class="bridal-wave bridal-wave-top"></div>
-      <div class="bridal-inner"><div class="bridal-feature"><img src="assets/hd_bridal_feature.jpg" alt="The bridal collection campaign"><div class="bridal-feature-copy"><p class="eyebrow light">FOR THE DAY THAT BECOMES A STORY</p><h2>The Bridal<br>Collection</h2><a class="button button-gold" href="#bridal-products">View the collection ↗</a></div></div><div class="bridal-fan-deck" aria-label="Bridal campaign fan deck">
-        <div class="fan-deck-heading"><p class="eyebrow light">THE BRIDAL CAMPAIGN</p><h3>Every frame, a <em>forever.</em></h3><p>Explore the stories behind the celebration.</p></div>
-        <div class="fan-deck-stage">
-          <a class="fan-card" href="#bridal-products" style="--fan-angle:-28deg;--fan-depth:0;--fan-order:1"><img src="assets/hd_mood_teal.jpg" alt="Teal heirloom silk campaign"><span>01 / THE HEIRLOOM</span></a>
-          <a class="fan-card" href="#bridal-products" style="--fan-angle:-14deg;--fan-depth:1;--fan-order:2"><img src="assets/hd_mood_wine.jpg" alt="Wine silk bridal campaign"><span>02 / AFTER HOURS</span></a>
-          <a class="fan-card fan-card-featured" href="#bridal-products" style="--fan-angle:0deg;--fan-depth:4;--fan-order:5"><span class="fan-yellow-plate">THE<br>BRIDAL<br>EDIT <i>↗</i></span><img src="assets/hd_bridal_feature.jpg" alt="Featured bridal campaign"><span>03 / THE MOMENT</span></a>
-          <a class="fan-card" href="#bridal-products" style="--fan-angle:14deg;--fan-depth:2;--fan-order:3"><img src="assets/hd_mood_pink.jpg" alt="Pink festive silk campaign"><span>04 / IN BLOOM</span></a>
-          <a class="fan-card" href="#bridal-products" style="--fan-angle:28deg;--fan-depth:1;--fan-order:4"><img src="assets/hd_bridal_1.jpg" alt="Traditional bridal silk campaign"><span>05 / THE RITUAL</span></a>
+      <div class="bridal-inner"><div class="bridal-feature"><img src="assets/hd_bridal_feature.jpg" alt="The bridal collection campaign"><div class="bridal-feature-copy"><p class="eyebrow light">FOR THE DAY THAT BECOMES A STORY</p><h2>The Bridal<br>Collection</h2><a class="button button-gold" href="#bridal-products">View the collection ↗</a></div></div><div class="bridal-fan-deck circular-bridal" aria-label="Interactive 3D bridal circular slider">
+        <div class="fan-deck-heading"><p class="eyebrow light">THE BRIDAL CAMPAIGN / 360°</p><h3>Every frame, a <em>forever.</em></h3><p>Drag to turn the ring and discover every story.</p></div>
+        <div class="circular-slider-stage" id="bridal-ring-stage" tabindex="0" role="group" aria-label="Drag or use arrow keys to rotate bridal campaign cards">
+          <div class="circular-slider-ring" id="bridal-ring">
+            <a class="circular-slide" href="#bridal-products" style="--slide-index:0"><img src="assets/hd_mood_teal.jpg" alt="Teal heirloom silk campaign"><span>01 / THE HEIRLOOM</span></a>
+            <a class="circular-slide" href="#bridal-products" style="--slide-index:1"><img src="assets/hd_mood_wine.jpg" alt="Wine silk bridal campaign"><span>02 / AFTER HOURS</span></a>
+            <a class="circular-slide" href="#bridal-products" style="--slide-index:2"><img src="assets/hd_bridal_feature.jpg" alt="Featured bridal campaign"><span>03 / THE MOMENT</span></a>
+            <a class="circular-slide" href="#bridal-products" style="--slide-index:3"><img src="assets/hd_mood_pink.jpg" alt="Pink festive silk campaign"><span>04 / IN BLOOM</span></a>
+            <a class="circular-slide" href="#bridal-products" style="--slide-index:4"><img src="assets/hd_bridal_1.jpg" alt="Traditional bridal silk campaign"><span>05 / THE RITUAL</span></a>
+            <a class="circular-slide" href="#bridal-products" style="--slide-index:5"><img src="assets/hd_mood_emerald.jpg" alt="Emerald ceremonial silk campaign"><span>06 / THE PROMISE</span></a>
+          </div>
+          <span class="circular-slider-hint">DRAG TO ROTATE <span aria-hidden="true">↔</span></span>
         </div>
+        <div class="circular-slider-controls"><button type="button" class="round-arrow" id="bridal-ring-prev" aria-label="Rotate bridal ring left">←</button><span id="bridal-ring-count">01 / 06</span><button type="button" class="round-arrow" id="bridal-ring-next" aria-label="Rotate bridal ring right">→</button></div>
       </div><div class="bridal-products-wrap"><div class="bridal-heading"><p class="eyebrow light">THE WEDDING EDIT</p><p>For every beginning.</p></div><div class="product-rail bridal-rail horizontal-rail" id="bridal-products"></div></div></div>
       <div class="bridal-wave bridal-wave-bottom"></div>
     </section>

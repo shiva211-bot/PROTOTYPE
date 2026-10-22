@@ -540,3 +540,54 @@ document.addEventListener('DOMContentLoaded', init);
     control.style.setProperty('--lg-tilt-x','0deg');control.style.setProperty('--lg-tilt-y','0deg');
   },{passive:true});
 })();
+
+/* Circular bridal slider: true 3D ring with pointer drag, touch and keyboard rotation. */
+(() => {
+  const stage = document.getElementById('bridal-ring-stage');
+  const ring = document.getElementById('bridal-ring');
+  if (!stage || !ring || stage.dataset.circularController) return;
+  stage.dataset.circularController = 'true';
+  const cards = [...ring.querySelectorAll('.circular-slide')];
+  const count = cards.length;
+  const step = 360 / count;
+  let rotation = 0, dragging = false, startX = 0, startRotation = 0, moved = false;
+  const counter = document.getElementById('bridal-ring-count');
+  function render() {
+    ring.style.setProperty('--ring-rotation', rotation + 'deg');
+    const frontIndex = ((Math.round(-rotation / step) % count) + count) % count;
+    if (counter) counter.textContent = String(frontIndex + 1).padStart(2, '0') + ' / ' + String(count).padStart(2, '0');
+    cards.forEach((card, i) => card.style.setProperty('--slide-angle', (i * step) + 'deg'));
+  }
+  function rotateBy(deg) { rotation += deg; render(); }
+  stage.addEventListener('pointerdown', event => {
+    if (event.target.closest('button')) return;
+    dragging = true; moved = false; startX = event.clientX; startRotation = rotation;
+    stage.classList.add('is-dragging');
+    try { stage.setPointerCapture(event.pointerId); } catch (_) {}
+  });
+  stage.addEventListener('pointermove', event => {
+    if (!dragging) return;
+    const delta = event.clientX - startX;
+    if (Math.abs(delta) > 4) moved = true;
+    rotation = startRotation + delta * .48;
+    render();
+  });
+  function finishDrag() {
+    if (!dragging) return;
+    dragging = false;
+    stage.classList.remove('is-dragging');
+  }
+  stage.addEventListener('pointerup', finishDrag);
+  stage.addEventListener('pointercancel', finishDrag);
+  stage.addEventListener('lostpointercapture', finishDrag);
+  stage.addEventListener('click', event => {
+    if (moved) { event.preventDefault(); event.stopPropagation(); moved = false; }
+  }, true);
+  stage.addEventListener('keydown', event => {
+    if (event.key === 'ArrowLeft') { event.preventDefault(); rotateBy(step); }
+    if (event.key === 'ArrowRight') { event.preventDefault(); rotateBy(-step); }
+  });
+  document.getElementById('bridal-ring-prev')?.addEventListener('click', () => rotateBy(step));
+  document.getElementById('bridal-ring-next')?.addEventListener('click', () => rotateBy(-step));
+  render();
+})();

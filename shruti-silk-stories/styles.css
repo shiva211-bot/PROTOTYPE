@@ -335,3 +335,21 @@ button:not(.colour-swatch):not(.detail-thumb):not(.scroll-key):active,a.button:a
 .wordmark-bleed{position:relative;z-index:0;left:50%;width:100vw;transform:translateX(-50%);margin:0 0 -.19em;color:#b9f34a;font:800 25.5vw/.76 var(--sans);letter-spacing:-.105em;white-space:nowrap;text-align:center;pointer-events:none;user-select:none}
 @media(max-width:700px){.wordmark-footer{padding:32px 22px 0}.wordmark-footer-top{grid-template-columns:1fr auto;gap:16px;margin-bottom:36px}.wordmark-footer-top>p{grid-column:1;grid-row:2;font-size:12px}.wordmark-back-top{grid-column:2;grid-row:1}.wordmark-link-columns{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 20px;padding-bottom:36px}.wordmark-footer-meta{flex-direction:column;gap:7px;padding:16px 0}.wordmark-bleed{font-size:26vw;margin-bottom:-.14em}}
 @media(prefers-reduced-motion:reduce){.wordmark-link-group a{transition:none}}
+
+/* True 3D circular bridal slider */
+.circular-bridal{min-width:0;overflow:hidden}
+.circular-slider-stage{position:relative;height:clamp(360px,40vw,500px);perspective:1050px;perspective-origin:50% 44%;overflow:hidden;touch-action:pan-y;cursor:grab;user-select:none}
+.circular-slider-stage.is-dragging{cursor:grabbing}
+.circular-slider-ring{position:absolute;left:50%;top:48%;width:0;height:0;transform-style:preserve-3d;transform:translateZ(-340px) rotateY(var(--ring-rotation,0deg));transition:transform .08s linear;will-change:transform}
+.circular-slide{position:absolute;left:calc(clamp(155px,18vw,220px)/-2);top:calc(clamp(225px,27vw,320px)/-2);width:clamp(155px,18vw,220px);height:clamp(225px,27vw,320px);overflow:hidden;display:block;transform-style:preserve-3d;transform:rotateY(var(--slide-angle)) translateZ(clamp(210px,25vw,300px));border:1px solid #d9bd7b66;background:#210a11;box-shadow:0 18px 38px #0005;backface-visibility:visible}
+.circular-slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.88);pointer-events:none}
+.circular-slide:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,#12060bd9);pointer-events:none}
+.circular-slide>span{position:absolute;z-index:1;left:13px;right:10px;bottom:13px;color:#f5e9d7;font:600 8px/1.5 var(--sans);letter-spacing:.12em;backface-visibility:visible}
+.circular-slide:nth-child(even)>span{transform:scaleX(-1)}
+.circular-slider-hint{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);display:flex;align-items:center;gap:12px;color:#dfc994;font:600 8px/1.4 var(--sans);letter-spacing:.18em;white-space:nowrap;pointer-events:none}
+.circular-slider-hint span{font-size:17px}
+.circular-slider-controls{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:5px;color:#e8d7ba;font-size:9px;letter-spacing:.14em}
+.circular-slider-controls .round-arrow{border-color:#d7bc7a80;color:#f6e8ce}
+.circular-slider-controls .round-arrow:hover{background:#d7bc7a;color:#260b13}
+@media(max-width:760px){.circular-slider-stage{height:350px;perspective:850px}.circular-slider-ring{top:46%;transform:translateZ(-250px) rotateY(var(--ring-rotation,0deg))}.circular-slide{width:clamp(135px,39vw,175px);height:245px;left:calc(clamp(135px,39vw,175px)/-2);top:-122px;transform:rotateY(var(--slide-angle)) translateZ(205px)}.circular-slider-hint{bottom:5px;font-size:7px}}
+@media(prefers-reduced-motion:reduce){.circular-slider-ring{transition:none}}
