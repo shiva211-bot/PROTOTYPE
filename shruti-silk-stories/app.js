@@ -486,7 +486,7 @@ function init() {
   const revealObserver = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
     entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); revealObserver.unobserve(entry.target); } });
   }, {threshold:.08}) : null;
-  $$('.section-heading,.mood-card,.woven-card,.product-card,.bridal-feature,.detail-gallery,.detail-copy,.occasion-card,.attention-card,.stories-title,.story-gallery,.latest-intro,.latest-feature,.latest-links').forEach(el => {
+  $$('.section-heading,.mood-card,.woven-card,.product-card,.bridal-feature,.detail-gallery,.detail-copy,.occasion-card,.attention-card,.stories-title,.story-gallery,.latest-intro,.latest-feature,.latest-links,.lime-metric-card').forEach(el => {
     el.classList.add('reveal');
     if (revealObserver) revealObserver.observe(el); else el.classList.add('is-visible');
   });
