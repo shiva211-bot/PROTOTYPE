@@ -269,9 +269,9 @@ function initWovenRing() {
       const lean = -slot * 54;
       const depth = -Math.abs(slot) * 150;
       card.style.zIndex = String(100 - Math.round(Math.abs(slot) * 100));
-      // Fade cards fully before they cross the wrap boundary, so the loop never visibly teleports a card from last to first.
-      const fade = Math.max(0, Math.min(1, (Math.abs(slot) - .34) / .12));
-      card.style.opacity = String(1 - fade);
+      // Keep every card visible at the wrap boundary; depth and scale communicate distance without cards disappearing.
+      const edgeFade = Math.max(0, Math.min(1, (Math.abs(slot) - .34) / .16));
+      card.style.opacity = String(1 - edgeFade * .18);
       card.style.transform = `translate(-50%, -50%) translate3d(${x}px, 0, ${depth}px) rotateY(${lean}deg) scale(${scale})`;
       card.classList.toggle('is-ring-front', Math.abs(slot) < .18);
       card.setAttribute('aria-current', Math.abs(slot) < .18 ? 'true' : 'false');
