@@ -394,3 +394,6 @@ button:not(.colour-swatch):not(.detail-thumb):not(.scroll-key):active,a.button:a
  .spotlight-attention .attention-card.is-spotlight{flex-basis:min(78vw,320px)}
 }
 @media(prefers-reduced-motion:reduce){.spotlight-mini .mini-product,.spotlight-mini .mini-product>img,.spotlight-occasions .occasion-card,.spotlight-occasions .occasion-card img,.spotlight-attention .attention-card,.spotlight-attention .attention-card img{transition:none!important}}
+
+/* Do not show the low-resolution still showroom image behind the opening scene. */
+.journey-track>.journey-scene{display:none!important;}
