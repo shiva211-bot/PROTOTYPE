@@ -179,5 +179,45 @@
   <a class="glow-home-button" href="#top" aria-label="Back to home" title="Back to home"><span class="glow-home-icon" aria-hidden="true">⌂</span><span class="glow-home-label">Back to home</span></a>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="app.js"></script>
+<script>
+/* Fan Deck: cycle the campaign cards around one shared hinge; pause for interaction. */
+(() => {
+  const stage = document.querySelector('.fan-deck-stage');
+  if (!stage || stage.dataset.fanDeckController) return;
+  stage.dataset.fanDeckController = 'true';
+  const cards = Array.from(stage.querySelectorAll('.fan-card'));
+  if (cards.length < 3) return;
+  const plate = stage.querySelector('.fan-yellow-plate');
+  const slots = [
+    { angle: -28, order: 1 }, { angle: -14, order: 2 },
+    { angle: 0, order: 10 }, { angle: 14, order: 3 }, { angle: 28, order: 4 }
+  ];
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let timer = null, step = 0, paused = false;
+  function paint() {
+    cards.forEach((card, i) => {
+      const slot = slots[(i - step + cards.length) % cards.length];
+      card.style.setProperty('--fan-angle', slot.angle + 'deg');
+      card.style.setProperty('--fan-order', slot.order);
+      card.classList.toggle('fan-card-featured', slot.angle === 0);
+      card.setAttribute('aria-label', (card.querySelector('img')?.alt || 'Bridal campaign') + (slot.angle === 0 ? ', featured card' : ''));
+    });
+    const featured = cards.find(card => card.classList.contains('fan-card-featured'));
+    if (featured && plate && plate.parentElement !== featured) featured.insertBefore(plate, featured.querySelector('img'));
+  }
+  function stop() { if (timer) window.clearInterval(timer); timer = null; }
+  function start() {
+    stop();
+    if (paused || reduced.matches) return;
+    timer = window.setInterval(() => { step = (step + 1) % cards.length; paint(); }, 1900);
+  }
+  stage.addEventListener('pointerenter', () => { paused = true; stop(); });
+  stage.addEventListener('pointerleave', () => { paused = false; start(); });
+  stage.addEventListener('focusin', () => { paused = true; stop(); });
+  stage.addEventListener('focusout', event => { if (!stage.contains(event.relatedTarget)) { paused = false; start(); } });
+  reduced.addEventListener?.('change', start);
+  paint(); start();
+})();
+</script>
 </body>
 </html>

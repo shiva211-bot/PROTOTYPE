@@ -277,3 +277,23 @@ button:not(.colour-swatch):not(.detail-thumb):not(.scroll-key):active,a.button:a
 @media(max-width:900px){.lime-metrics-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.lime-metric-card:last-child{grid-column:1/-1;min-height:370px}.lime-card-olive .lime-area-chart{max-width:520px;width:100%;align-self:center}.lime-metrics-heading{align-items:start;flex-direction:column;gap:18px}}
 @media(max-width:600px){.lime-metrics-topline{align-items:flex-start;font-size:7px;letter-spacing:.1em}.lime-metrics-topline>span{text-align:right;max-width:120px}.lime-metrics-heading{margin:27px 0 28px}.lime-metrics-grid{grid-template-columns:minmax(0,1fr);gap:12px}.lime-metric-card,.lime-metric-card:last-child{grid-column:auto;min-height:390px;padding:24px}.lime-metric-card h3{font-size:32px}.lime-donut-wrap{min-height:185px}.lime-metrics-note{font-size:7px;line-height:1.8}}
 @media(prefers-reduced-motion:reduce){.lime-metric-card,.lime-chart-bars i,.lime-area-line{animation:none!important;transition:none!important;stroke-dashoffset:0!important}.lime-metric-card:hover{transform:none}}
+/* Bridal Fan Deck repair: true shared hinge, balanced layering, and responsive spacing. */
+.fan-deck-stage{overflow:visible;}
+.fan-card{left:50%;margin-left:calc(clamp(190px,23vw,270px) / -2);transform:rotate(var(--fan-angle));transform-origin:50% 118%;}
+.fan-card:not(.fan-card-featured):hover,.fan-card:not(.fan-card-featured):focus-visible{transform:translateY(-15px) rotate(calc(var(--fan-angle)*.55));}
+.fan-card-featured{transform:rotate(0deg);}
+.fan-card-featured:hover,.fan-card-featured:focus-visible{transform:translateY(-12px) rotate(0deg);}
+.fan-card img{object-position:center;}
+.fan-card::after{content:"";position:absolute;inset:45% 0 0;pointer-events:none;background:linear-gradient(180deg,transparent,#16050bbd);opacity:.78;}
+.fan-yellow-plate{left:-8%;top:9%;width:78%;min-height:34%;height:auto;aspect-ratio:1.35;}
+.fan-card-featured .fan-yellow-plate{transform:rotate(-2deg);}
+@media(max-width:760px){
+ .fan-deck-stage{height:365px;margin:0 -5px;overflow:hidden;}
+ .fan-card{width:clamp(155px,48vw,215px);height:300px;bottom:18px;margin-left:calc(clamp(155px,48vw,215px) / -2);transform-origin:50% 118%;}
+ .fan-card:not(.fan-card-featured):hover,.fan-card:not(.fan-card-featured):focus-visible{transform:translateY(-9px) rotate(calc(var(--fan-angle)*.55));}
+ .fan-card-featured:hover,.fan-card-featured:focus-visible{transform:translateY(-8px) rotate(0deg);}
+ .fan-yellow-plate{font-size:clamp(20px,6vw,25px);padding:12px;width:78%;}
+}
+@media(prefers-reduced-motion:reduce){.fan-card{transition:none!important;}}
+
+@media(max-width:760px){.fan-deck-stage .fan-card:nth-child(n){left:50%;}}
